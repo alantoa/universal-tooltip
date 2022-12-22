@@ -1,0 +1,43 @@
+{
+  "name": "universal-tooltip",
+  "version": "0.1.0",
+  "description": "react native universal tooltip component.",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "lint": "expo-module lint",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module",
+    "open:ios": "open -a \"Xcode\" example/ios",
+    "open:android": "open -a \"Android Studio\" example/android"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "universal-tooltip",
+    "UniversalTooltip"
+  ],
+  "repository": "https://github.com/alantoa/universal-tooltip",
+  "bugs": {
+    "url": "https://github.com/alantoa/universal-tooltip/issues"
+  },
+  "author": "alantoa <toacncom@gmail.com> (https://github.com/alantoa)",
+  "license": "MIT",
+  "homepage": "https://github.com/alantoa/universal-tooltip#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/react": "^18.0.25",
+    "@types/react-native": "^0.70.6",
+    "expo-module-scripts": "^3.0.3",
+    "expo-modules-core": "^1.0.3"
+  },
+  "peerDependencies": {
+    "expo": "*",
+    "react": "*",
+    "react-native": "*"
+  }
+}
