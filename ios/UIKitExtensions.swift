@@ -36,20 +36,34 @@ extension UIView {
       return false
     }
   }
-  func getPresetAnimation (preferences: EasyTipView.Preferences) -> EasyTipView.Preferences.Animating{
+  func getPresetAnimation (preferences: EasyTipView.Preferences,presetAnimation: PresetAnimation) -> EasyTipView.Preferences.Animating{
     //    preferences.positioning
-    //    switch preferences.drawing.arrowPosition {
-    //      case .left
-    //
-    //    }
-    var animating = EasyTipView.Preferences.Animating()
 
-    animating.dismissTransform = CGAffineTransform(translationX: -15, y: 0)
-    animating.showInitialTransform = CGAffineTransform(translationX: -15, y: 0)
-    animating.showInitialAlpha = 0
-    animating.showDuration = 1.5
-    animating.dismissDuration = 1.5
     
+    var animating = EasyTipView.Preferences.Animating()
+    if(presetAnimation == .zoomIn){
+      return animating
+    }
+    
+
+    
+    switch preferences.drawing.arrowPosition{
+      case .left:
+        animating.dismissTransform = CGAffineTransform(translationX: 15, y: 0)
+        animating.showInitialTransform = CGAffineTransform(translationX: 15, y: 0)
+      case .right:
+        animating.dismissTransform = CGAffineTransform(translationX: -15, y: 0)
+        animating.showInitialTransform = CGAffineTransform(translationX: -15, y: 0)
+      case .top, .any:
+        animating.dismissTransform = CGAffineTransform(translationX: 0, y: 15)
+        animating.showInitialTransform = CGAffineTransform(translationX: 0, y: 15)
+      case .bottom:
+        animating.dismissTransform = CGAffineTransform(translationX: 0, y: -15)
+        animating.showInitialTransform = CGAffineTransform(translationX: 0, y: -15)
+    }
+
+ 
+
     return animating
     
   }

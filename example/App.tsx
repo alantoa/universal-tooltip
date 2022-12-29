@@ -1,24 +1,30 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import { UniversalTooltipView, hello } from "universal-tooltip";
+import * as Tooltip from "universal-tooltip";
 const bubbleBackgroundColor = "blue";
 export default function App() {
   return (
     <View style={styles.container}>
-      <UniversalTooltipView
-        bubbleBackgroundColor={bubbleBackgroundColor}
-        side="right"
+      {/* <Tooltip.UniversalTooltip
+        side="top"
         style={styles.tooltipView}
+        presetAnimation="fadeIn"
+        dismissDuration={1500}
       >
-        <View style={StyleSheet.absoluteFillObject} nativeID="bubble">
+        <View
+          style={[
+            StyleSheet.absoluteFillObject,
+            { backgroundColor: bubbleBackgroundColor, borderRadius: 10 },
+          ]}
+          nativeID="bubble"
+        >
           <View
             style={{
               padding: 10,
               height: "100%",
               width: 100,
-              borderRadius: 20,
-              overflow: "hidden",
             }}
+            nativeID="bubbleInner"
           >
             <Text style={styles.text}>{"Hello world! 👋"}</Text>
           </View>
@@ -26,7 +32,22 @@ export default function App() {
         <View style={styles.button}>
           <Text style={styles.text}>{"Hello world! 👋"}</Text>
         </View>
-      </UniversalTooltipView>
+      </Tooltip.UniversalTooltip> */}
+      <Tooltip.Provider>
+        <Tooltip.Root>
+          <Tooltip.Trigger asChild>
+            <View style={styles.button}>
+              <Text style={styles.text}>Hello world! 👋</Text>
+            </View>
+          </Tooltip.Trigger>
+          <Tooltip.Portal>
+            <Tooltip.Content className="TooltipContent" sideOffset={5}>
+              <Text style={styles.text}>Add to library</Text>
+              <Tooltip.Arrow className="TooltipArrow" />
+            </Tooltip.Content>
+          </Tooltip.Portal>
+        </Tooltip.Root>
+      </Tooltip.Provider>
     </View>
   );
 }
@@ -49,5 +70,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
   },
-  tooltipView: {},
+  tooltipView: {
+    overflow: "hidden",
+  },
 });
