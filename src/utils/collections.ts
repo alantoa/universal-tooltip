@@ -1,4 +1,10 @@
-import React, { ReactNode } from "react";
+import React, {
+  ReactNode,
+  Children,
+  isValidElement,
+  cloneElement,
+  ReactElement,
+} from "react";
 
 export const pickChild = (
   children: ReactNode | undefined,
@@ -18,3 +24,25 @@ export const pickChild = (
 
   return [withoutTargetChildren, targetChildren];
 };
+
+type ReactChildArray = ReturnType<typeof React.Children.toArray>;
+
+export function flattenChildren(children: React.ReactNode): ReactChildArray {
+  const childrenArray = React.Children.toArray(children);
+
+  return childrenArray.reduce((flatChildren: ReactChildArray, child) => {
+    console.log(
+      flatChildren,
+      child,
+      (child as React.ReactElement<any>).type === React.Fragment
+    );
+
+    if ((child as React.ReactElement<any>).type === React.Fragment) {
+      return flatChildren.concat(
+        flattenChildren((child as React.ReactElement<any>).props.children)
+      );
+    }
+    flatChildren.push(child);
+    return flatChildren;
+  }, []);
+}

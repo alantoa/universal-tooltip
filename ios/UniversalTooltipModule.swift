@@ -13,13 +13,15 @@ public class UniversalTooltipModule: Module {
     
     // view definition: Prop,
     View(UniversalTooltipView.self) {
-      
       Prop("open") { (view, isPresented: Bool) in
         
       }
      
       Prop("side") { (view, side: ContentSide?) in
         view.side = side ?? .any
+      }
+      Prop("text") { (view, text: String?) in
+        view.text = text
       }
       Prop("presetAnimation") { (view, presetAnimation: PresetAnimation?) in
         view.presetAnimation = presetAnimation ?? .fadeIn
@@ -30,6 +32,9 @@ public class UniversalTooltipModule: Module {
       Prop("dismissDuration") { (view, dismissDuration: Double?) in
         print((dismissDuration ?? 700) / 1000)
         view.setDismissDuration((dismissDuration ?? 700) / 1000)
+      }
+      Prop("paddings") { (view, paddings: Array<Double>?) in
+        view.paddings = paddings ?? [10,10,10,10]
       }
     }
   }

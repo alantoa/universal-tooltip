@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
-
 import * as Tooltip from "universal-tooltip";
-const bubbleBackgroundColor = "blue";
+// const bubbleBackgroundColor = "blue";
 export default function App() {
   return (
     <View style={styles.container}>
@@ -33,21 +32,23 @@ export default function App() {
           <Text style={styles.text}>{"Hello world! 👋"}</Text>
         </View>
       </Tooltip.UniversalTooltip> */}
-      <Tooltip.Provider>
-        <Tooltip.Root>
-          <Tooltip.Trigger asChild>
-            <View style={styles.button}>
-              <Text style={styles.text}>Hello world! 👋</Text>
-            </View>
-          </Tooltip.Trigger>
-          <Tooltip.Portal>
-            <Tooltip.Content className="TooltipContent" sideOffset={5}>
-              <Text style={styles.text}>Add to library</Text>
-              <Tooltip.Arrow className="TooltipArrow" />
-            </Tooltip.Content>
-          </Tooltip.Portal>
-        </Tooltip.Root>
-      </Tooltip.Provider>
+      <Tooltip.Root style={styles.root}>
+        <Tooltip.Trigger asChild>
+          <View style={styles.button}>
+            <Text style={styles.text}>Hello!👋</Text>
+          </View>
+        </Tooltip.Trigger>
+        <Tooltip.Content
+          style={styles.content}
+          paddings={[0]}
+          sideOffset={5}
+          side="left"
+          text="Add to"
+        >
+          <Text style={styles.text}>Add to library</Text>
+          <Tooltip.Arrow />
+        </Tooltip.Content>
+      </Tooltip.Root>
     </View>
   );
 }
@@ -55,12 +56,15 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#e1e1e1",
     alignItems: "center",
     justifyContent: "center",
   },
+  root: {
+    backgroundColor: "#eee",
+    borderWidth: 1,
+  },
   button: {
-    height: 40,
     backgroundColor: "#333",
     borderRadius: 24,
     alignItems: "center",
@@ -70,7 +74,11 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
   },
-  tooltipView: {
+  content: {
     overflow: "hidden",
+    backgroundColor: "green",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
