@@ -1,5 +1,6 @@
 import ExpoModulesCore
 import SwiftUI
+import React
 
 class UniversalTooltipView: ExpoView {
   private var tipView: EasyTipView?
@@ -13,29 +14,28 @@ class UniversalTooltipView: ExpoView {
   var cornerRadius = CGFloat(0)
   var text :String? = nil
   var paddings : Array<Double>?
+  var fontStyle : TextStyle?
+  var sideOffset : Double = 1
   
   public required init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
-    
+ 
   }
   override func didUpdateReactSubviews() {
     let firstView = self.reactSubviews()[0] as! RCTView
     cornerRadius = firstView.borderRadius
     bubbleBackgroundColor = firstView.backgroundColor ?? .clear
     contentView = firstView
-    
-    print("didUpdateReactSubviews")
-    //    print(firstView.insetsLayoutMarginsFromSafeArea)
-    //    print(firstView.layer.frame.width)
     for index in 1..<self.reactSubviews().count {
       let subView = self.reactSubviews()[index]
       self.addSubview(subView)
     }
+    setCommonPreferences()
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)  {
-    
-    
+
+
     if(text != nil){
       openByText()
       
@@ -54,36 +54,54 @@ class UniversalTooltipView: ExpoView {
   public func setDismissDuration(_ duration: Double) {
     dismissDuration = duration
   }
-  
-  public func openByContentView(){
-    
+  public func setCommonPreferences(){
+
     preferences.drawing.backgroundColor = bubbleBackgroundColor
-    preferences.drawing.borderWidth = 0
     preferences.drawing.cornerRadius = cornerRadius
     preferences.drawing.arrowPosition = side.toContentSide()
+    switch side.toContentSide(){
+      case .top:
+        preferences.positioning.bubbleInsets = UIEdgeInsets(top: sideOffset, left: 1.0, bottom: 1.0, right: 1.0)
+      case .any:
+        preferences.positioning.bubbleInsets = UIEdgeInsets(top: sideOffset, left: 1.0, bottom: 1.0, right: 1.0)
+      case .bottom:
+        preferences.positioning.bubbleInsets = UIEdgeInsets(top: 1.0, left: 1.0, bottom: sideOffset, right: 1.0)
+      case .right:
+        preferences.positioning.bubbleInsets = UIEdgeInsets(top: 1.0, left: 1.0, bottom: 1.0, right: sideOffset)
+      case .left:
+        preferences.positioning.bubbleInsets = UIEdgeInsets(top: 1.0, left: sideOffset, bottom: 1.0, right: sideOffset)
+    }
     
-    preferences.positioning.bubbleInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    if(presetAnimation == .fadeIn){
+      switch preferences.drawing.arrowPosition{
+        case .left:
+          preferences.animating.dismissTransform = CGAffineTransform(translationX: 15, y: 0)
+          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 15, y: 0)
+        case .right:
+          preferences.animating.dismissTransform = CGAffineTransform(translationX: -15, y: 0)
+          preferences.animating.showInitialTransform = CGAffineTransform(translationX: -15, y: 0)
+        case .top, .any:
+          preferences.animating.dismissTransform = CGAffineTransform(translationX: 0, y: 15)
+          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 0, y: 15)
+        case .bottom:
+          preferences.animating.dismissTransform = CGAffineTransform(translationX: 0, y: -15)
+          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 0, y: -15)
+      }
+    }
+
+    preferences.animating.showDuration = presetAnimation == .none ? 0 : showDuration
+    preferences.animating.dismissDuration = presetAnimation == .none ? 0 : dismissDuration
+  }
+  
+  public func openByContentView(){
     preferences.positioning.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    
-    preferences.animating = getPresetAnimation(preferences: preferences,presetAnimation: presetAnimation)
-    preferences.animating.showDuration = showDuration
-    preferences.animating.dismissDuration = dismissDuration
-    
     tipView = EasyTipView(contentView: contentView!, preferences: preferences)
     tipView?.show(forView: self,withinSuperview: window?.rootViewController?.view)
   }
+  
   public func openByText() {
-    
-    preferences.drawing.backgroundColor = bubbleBackgroundColor
-    preferences.drawing.borderWidth = 2
-    preferences.drawing.cornerRadius = cornerRadius
-    preferences.drawing.arrowPosition = side.toContentSide()
-    
-    // reactPaddingInsets
-    //    preferences.positioning.bubbleInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    preferences.drawing.font = UIFont.systemFont(ofSize: fontStyle?.fontSize ?? 13)
     var top = Double(10),right =  Double(10),bottom =  Double(10),left =  Double(10);
-    
-
     switch paddings?.count {
       case 1:
         top = (paddings?[0])!
@@ -107,27 +125,11 @@ class UniversalTooltipView: ExpoView {
         left = (paddings?[3])!
       case .none: break
       case .some(_): break
-        
     }
-    print(paddings?.count,left)
     preferences.positioning.contentInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
-    
-    preferences.animating = getPresetAnimation(preferences: preferences,presetAnimation: presetAnimation)
-    preferences.animating.showDuration = showDuration
-    preferences.animating.dismissDuration = dismissDuration
-    
     tipView = EasyTipView(text: text!, preferences: preferences)
     tipView?.show(forView: self,withinSuperview: window?.rootViewController?.view)
-    
-    //    guard ,
-    //          tipView = EasyTipView(text: text, preferences: preferences)
-    //          tipView?.show(forView: self,withinSuperview: window?.rootViewController?.view)
-    //    else {
-    //      throw TextNilException()
-    //    }
-    
-    //    tipView = EasyTipView(text:text!,preferences: preferences)
-    //    tipView?.show(forView: self,withinSuperview: window?.rootViewController?.view)
+
   }
   public func dismiss(){
     tipView?.dismiss()

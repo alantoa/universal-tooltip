@@ -14,6 +14,12 @@ export type ContentProps = ViewProps & {
   paddings?: number[];
   sideOffset?: number;
   side?: "left" | "right" | "bottom" | "top";
+  fontStyle?: {
+    fontSize?: number;
+  };
+  presetAnimation?: "none" | "fadeIn" | "zoomIn";
+  dismissDuration?: number;
+  showDuration?: number;
 };
 export type UniversalTooltipViewProps = ContentProps & {
   open?: boolean;

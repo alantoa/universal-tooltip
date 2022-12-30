@@ -40,10 +40,13 @@ export default function App() {
         </Tooltip.Trigger>
         <Tooltip.Content
           style={styles.content}
-          paddings={[0]}
+          paddings={[10]}
           sideOffset={5}
-          side="left"
-          text="Add to"
+          side="right"
+          presetAnimation="fadeIn"
+          fontStyle={{
+            fontSize: 13,
+          }}
         >
           <Text style={styles.text}>Add to library</Text>
           <Tooltip.Arrow />
@@ -60,19 +63,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  root: {
-    backgroundColor: "#eee",
-    borderWidth: 1,
-  },
+  root: {},
   button: {
     backgroundColor: "#333",
     borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
+    paddingVertical: 8,
   },
   text: {
     color: "#fff",
+    fontSize: 20,
   },
   content: {
     overflow: "hidden",
@@ -80,5 +82,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 8,
+    width: 120,
   },
 });

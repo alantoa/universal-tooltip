@@ -30,12 +30,18 @@ public class UniversalTooltipModule: Module {
         view.setShowDuration((showDuration ?? 700) / 1000)
       }
       Prop("dismissDuration") { (view, dismissDuration: Double?) in
-        print((dismissDuration ?? 700) / 1000)
         view.setDismissDuration((dismissDuration ?? 700) / 1000)
       }
       Prop("paddings") { (view, paddings: Array<Double>?) in
         view.paddings = paddings ?? [10,10,10,10]
       }
+      Prop("fontStyle") { (view, fontStyle: TextStyle?) in
+        view.fontStyle = fontStyle ?? TextStyle(fontSize: 13)
+      }
+      Prop("sideOffset") { (view, sideOffset: Double?) in
+        view.sideOffset = sideOffset ?? Double(1)
+      }
+      
     }
   }
 }

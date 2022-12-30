@@ -35,39 +35,7 @@ extension UIView {
     } else{
       return false
     }
-  }
-  func getPresetAnimation (preferences: EasyTipView.Preferences,presetAnimation: PresetAnimation) -> EasyTipView.Preferences.Animating{
-    //    preferences.positioning
-
-    
-    var animating = EasyTipView.Preferences.Animating()
-    if(presetAnimation == .zoomIn){
-      return animating
-    }
-    
-
-    
-    switch preferences.drawing.arrowPosition{
-      case .left:
-        animating.dismissTransform = CGAffineTransform(translationX: 15, y: 0)
-        animating.showInitialTransform = CGAffineTransform(translationX: 15, y: 0)
-      case .right:
-        animating.dismissTransform = CGAffineTransform(translationX: -15, y: 0)
-        animating.showInitialTransform = CGAffineTransform(translationX: -15, y: 0)
-      case .top, .any:
-        animating.dismissTransform = CGAffineTransform(translationX: 0, y: 15)
-        animating.showInitialTransform = CGAffineTransform(translationX: 0, y: 15)
-      case .bottom:
-        animating.dismissTransform = CGAffineTransform(translationX: 0, y: -15)
-        animating.showInitialTransform = CGAffineTransform(translationX: 0, y: -15)
-    }
-
- 
-
-    return animating
-    
-  }
-  
+  }  
 }
 
 // MARK:- CGRect extension -

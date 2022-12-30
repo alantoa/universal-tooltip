@@ -465,7 +465,7 @@ open class EasyTipView: UIView {
   
   fileprivate func arrange(withinSuperview superview: UIView) {
     
-    var position = preferences.drawing.arrowPosition
+    let position = preferences.drawing.arrowPosition
     
     let refViewFrame = presentingView!.convert(presentingView!.bounds, to: superview);
     
@@ -476,7 +476,7 @@ open class EasyTipView: UIView {
       superviewFrame = superview.frame
     }
     
-    var frame = computeFrame(arrowPosition: position, refViewFrame: refViewFrame, superviewFrame: superviewFrame)
+    let frame = computeFrame(arrowPosition: position, refViewFrame: refViewFrame, superviewFrame: superviewFrame)
     
 //    if !isFrameValid(frame, forRefViewFrame: refViewFrame, withinSuperviewFrame: superviewFrame) {
 //      for value in ArrowPosition.allValues where value != position {
@@ -704,7 +704,7 @@ open class EasyTipView: UIView {
       case .left, .right:
         
         bubbleWidth = tipViewSize.width - preferences.positioning.bubbleInsets.left - preferences.positioning.bubbleInsets.right - preferences.drawing.arrowHeight
-        bubbleHeight = tipViewSize.height - preferences.positioning.bubbleInsets.top - preferences.positioning.bubbleInsets.left
+        bubbleHeight = tipViewSize.height - preferences.positioning.bubbleInsets.top 
         
         bubbleXOrigin = arrowPosition == .right ? preferences.positioning.bubbleInsets.left : preferences.positioning.bubbleInsets.left + preferences.drawing.arrowHeight
         bubbleYOrigin = preferences.positioning.bubbleInsets.top
