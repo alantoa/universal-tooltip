@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
+import { useState } from "react";
 import * as Tooltip from "universal-tooltip";
 // const bubbleBackgroundColor = "blue";
 export default function App() {
+  const [open, setOpen] = useState(true);
   return (
     <View style={styles.container}>
       {/* <Tooltip.UniversalTooltip
@@ -47,11 +49,25 @@ export default function App() {
           fontStyle={{
             fontSize: 13,
           }}
+          open={open}
+          // disableTapToDismiss
+          onTap={() => {
+            console.log("onTap");
+          }}
+          onDismiss={() => {
+            console.log("onDismiss");
+          }}
         >
           <Text style={styles.text}>Add to library</Text>
           <Tooltip.Arrow />
         </Tooltip.Content>
       </Tooltip.Root>
+      <TouchableHighlight
+        style={styles.option}
+        onPress={() => setOpen((open) => !open)}
+      >
+        <Text style={styles.text}>Toggle: {open}</Text>
+      </TouchableHighlight>
     </View>
   );
 }
@@ -74,7 +90,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
-    fontSize: 20,
   },
   content: {
     overflow: "hidden",
@@ -84,5 +99,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 8,
     width: 120,
+  },
+  option: {
+    position: "absolute",
+    bottom: 100,
+    backgroundColor: "#333",
+    borderRadius: 20,
+    padding: 4,
   },
 });

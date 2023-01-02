@@ -9,7 +9,4 @@ import ExpoModulesCore
 struct TextStyle: Record {
   @Field
   var fontSize: Double = 13
-  
- 
-
 }

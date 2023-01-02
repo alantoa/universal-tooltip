@@ -20,8 +20,11 @@ export type ContentProps = ViewProps & {
   presetAnimation?: "none" | "fadeIn" | "zoomIn";
   dismissDuration?: number;
   showDuration?: number;
+  open?: boolean;
+  disableTapToDismiss?: boolean;
+  onTap?: () => void;
+  onDismiss?: () => void;
 };
 export type UniversalTooltipViewProps = ContentProps & {
-  open?: boolean;
   children?: React.ReactNode | JSX.Element;
 };

@@ -1,8 +1,7 @@
 import ExpoModulesCore
 import SwiftUI
-import React
 
-class UniversalTooltipView: ExpoView {
+class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   private var tipView: EasyTipView?
   var preferences: EasyTipView.Preferences = EasyTipView.Preferences()
   var contentView: UIView?
@@ -16,10 +15,30 @@ class UniversalTooltipView: ExpoView {
   var paddings : Array<Double>?
   var fontStyle : TextStyle?
   var sideOffset : Double = 1
+  var isOpened : Bool = false
+  var opened: Bool = false {
+    didSet {
+      if((contentView) != nil){
+        toggleTooltip()
+      }
+      isOpened = opened
+    }
+  }
+  let onDismiss = EventDispatcher()
+  let onTap = EventDispatcher()
+  var disableTapToDismiss = false
   
   public required init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
- 
+  }
+
+  public func easyTipViewDidTap(_ tipView: EasyTipView) {
+    onTap()
+    isOpened = false
+  }
+  
+  public func easyTipViewDidDismiss(_ tipView: EasyTipView) {
+    onDismiss()
   }
   override func didUpdateReactSubviews() {
     let firstView = self.reactSubviews()[0] as! RCTView
@@ -30,22 +49,27 @@ class UniversalTooltipView: ExpoView {
       let subView = self.reactSubviews()[index]
       self.addSubview(subView)
     }
+  }
+  override func layoutSubviews() {
     setCommonPreferences()
+    if(isOpened){
+      openTooltip()
+    }
   }
   
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)  {
-
-
-    if(text != nil){
-      openByText()
-      
-    }else{
-      openByContentView()
-    }
-    
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    toggleTooltip()
   }
-  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    dismiss()
+  public func toggleTooltip(){
+    if(isOpened){
+      dismiss()
+    }else{
+      openTooltip()
+    }
+  }
+  public func openTooltip (){
+    text != nil ? openByText() : openByContentView()
+    isOpened = true
   }
   public func setShowDuration(_ duration: Double) {
     showDuration = duration
@@ -55,7 +79,6 @@ class UniversalTooltipView: ExpoView {
     dismissDuration = duration
   }
   public func setCommonPreferences(){
-
     preferences.drawing.backgroundColor = bubbleBackgroundColor
     preferences.drawing.cornerRadius = cornerRadius
     preferences.drawing.arrowPosition = side.toContentSide()
@@ -88,14 +111,14 @@ class UniversalTooltipView: ExpoView {
           preferences.animating.showInitialTransform = CGAffineTransform(translationX: 0, y: -15)
       }
     }
-
+    preferences.animating.dismissOnTap = !disableTapToDismiss
     preferences.animating.showDuration = presetAnimation == .none ? 0 : showDuration
     preferences.animating.dismissDuration = presetAnimation == .none ? 0 : dismissDuration
   }
   
   public func openByContentView(){
     preferences.positioning.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    tipView = EasyTipView(contentView: contentView!, preferences: preferences)
+    tipView = EasyTipView(contentView: contentView!, preferences: preferences, delegate: self)
     tipView?.show(forView: self,withinSuperview: window?.rootViewController?.view)
   }
   
@@ -127,12 +150,13 @@ class UniversalTooltipView: ExpoView {
       case .some(_): break
     }
     preferences.positioning.contentInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
-    tipView = EasyTipView(text: text!, preferences: preferences)
+    tipView = EasyTipView(text: text!, preferences: preferences, delegate: self)
     tipView?.show(forView: self,withinSuperview: window?.rootViewController?.view)
-
+    
   }
   public func dismiss(){
     tipView?.dismiss()
+    isOpened = false
   }
 }
 

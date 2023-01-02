@@ -1,6 +1,7 @@
 import ExpoModulesCore
 
 public class UniversalTooltipModule: Module {
+
   // Each module class must implement the definition function. The definition consists of components
   // that describes the module's functionality and behavior.
   // See https://docs.expo.dev/modules/module-api for more details about available components.
@@ -13,10 +14,12 @@ public class UniversalTooltipModule: Module {
     
     // view definition: Prop,
     View(UniversalTooltipView.self) {
-      Prop("open") { (view, isPresented: Bool) in
-        
+      Events("onTap")
+      Events("onDismiss")
+      
+      Prop("open") { (view, opened: Bool?) in
+        view.opened = opened ?? false
       }
-     
       Prop("side") { (view, side: ContentSide?) in
         view.side = side ?? .any
       }
@@ -41,7 +44,9 @@ public class UniversalTooltipModule: Module {
       Prop("sideOffset") { (view, sideOffset: Double?) in
         view.sideOffset = sideOffset ?? Double(1)
       }
-      
+      Prop("disableTapToDismiss") { (view, disableTapToDismiss: Bool?) in
+        view.disableTapToDismiss = disableTapToDismiss ?? false
+      }
     }
   }
 }

@@ -1,9 +1,3 @@
-//
-//  EasyTipView.swift
-//  UniversalTooltip
-//
-//  Created by Alan Toa on 2022/12/28.
-//
 #if canImport(UIKit)
 import UIKit
 

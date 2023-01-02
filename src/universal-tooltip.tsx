@@ -42,7 +42,7 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
   // console.log(text, name, "\n\nflattenChildren");
   // console.log(withoutTextChildren, "\n\n");
   // console.log(textChildren, "\n\n");
-  console.log(withoutTriggerChildren);
+  // console.log(withoutTriggerChildren);
 
   return (
     <NativeView {...contentRestProps} {...rest}>
