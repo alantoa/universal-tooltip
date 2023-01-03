@@ -12,6 +12,7 @@ import { StyleSheet, View, Dimensions, Text as RNText } from "react-native";
 import type { ViewProps } from "react-native";
 import {
   ContentProps,
+  RootProps,
   UniversalTooltipViewProps,
 } from "./universal-tooltip.types";
 import { flattenChildren, pickChild } from "./utils/collections";
@@ -23,8 +24,6 @@ const NativeView: React.ComponentType<UniversalTooltipViewProps> =
 function UniversalTooltip(props: UniversalTooltipViewProps) {
   return <NativeView {...props} />;
 }
-const { width, height } = Dimensions.get("window");
-export type RootProps = ViewProps & TooltipProps;
 
 export type TriggerProps = ViewProps & TooltipTriggerProps;
 
@@ -39,11 +38,6 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
   );
   const content = withoutTriggerChildren?.[0];
   const { children: contentChild, ...contentRestProps } = content?.props;
-  // console.log(text, name, "\n\nflattenChildren");
-  // console.log(withoutTextChildren, "\n\n");
-  // console.log(textChildren, "\n\n");
-  // console.log(withoutTriggerChildren);
-
   return (
     <NativeView {...contentRestProps} {...rest}>
       {withoutTriggerChildren}

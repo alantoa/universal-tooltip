@@ -12,7 +12,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   var dismissDuration: CGFloat = CGFloat(0.7)
   var cornerRadius = CGFloat(0)
   var text :String? = nil
-  var paddings : Array<Double>?
+  var containerStyle : ContainerStyle?
   var fontStyle : TextStyle?
   var sideOffset : Double = 1
   var isOpened : Bool = false
@@ -31,7 +31,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   public required init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
   }
-
+  
   public func easyTipViewDidTap(_ tipView: EasyTipView) {
     onTap()
     isOpened = false
@@ -42,7 +42,9 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   }
   override func didUpdateReactSubviews() {
     let firstView = self.reactSubviews()[0] as! RCTView
+
     cornerRadius = firstView.borderRadius
+    
     bubbleBackgroundColor = firstView.backgroundColor ?? .clear
     contentView = firstView
     for index in 1..<self.reactSubviews().count {
@@ -123,32 +125,15 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   }
   
   public func openByText() {
-    preferences.drawing.font = UIFont.systemFont(ofSize: fontStyle?.fontSize ?? 13)
-    var top = Double(10),right =  Double(10),bottom =  Double(10),left =  Double(10);
-    switch paddings?.count {
-      case 1:
-        top = (paddings?[0])!
-        right = (paddings?[0])!
-        bottom = (paddings?[0])!
-        left = (paddings?[0])!
-      case 2:
-        top = (paddings?[0])!
-        right = (paddings?[1])!
-        bottom = (paddings?[0])!
-        left = (paddings?[1])!
-      case 3:
-        top = (paddings?[0])!
-        right = (paddings?[1])!
-        bottom = (paddings?[2])!
-        left = (paddings?[1])!
-      case 4:
-        top = (paddings?[0])!
-        right = (paddings?[1])!
-        bottom = (paddings?[2])!
-        left = (paddings?[3])!
-      case .none: break
-      case .some(_): break
+    if(fontStyle?.fontFamily != nil){
+      preferences.drawing.font = UIFont(name: (fontStyle?.fontFamily)!, size: 13)!
+    }else{
+      preferences.drawing.font = UIFont.systemFont(ofSize: fontStyle?.fontSize ?? 13)
     }
+    preferences.drawing.foregroundColor = fontStyle?.color ?? .white
+    
+    let top = containerStyle?.paddingTop ?? Double(10), right = containerStyle?.paddingRight ?? Double(10), bottom = containerStyle?.paddingBottom ?? Double(10), left = containerStyle?.paddingLeft ?? Double(10);
+  
     preferences.positioning.contentInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
     tipView = EasyTipView(text: text!, preferences: preferences, delegate: self)
     tipView?.show(forView: self,withinSuperview: window?.rootViewController?.view)

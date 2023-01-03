@@ -35,8 +35,8 @@ public class UniversalTooltipModule: Module {
       Prop("dismissDuration") { (view, dismissDuration: Double?) in
         view.setDismissDuration((dismissDuration ?? 700) / 1000)
       }
-      Prop("paddings") { (view, paddings: Array<Double>?) in
-        view.paddings = paddings ?? [10,10,10,10]
+      Prop("containerStyle") { (view, containerStyle: ContainerStyle?) in
+        view.containerStyle = containerStyle
       }
       Prop("fontStyle") { (view, fontStyle: TextStyle?) in
         view.fontStyle = fontStyle ?? TextStyle(fontSize: 13)

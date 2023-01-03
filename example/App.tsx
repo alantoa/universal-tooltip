@@ -1,40 +1,18 @@
-import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
 import { useState } from "react";
 import * as Tooltip from "universal-tooltip";
-// const bubbleBackgroundColor = "blue";
+import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
+
 export default function App() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   return (
     <View style={styles.container}>
-      {/* <Tooltip.UniversalTooltip
-        side="top"
-        style={styles.tooltipView}
-        presetAnimation="fadeIn"
-        dismissDuration={1500}
+      <Tooltip.Root
+        open={open}
+        onDismiss={() => {
+          console.log("onDismiss");
+        }}
+        style={styles.root}
       >
-        <View
-          style={[
-            StyleSheet.absoluteFillObject,
-            { backgroundColor: bubbleBackgroundColor, borderRadius: 10 },
-          ]}
-          nativeID="bubble"
-        >
-          <View
-            style={{
-              padding: 10,
-              height: "100%",
-              width: 100,
-            }}
-            nativeID="bubbleInner"
-          >
-            <Text style={styles.text}>{"Hello world! 👋"}</Text>
-          </View>
-        </View>
-        <View style={styles.button}>
-          <Text style={styles.text}>{"Hello world! 👋"}</Text>
-        </View>
-      </Tooltip.UniversalTooltip> */}
-      <Tooltip.Root style={styles.root}>
         <Tooltip.Trigger asChild>
           <View style={styles.button}>
             <Text style={styles.text}>Hello!👋</Text>
@@ -42,31 +20,30 @@ export default function App() {
         </Tooltip.Trigger>
         <Tooltip.Content
           style={styles.content}
-          paddings={[10]}
+          containerStyle={{
+            paddingTop: 8,
+            paddingRight: 10,
+            paddingBottom: 8,
+            paddingLeft: 10,
+          }}
           sideOffset={5}
-          side="right"
+          side="top"
           presetAnimation="fadeIn"
           fontStyle={{
             fontSize: 13,
+            color: "#fff",
           }}
-          open={open}
-          // disableTapToDismiss
           onTap={() => {
             console.log("onTap");
           }}
-          onDismiss={() => {
-            console.log("onDismiss");
-          }}
-        >
-          <Text style={styles.text}>Add to library</Text>
-          <Tooltip.Arrow />
-        </Tooltip.Content>
+          text="Add to library"
+        />
       </Tooltip.Root>
       <TouchableHighlight
         style={styles.option}
         onPress={() => setOpen((open) => !open)}
       >
-        <Text style={styles.text}>Toggle: {open}</Text>
+        <Text style={styles.text}>Toggle: {`${open}`}</Text>
       </TouchableHighlight>
     </View>
   );
@@ -94,17 +71,17 @@ const styles = StyleSheet.create({
   content: {
     overflow: "hidden",
     backgroundColor: "green",
-    borderRadius: 5,
+    borderRadius: 999,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 8,
-    width: 120,
   },
   option: {
     position: "absolute",
     bottom: 100,
     backgroundColor: "#333",
     borderRadius: 20,
-    padding: 4,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
   },
 });

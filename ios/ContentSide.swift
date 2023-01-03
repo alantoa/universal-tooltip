@@ -12,13 +12,13 @@ enum ContentSide:String, Enumerable {
       case .any:
         return .any
       case .top:
-        return .top
-      case .bottom:
         return .bottom
+      case .bottom:
+        return .top
       case .left:
-        return .left
-      case .right:
         return .right
+      case .right:
+        return .left
     }
   }
 }

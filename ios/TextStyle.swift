@@ -9,4 +9,10 @@ import ExpoModulesCore
 struct TextStyle: Record {
   @Field
   var fontSize: Double = 13
+  
+  @Field
+  var color: UIColor = .white
+  
+  @Field
+  var fontFamily: String?
 }

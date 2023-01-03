@@ -329,9 +329,9 @@ open class EasyTipView: UIView {
         return contentView.frame.size
     }
   }()
-  fileprivate lazy var arrowHeight: CGFloat = (self.preferences.drawing.arrowPosition == .right || self.preferences.drawing.arrowPosition == .left) ? CGFloat(0) : self.preferences.drawing.arrowHeight
+  fileprivate lazy var positionArrowHeight: CGFloat = (self.preferences.drawing.arrowPosition == .right || self.preferences.drawing.arrowPosition == .left) ? CGFloat(0) : self.preferences.drawing.arrowHeight
   
-  fileprivate lazy var arrowWidth: CGFloat = (self.preferences.drawing.arrowPosition == .right || self.preferences.drawing.arrowPosition == .left) ? self.preferences.drawing.arrowHeight : CGFloat(0)
+  fileprivate lazy var positionArrowWidth: CGFloat = (self.preferences.drawing.arrowPosition == .right || self.preferences.drawing.arrowPosition == .left) ? self.preferences.drawing.arrowHeight : CGFloat(0)
   
   fileprivate lazy var tipViewSize: CGSize = {
     
@@ -339,8 +339,8 @@ open class EasyTipView: UIView {
     
     var tipViewSize =
     CGSize(
-      width: self.contentSize.width + self.preferences.positioning.contentInsets.left + self.preferences.positioning.contentInsets.right + self.preferences.positioning.bubbleInsets.left + self.preferences.positioning.bubbleInsets.right + arrowWidth,
-      height: self.contentSize.height + self.preferences.positioning.contentInsets.top + self.preferences.positioning.contentInsets.bottom + self.preferences.positioning.bubbleInsets.top + self.preferences.positioning.bubbleInsets.bottom + arrowHeight)
+      width: self.contentSize.width + self.preferences.positioning.contentInsets.left + self.preferences.positioning.contentInsets.right + self.preferences.positioning.bubbleInsets.left + self.preferences.positioning.bubbleInsets.right + positionArrowWidth,
+      height: self.contentSize.height + self.preferences.positioning.contentInsets.top + self.preferences.positioning.contentInsets.bottom + self.preferences.positioning.bubbleInsets.top + self.preferences.positioning.bubbleInsets.bottom + positionArrowHeight)
     
     return tipViewSize
   }()
@@ -532,8 +532,7 @@ open class EasyTipView: UIView {
     
     let arrowWidth = preferences.drawing.arrowWidth
     let arrowHeight = preferences.drawing.arrowHeight
-    let cornerRadius = preferences.drawing.cornerRadius
-    
+    let cornerRadius = min(preferences.drawing.cornerRadius, ceil((tipViewSize.height)/2) - arrowHeight - 2)
     let contourPath = CGMutablePath()
     
     contourPath.move(to: CGPoint(x: arrowTip.x, y: arrowTip.y))
