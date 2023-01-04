@@ -1,27 +1,18 @@
 import type {
   TooltipTriggerProps,
-  TooltipProps,
-  TooltipContentProps,
-  TooltipPortalProps,
   TooltipArrowProps,
-  TooltipProviderProps,
 } from "@radix-ui/react-tooltip";
 import { requireNativeViewManager } from "expo-modules-core";
-import React, { Children, cloneElement, ReactElement } from "react";
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  Text as RNText,
-  processColor,
-} from "react-native";
+import React, { Children } from "react";
+import { StyleSheet, View, processColor } from "react-native";
 import type { ViewProps } from "react-native";
+
 import {
   ContentProps,
   RootProps,
   UniversalTooltipViewProps,
 } from "./universal-tooltip.types";
-import { flattenChildren, pickChild } from "./utils/collections";
+import { pickChild } from "./utils/collections";
 import { createComponent } from "./utils/create-components";
 
 const NativeView: React.ComponentType<UniversalTooltipViewProps> =
@@ -63,7 +54,7 @@ export const Content = createComponent<ContentProps>(
     return (
       <View
         style={[style, StyleSheet.absoluteFillObject]}
-        nativeID={"Content"}
+        nativeID="Content"
         {...rest}
       >
         {children}

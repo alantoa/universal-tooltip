@@ -1,16 +1,10 @@
-import React, {
-  ReactNode,
-  Children,
-  isValidElement,
-  cloneElement,
-  ReactElement,
-} from "react";
+import React, { ReactNode } from "react";
 
 export const pickChild = (
   children: ReactNode | undefined,
   targetChild: React.ElementType
 ): [ReactNode | undefined, ReactNode | undefined] => {
-  let target: ReactNode[] = [];
+  const target: ReactNode[] = [];
   const withoutTargetChildren = React.Children.map(children, (item) => {
     if (!React.isValidElement(item)) return item;
     if (item.type === targetChild) {

@@ -1,13 +1,9 @@
-import React from "react";
-import type { TextStyle, ViewProps } from "react-native";
 import type {
-  TooltipTriggerProps,
   TooltipProps,
   TooltipContentProps,
-  TooltipPortalProps,
-  TooltipArrowProps,
-  TooltipProviderProps,
 } from "@radix-ui/react-tooltip";
+import React from "react";
+import type { TextStyle, ViewProps } from "react-native";
 
 export type ContentProps = ViewProps &
   TooltipContentProps & {

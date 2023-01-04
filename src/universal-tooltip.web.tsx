@@ -1,16 +1,12 @@
 import type {
   TooltipTriggerProps,
-  TooltipProps,
-  TooltipContentProps,
-  TooltipPortalProps,
   TooltipArrowProps,
-  TooltipProviderProps,
 } from "@radix-ui/react-tooltip";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import React, { Children, cloneElement, ReactElement, useMemo } from "react";
-import { Text, ViewProps, ViewStyle } from "react-native";
+import React, { useMemo } from "react";
+import { Text, ViewProps, View } from "react-native";
+
 import { ContentProps, RootProps } from "./universal-tooltip.types";
-import { View } from "react-native";
 import "./styles.css";
 
 export type TriggerProps = ViewProps & TooltipTriggerProps;
@@ -45,7 +41,6 @@ export const Content = ({ children, ...rest }: ContentProps) => {
     style,
     side,
     dismissDuration,
-    showDuration = 150,
     containerStyle,
     text,
     fontStyle,
