@@ -19,7 +19,6 @@ export default function App() {
           </View>
         </Tooltip.Trigger>
         <Tooltip.Content
-          style={styles.content}
           containerStyle={{
             paddingTop: 8,
             paddingRight: 10,
@@ -31,7 +30,7 @@ export default function App() {
           presetAnimation="fadeIn"
           textSize={13}
           backgroundColor="#000"
-          borderRadius={8}
+          borderRadius={999}
           textColor="#fff"
           onTap={() => {
             console.log("onTap");
@@ -68,14 +67,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
   },
-  content: {
-    overflow: "hidden",
-    backgroundColor: "green",
-    borderRadius: 999,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 8,
-  },
+
   option: {
     position: "absolute",
     bottom: 100,

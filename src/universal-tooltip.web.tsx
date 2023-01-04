@@ -52,6 +52,8 @@ export const Content = ({ children, ...rest }: ContentProps) => {
     textColor,
     textSize,
     presetAnimation,
+    backgroundColor,
+    borderRadius,
     className,
     onTap,
     ...restProps
@@ -78,19 +80,17 @@ export const Content = ({ children, ...rest }: ContentProps) => {
         <View
           // @ts-ignore
           onClick={onTap}
-          style={[containerStyle, style]}
+          style={[containerStyle, { backgroundColor, borderRadius }, style]}
         >
           {text ? (
-            <Text style={[{ color: textColor, fontSize: textSize }, fontStyle]}>
+            <Text style={[fontStyle, { color: textColor, fontSize: textSize }]}>
               {text}
             </Text>
           ) : (
             children
           )}
         </View>
-        <Tooltip.Arrow
-          fill={((style as ViewStyle)?.backgroundColor as string) ?? "#000"}
-        />
+        <Tooltip.Arrow fill={backgroundColor ?? "#000"} />
       </Tooltip.Content>
     </Tooltip.Portal>
   );

@@ -27,11 +27,6 @@ import { createComponent } from "./utils/create-components";
 const NativeView: React.ComponentType<UniversalTooltipViewProps> =
   requireNativeViewManager("UniversalTooltip");
 
-function UniversalTooltip(props: UniversalTooltipViewProps) {
-  return <NativeView {...props} />;
-}
-console.log(processColor("#000"));
-
 export type TriggerProps = ViewProps & TooltipTriggerProps;
 
 export const Trigger = createComponent(({ children }: TriggerProps) => {
