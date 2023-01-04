@@ -132,14 +132,14 @@ public extension EasyTipView {
     let initialAlpha = preferences.animating.showInitialAlpha
     let damping = preferences.animating.springDamping
     let velocity = preferences.animating.springVelocity
-    
+      
     presentingView = view
     arrange(withinSuperview: superview)
     
     transform = initialTransform
     alpha = initialAlpha
-    
     let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+    
     addGestureRecognizer(tap)
     
     superview.addSubview(self)
@@ -532,7 +532,8 @@ open class EasyTipView: UIView {
     
     let arrowWidth = preferences.drawing.arrowWidth
     let arrowHeight = preferences.drawing.arrowHeight
-    let cornerRadius = min(preferences.drawing.cornerRadius, ceil((tipViewSize.height)/2) - arrowHeight - 2)
+    let cornerRadius = min(preferences.drawing.cornerRadius, ceil((tipViewSize.height - arrowHeight - 2)/2))
+
     let contourPath = CGMutablePath()
     
     contourPath.move(to: CGPoint(x: arrowTip.x, y: arrowTip.y))

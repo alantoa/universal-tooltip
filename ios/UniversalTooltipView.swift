@@ -2,7 +2,7 @@ import ExpoModulesCore
 import SwiftUI
 
 class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
-  private var tipView: EasyTipView?
+  private var tipView: DismissibleEasyTipView?
   var preferences: EasyTipView.Preferences = EasyTipView.Preferences()
   var contentView: UIView?
   var bubbleBackgroundColor: UIColor = .clear
@@ -10,7 +10,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   var presetAnimation : PresetAnimation = .fadeIn
   var showDuration: CGFloat = CGFloat(0.7)
   var dismissDuration: CGFloat = CGFloat(0.7)
-  var cornerRadius = CGFloat(5)
+  var cornerRadius : CGFloat = CGFloat(5)
   var text :String? = nil
   var containerStyle : ContainerStyle?
   var fontStyle : TextStyle?
@@ -61,7 +61,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     }
   }
   
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     toggleTooltip()
   }
   public func toggleTooltip(){
@@ -83,6 +83,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     dismissDuration = duration
   }
   public func setCommonPreferences(){
+    
     preferences.drawing.backgroundColor = bubbleBackgroundColor
     preferences.drawing.cornerRadius = cornerRadius
     preferences.drawing.arrowPosition = side.toContentSide()
@@ -122,8 +123,8 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   
   public func openByContentView(){
     preferences.positioning.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    tipView = EasyTipView(contentView: contentView!, preferences: preferences, delegate: self)
-    tipView?.show(forView: self,withinSuperview: window?.rootViewController?.view)
+    tipView = DismissibleEasyTipView(contentView: contentView!, preferences: preferences, delegate: self)
+    tipView?.show(on: self)
   }
   
   public func openByText() {
@@ -137,8 +138,8 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     let top = containerStyle?.paddingTop ?? Double(10), right = containerStyle?.paddingRight ?? Double(10), bottom = containerStyle?.paddingBottom ?? Double(10), left = containerStyle?.paddingLeft ?? Double(10);
     
     preferences.positioning.contentInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
-    tipView = EasyTipView(text: text!, preferences: preferences, delegate: self)
-    tipView?.show(forView: self,withinSuperview: window?.rootViewController?.view)
+    tipView = DismissibleEasyTipView(text: text!, preferences: preferences, delegate: self)
+    tipView?.show(on: self)
     
   }
   public func dismiss(){

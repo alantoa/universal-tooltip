@@ -53,7 +53,7 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
     var sideOffset: Int = 5
     var disableTapToDismiss: Boolean = false
     var borderRadius: Float = 5f
-
+    var enableDismissWhenTouchOutside = false
     var bgColor: Int = Color.BLACK
     var textColor: Int = Color.WHITE
     var textSize: Float = 13f
@@ -145,7 +145,7 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
             .setOnBalloonDismissListener {
                 onDismiss(mapOf())
             }
-            .setDismissWhenTouchOutside(false)
+            .setDismissWhenTouchOutside(enableDismissWhenTouchOutside)
             .setBalloonAnimation(balloonAnimation)
             // Todo: use XML set style just like web & iOS
             //.setBalloonAnimationStyle()
