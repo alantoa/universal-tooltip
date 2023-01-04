@@ -10,7 +10,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   var presetAnimation : PresetAnimation = .fadeIn
   var showDuration: CGFloat = CGFloat(0.7)
   var dismissDuration: CGFloat = CGFloat(0.7)
-  var cornerRadius = CGFloat(0)
+  var cornerRadius = CGFloat(5)
   var text :String? = nil
   var containerStyle : ContainerStyle?
   var fontStyle : TextStyle?
@@ -27,6 +27,8 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   let onDismiss = EventDispatcher()
   let onTap = EventDispatcher()
   var disableTapToDismiss = false
+  var textColor: UIColor = .white
+  var textSize: Double = 13
   
   public required init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
@@ -41,11 +43,11 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     onDismiss()
   }
   override func didUpdateReactSubviews() {
-    let firstView = self.reactSubviews()[0] as! RCTView
-
-    cornerRadius = firstView.borderRadius
     
-    bubbleBackgroundColor = firstView.backgroundColor ?? .clear
+    let firstView = self.reactSubviews()[0] as! RCTView
+    
+    //    bubbleBackgroundColor = firstView.backgroundColor ?? .clear
+    
     contentView = firstView
     for index in 1..<self.reactSubviews().count {
       let subView = self.reactSubviews()[index]
@@ -126,14 +128,14 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   
   public func openByText() {
     if(fontStyle?.fontFamily != nil){
-      preferences.drawing.font = UIFont(name: (fontStyle?.fontFamily)!, size: 13)!
+      preferences.drawing.font = UIFont(name: (fontStyle?.fontFamily)!, size: textSize)!
     }else{
-      preferences.drawing.font = UIFont.systemFont(ofSize: fontStyle?.fontSize ?? 13)
+      preferences.drawing.font = UIFont.systemFont(ofSize: textSize)
     }
-    preferences.drawing.foregroundColor = fontStyle?.color ?? .white
+    preferences.drawing.foregroundColor = textColor
     
     let top = containerStyle?.paddingTop ?? Double(10), right = containerStyle?.paddingRight ?? Double(10), bottom = containerStyle?.paddingBottom ?? Double(10), left = containerStyle?.paddingLeft ?? Double(10);
-  
+    
     preferences.positioning.contentInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
     tipView = EasyTipView(text: text!, preferences: preferences, delegate: self)
     tipView?.show(forView: self,withinSuperview: window?.rootViewController?.view)

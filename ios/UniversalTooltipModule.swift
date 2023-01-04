@@ -47,6 +47,19 @@ public class UniversalTooltipModule: Module {
       Prop("disableTapToDismiss") { (view, disableTapToDismiss: Bool?) in
         view.disableTapToDismiss = disableTapToDismiss ?? false
       }
+      Prop("borderRadius") { (view, borderRadius: Double?) in
+        view.cornerRadius = borderRadius ?? CGFloat(0)
+      }
+      Prop("backgroundColor") { (view, backgroundColor: UIColor?) in
+        view.bubbleBackgroundColor = backgroundColor ?? .clear
+      }
+      Prop("textColor") { (view, textColor: UIColor?) in
+        view.textColor = textColor ?? .white
+      }
+      Prop("textSize") { (view, textSize: Double?) in
+        view.textSize = textSize ?? CGFloat(13)
+      }
+
     }
   }
 }

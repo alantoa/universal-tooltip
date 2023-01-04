@@ -31,7 +31,6 @@ class UniversalTooltipModule : Module() {
       Prop("side") { view: UniversalTooltipView, side: ContentSide ->
        view.side = side
       }
-
       Prop("text") { view: UniversalTooltipView, text: String ->
         view.text = text
       }
@@ -40,7 +39,7 @@ class UniversalTooltipModule : Module() {
       }
       Prop("showDuration") { view: UniversalTooltipView, showDuration: Double ->
         view.showDuration = showDuration      }
-      Prop("dismissDuration") { view: UniversalTooltipView, dismissDuration: Double ->
+      Prop("dismissDuration") { view: UniversalTooltipView, dismissDuration: Long ->
         view.dismissDuration = dismissDuration
       }
       Prop("containerStyle") { view: UniversalTooltipView, containerStyle: ContainerStyle ->
@@ -53,7 +52,6 @@ class UniversalTooltipModule : Module() {
         view.sideOffset = sideOffset
       }
       Prop("disableTapToDismiss") { view: UniversalTooltipView, disableTapToDismiss: Boolean ->
-        println(disableTapToDismiss)
         view.disableTapToDismiss = disableTapToDismiss
       }
       Prop("borderRadius") { view: UniversalTooltipView, borderRadius: Float ->

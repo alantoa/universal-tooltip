@@ -3,7 +3,7 @@ import * as Tooltip from "universal-tooltip";
 import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
 
 export default function App() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   return (
     <View style={styles.container}>
       <Tooltip.Root
@@ -29,12 +29,8 @@ export default function App() {
           sideOffset={5}
           side="right"
           presetAnimation="fadeIn"
-          fontStyle={{
-            fontSize: 13,
-            color: "#fff",
-          }}
           textSize={13}
-          backgroundColor="green"
+          backgroundColor="#000"
           borderRadius={8}
           textColor="#fff"
           onTap={() => {

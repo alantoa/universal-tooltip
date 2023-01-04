@@ -2,29 +2,25 @@ package expo.modules.universaltooltip
 
 import android.content.Context
 import android.view.MotionEvent
-import android.view.View
 import com.skydoves.balloon.Balloon
-import com.skydoves.balloon.BalloonSizeSpec
 import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.views.ExpoView
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.graphics.fonts.FontStyle
-import android.os.Build
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.view.get
+import android.graphics.Rect
+import android.view.View
+
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.BalloonAnimation
-import expo.modules.core.utilities.ifNull
-import expo.modules.kotlin.records.Field
+
 import expo.modules.kotlin.viewevent.EventDispatcher
 
 import expo.modules.universaltooltip.records.ContainerStyle
 import expo.modules.universaltooltip.enums.ContentSide
 import expo.modules.universaltooltip.enums.PresetAnimation
 import expo.modules.universaltooltip.records.TextStyle
-import expo.modules.universaltooltip.color.ColorParser
+import kotlin.properties.Delegates
+import kotlin.Boolean
 
 class UniversalTooltipView(context: Context, appContext: AppContext) :
     ExpoView(context, appContext) {
@@ -33,14 +29,24 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
 
     val onTap by EventDispatcher()
     val onDismiss by EventDispatcher()
-
+    var opened: Boolean by Delegates.observable(
+        false
+    ) { _, _, newValue ->
+        run {
+            if (newValue) {
+                openTooltip()
+            } else {
+                dismiss()
+            }
+        }
+    }
     var balloon: Balloon? = null
-    var opened = false
+    var isOpen = false
     var side: ContentSide? = null
     var text: String = ""
     var presetAnimation: PresetAnimation? = null
     var showDuration: Double = 300.0
-    var dismissDuration: Double = 300.0
+    var dismissDuration: Long = 300
     var containerStyle: ContainerStyle? = null
 
     var fontStyle: TextStyle? = null
@@ -64,8 +70,18 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-
+        if (opened) {
+            openTooltip()
+        }
         super.onLayout(changed, l, t, r, b)
+    }
+
+    private fun toggleTooltip() {
+        if (isOpen) {
+            dismiss()
+        } else {
+            openTooltip()
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -76,7 +92,7 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
             lastEventTime = eventTime
             lastAction = action
             if (event.action === MotionEvent.ACTION_UP) {
-                openTooltip()
+                toggleTooltip()
             }
             return super.onTouchEvent(event)
         }
@@ -84,23 +100,23 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
     }
 
     private fun openTooltip() {
-        var pdBottom =
+        val pdBottom =
             if (containerStyle?.paddingBottom == null) 10 else containerStyle?.paddingBottom!!
-        var pdTop =
+        val pdTop =
             if (containerStyle?.paddingTop == null) 10 else containerStyle?.paddingTop!!
-        var pdLeft =
+        val pdLeft =
             if (containerStyle?.paddingLeft == null) 10 else containerStyle?.paddingRight!!
-        var pdRight =
+        val pdRight =
             if (containerStyle?.paddingRight == null) 10 else containerStyle?.paddingRight!!
 
-        var arrowOrientation = when (side) {
+        val arrowOrientation = when (side) {
             ContentSide.Top -> ArrowOrientation.TOP
             ContentSide.Bottom -> ArrowOrientation.BOTTOM
             ContentSide.Right -> ArrowOrientation.START
             ContentSide.Left -> ArrowOrientation.END
             null -> ArrowOrientation.TOP
         }
-        var balloonAnimation = when (presetAnimation){
+        val balloonAnimation = when (presetAnimation) {
             PresetAnimation.FadeIn -> BalloonAnimation.FADE
             PresetAnimation.ZoomIn -> BalloonAnimation.OVERSHOOT
             PresetAnimation.None -> BalloonAnimation.NONE
@@ -121,11 +137,15 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
             .setPaddingRight(pdRight)
             .setCornerRadius(borderRadius)
             .setOnBalloonClickListener {
-               onTap(mapOf())
+                onTap(mapOf())
+                if (!disableTapToDismiss) {
+                    dismiss()
+                }
             }
             .setOnBalloonDismissListener {
-               onDismiss(mapOf())
+                onDismiss(mapOf())
             }
+            .setDismissWhenTouchOutside(false)
             .setBalloonAnimation(balloonAnimation)
             // Todo: use XML set style just like web & iOS
             //.setBalloonAnimationStyle()
@@ -138,12 +158,17 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
             ContentSide.Left -> balloon?.showAlignLeft(this, -sideOffset, 0)
             null -> balloon?.showAlignTop(this)
         }
-
+        isOpen = true
     }
 
     private fun dismiss() {
         balloon?.dismiss()
+        isOpen = false
     }
-
+    
+    override fun onDetachedFromWindow() {
+        dismiss()
+        super.onDetachedFromWindow()
+    }
 
 }
