@@ -15,6 +15,10 @@ export type ContentProps = ViewProps &
     sideOffset?: number;
     side?: "left" | "right" | "bottom" | "top";
     fontStyle?: TextStyle;
+    borderRadius?: number;
+    backgroundColor?: string;
+    textColor?: string;
+    textSize?: number;
     presetAnimation?: "none" | "fadeIn" | "zoomIn";
     dismissDuration?: number;
     showDuration?: number;

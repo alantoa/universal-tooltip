@@ -27,12 +27,16 @@ export default function App() {
             paddingLeft: 10,
           }}
           sideOffset={5}
-          side="top"
+          side="right"
           presetAnimation="fadeIn"
           fontStyle={{
             fontSize: 13,
             color: "#fff",
           }}
+          textSize={13}
+          backgroundColor="green"
+          borderRadius={8}
+          textColor="#fff"
           onTap={() => {
             console.log("onTap");
           }}

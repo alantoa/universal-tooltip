@@ -2,6 +2,10 @@ package expo.modules.universaltooltip
 
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import expo.modules.universaltooltip.records.ContainerStyle
+import expo.modules.universaltooltip.enums.ContentSide
+import expo.modules.universaltooltip.enums.PresetAnimation
+import expo.modules.universaltooltip.records.TextStyle
 
 class UniversalTooltipModule : Module() {
   // Each module class must implement the definition function. The definition consists of components
@@ -13,34 +17,56 @@ class UniversalTooltipModule : Module() {
     // The module will be accessible from `requireNativeModule('UniversalTooltip')` in JavaScript.
     Name("UniversalTooltip")
 
-    // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
-    Constants(
-      "PI" to Math.PI
-    )
-
-    // Defines event names that the module can send to JavaScript.
-    Events("onChange")
-
-    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    Function("hello") {
-      "Hello world! 👋"
-    }
-
-    // Defines a JavaScript function that always returns a Promise and whose native code
-    // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    AsyncFunction("setValueAsync") { value: String ->
-      // Send an event to JavaScript.
-      sendEvent("onChange", mapOf(
-        "value" to value
-      ))
-    }
 
     // Enables the module to be used as a native view. Definition components that are accepted as part of
     // the view definition: Prop, Events.
     View(UniversalTooltipView::class) {
-      // Defines a setter for the `name` prop.
-      Prop("name") { view: UniversalTooltipView, prop: String ->
-        println(prop)
+      Events(
+        "onTap",
+        "onDismiss",
+      )
+      Prop("open") { view: UniversalTooltipView, prop: Boolean? ->
+        view.opened = prop == true
+      }
+      Prop("side") { view: UniversalTooltipView, side: ContentSide ->
+       view.side = side
+      }
+
+      Prop("text") { view: UniversalTooltipView, text: String ->
+        view.text = text
+      }
+      Prop("presetAnimation") { view: UniversalTooltipView, presetAnimation: PresetAnimation ->
+        view.presetAnimation = presetAnimation
+      }
+      Prop("showDuration") { view: UniversalTooltipView, showDuration: Double ->
+        view.showDuration = showDuration      }
+      Prop("dismissDuration") { view: UniversalTooltipView, dismissDuration: Double ->
+        view.dismissDuration = dismissDuration
+      }
+      Prop("containerStyle") { view: UniversalTooltipView, containerStyle: ContainerStyle ->
+        view.containerStyle = containerStyle
+      }
+      Prop("fontStyle") { view: UniversalTooltipView, fontStyle: TextStyle? ->
+        view.fontStyle = fontStyle
+      }
+      Prop("sideOffset") { view: UniversalTooltipView, sideOffset: Int ->
+        view.sideOffset = sideOffset
+      }
+      Prop("disableTapToDismiss") { view: UniversalTooltipView, disableTapToDismiss: Boolean ->
+        println(disableTapToDismiss)
+        view.disableTapToDismiss = disableTapToDismiss
+      }
+      Prop("borderRadius") { view: UniversalTooltipView, borderRadius: Float ->
+        view.borderRadius = borderRadius
+      }
+      Prop("backgroundColor") { view: UniversalTooltipView, backgroundColor: Int ->
+        view.bgColor = backgroundColor
+      }
+      Prop("textColor") { view: UniversalTooltipView, textColor: Int ->
+        view.textColor = textColor
+      }
+      Prop("textSize") { view: UniversalTooltipView, textSize: Float ->
+        view.textSize = textSize
       }
     }
   }
