@@ -69,7 +69,9 @@ class UniversalTooltipModule : Module() {
       Prop("disableDismissWhenTouchOutside") { view: UniversalTooltipView, disableDismissWhenTouchOutside: Boolean ->
         view.disableDismissWhenTouchOutside = disableDismissWhenTouchOutside
       }
-
+      Prop("fontWeight") { view: UniversalTooltipView, fontWeight: String ->
+        view.fontWeight = fontWeight
+      }
     }
   }
 }

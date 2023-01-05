@@ -15,6 +15,7 @@ export type ContentProps = ViewProps &
     backgroundColor?: string;
     textColor?: string;
     textSize?: number;
+    fontWeight?: "bold" | "normal";
     presetAnimation?: "none" | "fadeIn" | "zoomIn";
     dismissDuration?: number;
     showDuration?: number;

@@ -4,7 +4,7 @@ import type {
 } from "@radix-ui/react-tooltip";
 import { requireNativeViewManager } from "expo-modules-core";
 import React, { Children } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, processColor, Platform } from "react-native";
 import type { ViewProps } from "react-native";
 
 import {
@@ -30,10 +30,21 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
     Trigger
   );
   const content = withoutTriggerChildren?.[0];
-  const { children: contentChild, ...contentRestProps } = content?.props;
+  const {
+    children: contentChild,
+    backgroundColor,
+    textColor,
+    ...contentRestProps
+  } = content?.props;
   return (
-    <NativeView {...contentRestProps} {...rest}>
-      {withoutTriggerChildren}
+    <NativeView
+      backgroundColor={processColor(backgroundColor)}
+      textColor={processColor(textColor)}
+      {...contentRestProps}
+      {...rest}
+    >
+      {/* Todo: support custom view on Android */}
+      {Platform.OS === "ios" ? withoutTriggerChildren : null}
       {triggerChildren}
     </NativeView>
   );

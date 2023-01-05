@@ -11,48 +11,46 @@ import {
 export default function App() {
   const [open, setOpen] = useState(true);
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Tooltip.Root
-          open={open}
-          onDismiss={() => {
-            console.log("onDismiss");
+    <View style={styles.container}>
+      <Tooltip.Root
+        onDismiss={() => {
+          console.log("onDismiss");
+        }}
+        style={styles.root}
+      >
+        <Tooltip.Trigger>
+          <View style={styles.button}>
+            <Text style={styles.text}>Hello!👋</Text>
+          </View>
+        </Tooltip.Trigger>
+        <Tooltip.Content
+          containerStyle={{
+            paddingTop: 8,
+            paddingRight: 10,
+            paddingBottom: 8,
+            paddingLeft: 10,
           }}
-          style={styles.root}
-        >
-          <Tooltip.Trigger asChild>
-            <View style={styles.button}>
-              <Text style={styles.text}>Hello!👋</Text>
-            </View>
-          </Tooltip.Trigger>
-          <Tooltip.Content
-            containerStyle={{
-              paddingTop: 8,
-              paddingRight: 10,
-              paddingBottom: 8,
-              paddingLeft: 10,
-            }}
-            sideOffset={5}
-            side="right"
-            presetAnimation="fadeIn"
-            textSize={13}
-            backgroundColor="#000"
-            borderRadius={20}
-            textColor="#fff"
-            onTap={() => {
-              console.log("onTap");
-            }}
-            text="Add to library"
-          />
-        </Tooltip.Root>
-        <TouchableHighlight
+          sideOffset={5}
+          side="right"
+          presetAnimation="fadeIn"
+          textSize={13}
+          backgroundColor="rgba(0,0,0,.6)"
+          borderRadius={20}
+          textColor="#fff"
+          fontWeight="bold"
+          onTap={() => {
+            console.log("onTap");
+          }}
+          text="Add to library"
+        />
+      </Tooltip.Root>
+      {/* <TouchableHighlight
           style={styles.option}
           onPress={() => setOpen((open) => !open)}
         >
           <Text style={styles.text}>Toggle: {`${open}`}</Text>
-        </TouchableHighlight>
-      </View>
-    </ScrollView>
+        </TouchableHighlight> */}
+    </View>
   );
 }
 
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#e1e1e1",
     alignItems: "center",
     justifyContent: "center",
-    height: 1000,
+    height: 700,
   },
   root: {},
   button: {

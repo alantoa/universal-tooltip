@@ -7,8 +7,7 @@ import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.views.ExpoView
 import android.annotation.SuppressLint
 import android.graphics.Color
-import android.graphics.Rect
-import android.view.View
+import android.graphics.Typeface
 
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.BalloonAnimation
@@ -57,6 +56,8 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
     var bgColor: Int = Color.BLACK
     var textColor: Int = Color.WHITE
     var textSize: Float = 13f
+    var fontWeight: String = "normal"
+
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         if (super.onInterceptTouchEvent(ev)) {
@@ -76,13 +77,6 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
         super.onLayout(changed, l, t, r, b)
     }
 
-    private fun toggleTooltip() {
-        if (isOpen) {
-            dismiss()
-        } else {
-            openTooltip()
-        }
-    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -92,7 +86,7 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
             lastEventTime = eventTime
             lastAction = action
             if (event.action === MotionEvent.ACTION_UP) {
-                toggleTooltip()
+                openTooltip()
             }
             return super.onTouchEvent(event)
         }
@@ -122,12 +116,13 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
             PresetAnimation.None -> BalloonAnimation.NONE
             null -> BalloonAnimation.FADE
         }
-
+        val textTypeface = if(fontWeight == "normal") Typeface.NORMAL else Typeface.BOLD
         balloon = Balloon.Builder(context)
             .setText(text)
             .setBackgroundColor(bgColor)
             .setTextColor(textColor)
             .setTextSize(textSize)
+            .setTextTypeface(textTypeface)
             .setArrowSize(5)
             .setArrowPosition(0.5f)
             .setArrowOrientation(arrowOrientation)
@@ -165,7 +160,7 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
         balloon?.dismiss()
         isOpen = false
     }
-    
+
     override fun onDetachedFromWindow() {
         dismiss()
         super.onDetachedFromWindow()

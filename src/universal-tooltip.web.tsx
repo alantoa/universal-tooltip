@@ -13,7 +13,7 @@ export type TriggerProps = ViewProps & TooltipTriggerProps;
 
 export const Trigger = ({ children, ...rest }: TriggerProps) => {
   return (
-    <Tooltip.Trigger {...rest}>
+    <Tooltip.Trigger asChild {...rest}>
       <div>{children}</div>
     </Tooltip.Trigger>
   );

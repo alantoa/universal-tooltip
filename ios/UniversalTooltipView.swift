@@ -29,7 +29,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   var disableTapToDismiss = false
   var textColor: UIColor = .white
   var textSize: Double = 13
-  
+  var fontWeight: String = "normal"
   public required init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
   }
@@ -62,7 +62,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   }
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    toggleTooltip()
+    openTooltip()
   }
   public func toggleTooltip(){
     if(isOpened){
@@ -131,7 +131,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     if(fontStyle?.fontFamily != nil){
       preferences.drawing.font = UIFont(name: (fontStyle?.fontFamily)!, size: textSize)!
     }else{
-      preferences.drawing.font = UIFont.systemFont(ofSize: textSize)
+      preferences.drawing.font = fontWeight == "normal" ?  UIFont.systemFont(ofSize: textSize) : UIFont.boldSystemFont(ofSize: textSize)
     }
     preferences.drawing.foregroundColor = textColor
     
