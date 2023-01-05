@@ -1,17 +1,16 @@
 import type {
-  PopoverContentProps,
-  PopoverTriggerProps,
-  PopoverArrowProps,
-  PopoverProps,
-} from "@radix-ui/react-popover";
+  TooltipProps,
+  TooltipContentProps,
+  TooltipTriggerProps,
+} from "@radix-ui/react-tooltip";
 import React from "react";
 import type { TextStyle, ViewProps } from "react-native";
 
-export type TriggerProps = ViewProps & PopoverTriggerProps;
+export type TriggerProps = ViewProps & TooltipTriggerProps;
 
 export type ContentProps = ViewProps &
-  PopoverContentProps & {
-    text?: string;
+  TooltipContentProps & {
+    text: string;
     sideOffset?: number;
     side?: "left" | "right" | "bottom" | "top";
     fontStyle?: TextStyle;
@@ -35,10 +34,9 @@ export type ContentProps = ViewProps &
 export type UniversalTooltipViewProps = ContentProps & {
   children?: React.ReactNode | JSX.Element;
 };
-export type ArrowProps = ViewProps & PopoverArrowProps;
 
 export type RootProps = ViewProps &
-  PopoverProps & {
+  TooltipProps & {
     onDismiss?: () => void;
     /**
      * Android only

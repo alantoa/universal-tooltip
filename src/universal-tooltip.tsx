@@ -3,7 +3,6 @@ import React, { Children } from "react";
 import { StyleSheet, View, processColor, Platform } from "react-native";
 
 import {
-  ArrowProps,
   ContentProps,
   RootProps,
   TriggerProps,
@@ -59,7 +58,3 @@ export const Content = createComponent<ContentProps>(
   },
   "Content"
 );
-
-export const Arrow = createComponent(({ children }: ArrowProps) => {
-  return <View>{Children.only(<>{children}</>)}</View>;
-}, "Arrow");
