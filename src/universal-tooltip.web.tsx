@@ -1,7 +1,5 @@
-import type { PopoverArrowProps } from "@radix-ui/react-popover";
 import * as Popover from "@radix-ui/react-popover";
 import * as Tooltip from "@radix-ui/react-tooltip";
-
 import React, { useMemo, Fragment } from "react";
 import { Text, View } from "react-native";
 
