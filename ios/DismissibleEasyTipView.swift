@@ -13,6 +13,7 @@ class DismissibleEasyTipView: EasyTipView {
     
     return tapRecognizer
   }()
+ 
 //  lazy var panRecognizer: UIPanGestureRecognizer = {
 //    let panRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.didTapOnScreen))
 //    return panRecognizer
@@ -49,7 +50,7 @@ class DismissibleEasyTipView: EasyTipView {
 //    if !(self.dismissView.gestureRecognizers ?? []).contains(self.panRecognizer) {
 //      self.dismissView.addGestureRecognizer(self.panRecognizer)
 //    }
-//    
+//
     self.tapRecognizer.isEnabled = true
   }
   
