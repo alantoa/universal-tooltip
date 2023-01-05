@@ -1,36 +1,47 @@
 import type { PopoverArrowProps } from "@radix-ui/react-popover";
 import * as Popover from "@radix-ui/react-popover";
-import React, { useMemo } from "react";
+import * as Tooltip from "@radix-ui/react-tooltip";
+
+import React, { useMemo, Fragment } from "react";
 import { Text, View } from "react-native";
 
 import {
-  ArrowProps,
   ContentProps,
   RootProps,
   TriggerProps,
 } from "./universal-tooltip.types";
 import "./styles.css";
+import { isDesktopWeb } from "./utils/platform";
+
+const TooltipTrigger = isDesktopWeb() ? Tooltip.Trigger : Popover.Trigger;
+const TooltipProvider = isDesktopWeb() ? Tooltip.Provider : Fragment;
+const TooltipRoot = isDesktopWeb() ? Tooltip.Root : Popover.Root;
+const TooltipArrow = isDesktopWeb() ? Tooltip.Arrow : Popover.Arrow;
+const TooltipContent = isDesktopWeb() ? Tooltip.Content : Popover.Content;
+const TooltipPortal = isDesktopWeb() ? Tooltip.Portal : Popover.Portal;
 
 export const Trigger = ({ children, ...rest }: TriggerProps) => {
   return (
-    <Popover.Trigger asChild {...rest}>
+    <TooltipTrigger asChild {...rest}>
       <div>{children}</div>
-    </Popover.Trigger>
+    </TooltipTrigger>
   );
 };
 export const Root = ({ children, onDismiss, open, ...rest }: RootProps) => {
   return (
-    <Popover.Root
-      onOpenChange={(state) => {
-        if (open === undefined && state === false) {
-          onDismiss?.();
-        }
-      }}
-      open={open}
-      {...rest}
-    >
-      {children}
-    </Popover.Root>
+    <TooltipProvider>
+      <TooltipRoot
+        onOpenChange={(state) => {
+          if (open === undefined && state === false) {
+            onDismiss?.();
+          }
+        }}
+        open={open}
+        {...rest}
+      >
+        {children}
+      </TooltipRoot>
+    </TooltipProvider>
   );
 };
 
@@ -65,8 +76,8 @@ export const Content = ({ children, ...rest }: ContentProps) => {
   }, [presetAnimation]);
 
   return (
-    <Popover.Portal>
-      <Popover.Content
+    <TooltipPortal>
+      <TooltipContent
         side={side}
         className={`${animationClass} ${className}`}
         {...restProps}
@@ -89,12 +100,8 @@ export const Content = ({ children, ...rest }: ContentProps) => {
             children
           )}
         </View>
-        <Popover.Arrow fill={backgroundColor ?? "#000"} />
-      </Popover.Content>
-    </Popover.Portal>
+        <TooltipArrow fill={backgroundColor ?? "#000"} />
+      </TooltipContent>
+    </TooltipPortal>
   );
-};
-
-export const Arrow = ({ children, ...rest }: ArrowProps) => {
-  return <Popover.Arrow {...rest}>{children}</Popover.Arrow>;
 };

@@ -9,8 +9,8 @@ import {
   TriggerProps,
   UniversalTooltipViewProps,
 } from "./universal-tooltip.types";
-import { pickChild } from "./utils/collections";
 import { createComponent } from "./utils/create-components";
+import { pickChild } from "./utils/pick-child";
 
 const NativeView: React.ComponentType<UniversalTooltipViewProps> =
   requireNativeViewManager("UniversalTooltip");
