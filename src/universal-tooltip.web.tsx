@@ -1,7 +1,7 @@
 import type { PopoverArrowProps } from "@radix-ui/react-popover";
 import * as Popover from "@radix-ui/react-popover";
-import React, { useMemo, useState } from "react";
-import { Text, ViewProps, View } from "react-native";
+import React, { useMemo } from "react";
+import { Text, View } from "react-native";
 
 import {
   ArrowProps,
@@ -10,7 +10,6 @@ import {
   TriggerProps,
 } from "./universal-tooltip.types";
 import "./styles.css";
-import { isMobileWeb } from "./utils/platform";
 
 export const Trigger = ({ children, ...rest }: TriggerProps) => {
   return (
