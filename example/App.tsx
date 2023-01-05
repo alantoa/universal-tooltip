@@ -16,32 +16,31 @@ export default function App() {
         onDismiss={() => {
           console.log("onDismiss");
         }}
-        style={styles.root}
       >
-        <Tooltip.Trigger>
+        <Tooltip.Trigger asChild>
           <View style={styles.button}>
             <Text style={styles.text}>Hello!👋</Text>
           </View>
         </Tooltip.Trigger>
         <Tooltip.Content
+          sideOffset={3}
           containerStyle={{
+            paddingLeft: 16,
+            paddingRight: 16,
             paddingTop: 8,
-            paddingRight: 10,
             paddingBottom: 8,
-            paddingLeft: 10,
           }}
-          sideOffset={5}
-          side="right"
-          presetAnimation="fadeIn"
-          textSize={13}
-          backgroundColor="rgba(0,0,0,.6)"
-          borderRadius={20}
-          textColor="#fff"
-          fontWeight="bold"
           onTap={() => {
             console.log("onTap");
           }}
-          text="Add to library"
+          side="right"
+          presetAnimation="fadeIn"
+          textSize={16}
+          backgroundColor="black"
+          fontWeight="bold"
+          borderRadius={999}
+          textColor="#fff"
+          text="Save on Spotify to collect"
         />
       </Tooltip.Root>
       {/* <TouchableHighlight

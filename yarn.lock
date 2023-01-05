@@ -1506,6 +1506,23 @@
     "@radix-ui/react-use-callback-ref" "1.0.0"
     "@radix-ui/react-use-escape-keydown" "1.0.2"
 
+"@radix-ui/react-focus-guards@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-focus-guards/-/react-focus-guards-1.0.0.tgz#339c1c69c41628c1a5e655f15f7020bf11aa01fa"
+  integrity sha512-UagjDk4ijOAnGu4WMUPj9ahi7/zJJqNZ9ZAiGPp7waUWJO0O1aWXi/udPphI0IUjvrhBsZJGSN66dR2dsueLWQ==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+
+"@radix-ui/react-focus-scope@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-focus-scope/-/react-focus-scope-1.0.1.tgz#faea8c25f537c5a5c38c50914b63722db0e7f951"
+  integrity sha512-Ej2MQTit8IWJiS2uuujGUmxXjF/y5xZptIIQnyd2JHLwtV0R2j9NRVoRj/1j/gJ7e3REdaBw4Hjf4a1ImhkZcQ==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/react-compose-refs" "1.0.0"
+    "@radix-ui/react-primitive" "1.0.1"
+    "@radix-ui/react-use-callback-ref" "1.0.0"
+
 "@radix-ui/react-id@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@radix-ui/react-id/-/react-id-1.0.0.tgz"
@@ -1513,6 +1530,28 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-use-layout-effect" "1.0.0"
+
+"@radix-ui/react-popover@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-popover/-/react-popover-1.0.2.tgz#f761c8aafb61519522b8e80501c589e619073a2c"
+  integrity sha512-4tqZEl9w95R5mlZ/sFdgBnfhCBOEPepLIurBA5kt/qaAhldJ1tNQd0ngr0ET0AHbPotT4mwxMPr7a+MA/wbK0g==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/primitive" "1.0.0"
+    "@radix-ui/react-compose-refs" "1.0.0"
+    "@radix-ui/react-context" "1.0.0"
+    "@radix-ui/react-dismissable-layer" "1.0.2"
+    "@radix-ui/react-focus-guards" "1.0.0"
+    "@radix-ui/react-focus-scope" "1.0.1"
+    "@radix-ui/react-id" "1.0.0"
+    "@radix-ui/react-popper" "1.0.1"
+    "@radix-ui/react-portal" "1.0.1"
+    "@radix-ui/react-presence" "1.0.0"
+    "@radix-ui/react-primitive" "1.0.1"
+    "@radix-ui/react-slot" "1.0.1"
+    "@radix-ui/react-use-controllable-state" "1.0.0"
+    aria-hidden "^1.1.1"
+    react-remove-scroll "2.5.5"
 
 "@radix-ui/react-popper@1.0.1":
   version "1.0.1"
@@ -1563,25 +1602,6 @@
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-compose-refs" "1.0.0"
 
-"@radix-ui/react-tooltip@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/@radix-ui/react-tooltip/-/react-tooltip-1.0.2.tgz"
-  integrity sha512-11gUlok2rv5mu+KBtxniOKKNKjqC/uTbgFHWoQdbF46vMV+zjDaBvCtVDK9+MTddlpmlisGPGvvojX7Qm0yr+g==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-    "@radix-ui/primitive" "1.0.0"
-    "@radix-ui/react-compose-refs" "1.0.0"
-    "@radix-ui/react-context" "1.0.0"
-    "@radix-ui/react-dismissable-layer" "1.0.2"
-    "@radix-ui/react-id" "1.0.0"
-    "@radix-ui/react-popper" "1.0.1"
-    "@radix-ui/react-portal" "1.0.1"
-    "@radix-ui/react-presence" "1.0.0"
-    "@radix-ui/react-primitive" "1.0.1"
-    "@radix-ui/react-slot" "1.0.1"
-    "@radix-ui/react-use-controllable-state" "1.0.0"
-    "@radix-ui/react-visually-hidden" "1.0.1"
-
 "@radix-ui/react-use-callback-ref@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@radix-ui/react-use-callback-ref/-/react-use-callback-ref-1.0.0.tgz"
@@ -1627,14 +1647,6 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-use-layout-effect" "1.0.0"
-
-"@radix-ui/react-visually-hidden@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/@radix-ui/react-visually-hidden/-/react-visually-hidden-1.0.1.tgz"
-  integrity sha512-K1hJcCMfWfiYUibRqf3V8r5Drpyf7rh44jnrwAbdvI5iCCijilBBeyQv9SKidYNZIopMdCyR9FnIjkHxHN0FcQ==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-    "@radix-ui/react-primitive" "1.0.1"
 
 "@radix-ui/rect@1.0.0":
   version "1.0.0"
@@ -2039,6 +2051,13 @@ argparse@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz"
   integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
+
+aria-hidden@^1.1.1:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/aria-hidden/-/aria-hidden-1.2.2.tgz#8c4f7cc88d73ca42114106fdf6f47e68d31475b8"
+  integrity sha512-6y/ogyDTk/7YAe91T3E2PR1ALVKyM2QbTio5HwM+N1Q6CMlCKhvClyIjkckBswa0f2xJhjsfzIGa1yVSe1UMVA==
+  dependencies:
+    tslib "^2.0.0"
 
 arr-diff@^4.0.0:
   version "4.0.0"
@@ -2848,6 +2867,11 @@ deprecation@^2.0.0, deprecation@^2.3.1:
   resolved "https://registry.npmjs.org/deprecation/-/deprecation-2.3.1.tgz"
   integrity sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ==
 
+detect-node-es@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/detect-node-es/-/detect-node-es-1.1.0.tgz#163acdf643330caa0b4cd7c21e7ee7755d6fa493"
+  integrity sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==
+
 diff-sequences@^26.6.2:
   version "26.6.2"
   resolved "https://registry.npmjs.org/diff-sequences/-/diff-sequences-26.6.2.tgz"
@@ -3619,6 +3643,11 @@ get-intrinsic@^1.0.2, get-intrinsic@^1.1.0, get-intrinsic@^1.1.1, get-intrinsic@
     function-bind "^1.1.1"
     has "^1.0.3"
     has-symbols "^1.0.3"
+
+get-nonce@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/get-nonce/-/get-nonce-1.0.1.tgz#fdf3f0278073820d2ce9426c18f07481b1e0cdf3"
+  integrity sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q==
 
 get-package-type@^0.1.0:
   version "0.1.0"
@@ -5640,6 +5669,25 @@ react-refresh@^0.4.0:
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.4.3.tgz"
   integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
 
+react-remove-scroll-bar@^2.3.3:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/react-remove-scroll-bar/-/react-remove-scroll-bar-2.3.4.tgz#53e272d7a5cb8242990c7f144c44d8bd8ab5afd9"
+  integrity sha512-63C4YQBUt0m6ALadE9XV56hV8BgJWDmmTPY758iIJjfQKt2nYwoUrPk0LXRXcB/yIj82T1/Ixfdpdk68LwIB0A==
+  dependencies:
+    react-style-singleton "^2.2.1"
+    tslib "^2.0.0"
+
+react-remove-scroll@2.5.5:
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/react-remove-scroll/-/react-remove-scroll-2.5.5.tgz#1e31a1260df08887a8a0e46d09271b52b3a37e77"
+  integrity sha512-ImKhrzJJsyXJfBZ4bzu8Bwpka14c/fQt0k+cyFp/PBhTfyDnU5hjOtM4AG/0AMyy8oKzOTR0lDgJIM7pYXI0kw==
+  dependencies:
+    react-remove-scroll-bar "^2.3.3"
+    react-style-singleton "^2.2.1"
+    tslib "^2.1.0"
+    use-callback-ref "^1.3.0"
+    use-sidecar "^1.1.2"
+
 react-shallow-renderer@^16.15.0:
   version "16.15.0"
   resolved "https://registry.npmjs.org/react-shallow-renderer/-/react-shallow-renderer-16.15.0.tgz"
@@ -5647,6 +5695,15 @@ react-shallow-renderer@^16.15.0:
   dependencies:
     object-assign "^4.1.1"
     react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
+
+react-style-singleton@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-style-singleton/-/react-style-singleton-2.2.1.tgz#f99e420492b2d8f34d38308ff660b60d0b1205b4"
+  integrity sha512-ZWj0fHEMyWkHzKYUr2Bs/4zU6XLmq9HsgBURm7g5pAVfyn49DgUiNgY2d4lXRlYSiCif9YBGpQleewkcqddc7g==
+  dependencies:
+    get-nonce "^1.0.0"
+    invariant "^2.2.4"
+    tslib "^2.0.0"
 
 react-test-renderer@~18.1.0:
   version "18.1.0"
@@ -6497,7 +6554,7 @@ tslib@^1.8.1:
   resolved "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.0.1, tslib@^2.1.0:
+tslib@^2.0.0, tslib@^2.0.1, tslib@^2.1.0:
   version "2.4.1"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.4.1.tgz"
   integrity sha512-tGyy4dAjRIEwI7BzsB0lynWgOpfqjUdq91XXAlIWD2OwKBH7oCl/GZG/HT4BOHrTlPMOASlMQ7veyTqpmRcrNA==
@@ -6678,10 +6735,25 @@ url-join@5.0.0:
   resolved "https://registry.npmjs.org/url-join/-/url-join-5.0.0.tgz"
   integrity sha512-n2huDr9h9yzd6exQVnH/jU5mr+Pfx08LRXXZhkLLetAMESRj+anQsTAh940iMrIetKAmry9coFuZQ2jY8/p3WA==
 
+use-callback-ref@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.3.0.tgz#772199899b9c9a50526fedc4993fc7fa1f7e32d5"
+  integrity sha512-3FT9PRuRdbB9HfXhEq35u4oZkvpJ5kuYbpqhCfmiZyReuRgpnhDlbr2ZEnnuS0RrJAPn6l23xjFg9kpDM+Ms7w==
+  dependencies:
+    tslib "^2.0.0"
+
 use-isomorphic-layout-effect@^1.1.1:
   version "1.1.2"
   resolved "https://registry.npmjs.org/use-isomorphic-layout-effect/-/use-isomorphic-layout-effect-1.1.2.tgz"
   integrity sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==
+
+use-sidecar@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/use-sidecar/-/use-sidecar-1.1.2.tgz#2f43126ba2d7d7e117aa5855e5d8f0276dfe73c2"
+  integrity sha512-epTbsLuzZ7lPClpz2TyryBfztm7m+28DlEv2ZCQ3MDr5ssiwyOwGH/e5F9CkfWjJ1t4clvI58yF822/GUkjjhw==
+  dependencies:
+    detect-node-es "^1.1.0"
+    tslib "^2.0.0"
 
 use@^3.1.0:
   version "3.1.1"
