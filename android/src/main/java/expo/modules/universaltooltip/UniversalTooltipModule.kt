@@ -66,8 +66,8 @@ class UniversalTooltipModule : Module() {
       Prop("textSize") { view: UniversalTooltipView, textSize: Float ->
         view.textSize = textSize
       }
-      Prop("enableDismissWhenTouchOutside") { view: UniversalTooltipView, enableDismissWhenTouchOutside: Boolean ->
-        view.enableDismissWhenTouchOutside = enableDismissWhenTouchOutside
+      Prop("disableDismissWhenTouchOutside") { view: UniversalTooltipView, disableDismissWhenTouchOutside: Boolean ->
+        view.disableDismissWhenTouchOutside = disableDismissWhenTouchOutside
       }
 
     }

@@ -34,5 +34,8 @@ export type UniversalTooltipViewProps = ContentProps & {
 export type RootProps = ViewProps &
   TooltipProps & {
     onDismiss?: () => void;
-    enableDismissWhenTouchOutside?: boolean;
+    /**
+     * Android only
+     */
+    disableDismissWhenTouchOutside?: boolean;
   };
