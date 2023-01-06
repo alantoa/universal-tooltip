@@ -59,12 +59,6 @@ export default function App() {
           text="Tooltip"
         />
       </Tooltip.Root>
-      {/* <TouchableHighlight
-          style={styles.option}
-          onPress={() => setOpen((open) => !open)}
-        >
-          <Text style={styles.text}>Toggle: {`${open}`}</Text>
-        </TouchableHighlight> */}
     </View>
   );
 }
