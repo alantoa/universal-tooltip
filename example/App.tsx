@@ -1,26 +1,40 @@
 import { useState } from "react";
 import * as Tooltip from "universal-tooltip";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, Pressable, Platform } from "react-native";
+
+const TriggerView = Platform.OS === "web" ? View : Pressable;
 
 export default function App() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   return (
     <View style={styles.container}>
       <Tooltip.Root
-        onDismiss={() => {
-          console.log("onDismiss");
-        }}
+        {...Platform.select({
+          web: {},
+          default: {
+            open,
+            onDismiss: () => {
+              console.log("onDismiss");
+              setOpen(false);
+            },
+          },
+        })}
       >
-        <Tooltip.Trigger asChild>
-          <View style={styles.button}>
+        <Tooltip.Trigger>
+          <TriggerView
+            {...Platform.select({
+              web: {},
+              default: {
+                open,
+                onPress: () => {
+                  setOpen(true);
+                },
+              },
+            })}
+            style={styles.button}
+          >
             <Text style={styles.text}>Hello!👋</Text>
-          </View>
+          </TriggerView>
         </Tooltip.Trigger>
         <Tooltip.Content
           sideOffset={3}
@@ -33,6 +47,8 @@ export default function App() {
           onTap={() => {
             console.log("onTap");
           }}
+          dismissDuration={500}
+          disableTapToDismiss
           side="right"
           presetAnimation="fadeIn"
           textSize={16}
@@ -40,7 +56,7 @@ export default function App() {
           fontWeight="bold"
           borderRadius={999}
           textColor="#fff"
-          text="Save on Spotify to collect"
+          text="Tooltip"
         />
       </Tooltip.Root>
       {/* <TouchableHighlight

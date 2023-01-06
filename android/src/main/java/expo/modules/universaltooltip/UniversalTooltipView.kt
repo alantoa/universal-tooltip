@@ -23,9 +23,6 @@ import kotlin.Boolean
 
 class UniversalTooltipView(context: Context, appContext: AppContext) :
     ExpoView(context, appContext) {
-    private var lastEventTime = -1L
-    private var lastAction = -1
-
     val onTap by EventDispatcher()
     val onDismiss by EventDispatcher()
     var opened: Boolean by Delegates.observable(
@@ -45,7 +42,6 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
     var text: String = ""
     var presetAnimation: PresetAnimation? = null
     var showDuration: Double = 300.0
-    var dismissDuration: Long = 300
     var containerStyle: ContainerStyle? = null
 
     var fontStyle: TextStyle? = null
@@ -59,17 +55,6 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
     var fontWeight: String = "normal"
 
 
-    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        if (super.onInterceptTouchEvent(ev)) {
-            return true
-        }
-
-        // We call `onTouchEvent` and wait until button changes state to `pressed`, if it's pressed
-        // we return true so that the gesture handler can activate.
-        onTouchEvent(ev)
-        return isPressed
-    }
-
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         if (opened) {
             openTooltip()
@@ -77,21 +62,6 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
         super.onLayout(changed, l, t, r, b)
     }
 
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        val eventTime = event.eventTime
-        val action = event.action
-        if (lastEventTime != eventTime || lastAction != action) {
-            lastEventTime = eventTime
-            lastAction = action
-            if (event.action === MotionEvent.ACTION_UP) {
-                openTooltip()
-            }
-            return super.onTouchEvent(event)
-        }
-        return false
-    }
 
     private fun openTooltip() {
         val pdBottom =
@@ -127,7 +97,7 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
             .setArrowPosition(0.5f)
             .setArrowOrientation(arrowOrientation)
             .setPaddingBottom(pdBottom)
-            .setPaddingTop(pdTop)
+            .setPaddingTop(pdTop)   
             .setPaddingLeft(pdLeft)
             .setPaddingRight(pdRight)
             .setCornerRadius(borderRadius)

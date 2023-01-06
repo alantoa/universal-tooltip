@@ -30,10 +30,10 @@ public class UniversalTooltipModule: Module {
         view.presetAnimation = presetAnimation ?? .fadeIn
       }
       Prop("showDuration") { (view, showDuration: Double? ) in
-        view.setShowDuration((showDuration ?? 700) / 1000)
+        view.showDuration = (showDuration ?? 300)/1000
       }
       Prop("dismissDuration") { (view, dismissDuration: Double?) in
-        view.setDismissDuration((dismissDuration ?? 700) / 1000)
+        view.dismissDuration = (dismissDuration ?? 300)/1000
       }
       Prop("containerStyle") { (view, containerStyle: ContainerStyle?) in
         view.containerStyle = containerStyle

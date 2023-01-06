@@ -8,8 +8,8 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   var bubbleBackgroundColor: UIColor = .clear
   var side: ContentSide = .any
   var presetAnimation : PresetAnimation = .fadeIn
-  var showDuration: CGFloat = CGFloat(0.7)
-  var dismissDuration: CGFloat = CGFloat(0.7)
+  var showDuration: CGFloat = CGFloat(0.5)
+  var dismissDuration: CGFloat = CGFloat(0.5)
   var cornerRadius : CGFloat = CGFloat(5)
   var text :String? = nil
   var containerStyle : ContainerStyle?
@@ -43,11 +43,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     onDismiss()
   }
   override func didUpdateReactSubviews() {
-    
     let firstView = self.reactSubviews()[0] as! RCTView
-    
-    //    bubbleBackgroundColor = firstView.backgroundColor ?? .clear
-    
     contentView = firstView
     for index in 1..<self.reactSubviews().count {
       let subView = self.reactSubviews()[index]
@@ -61,9 +57,6 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     }
   }
   
-  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    openTooltip()
-  }
   public func toggleTooltip(){
     if(isOpened){
       dismiss()
@@ -75,15 +68,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     text != nil ? openByText() : openByContentView()
     isOpened = true
   }
-  public func setShowDuration(_ duration: Double) {
-    showDuration = duration
-  }
-  
-  public func setDismissDuration(_ duration: Double) {
-    dismissDuration = duration
-  }
   public func setCommonPreferences(){
-    
     preferences.drawing.backgroundColor = bubbleBackgroundColor
     preferences.drawing.cornerRadius = cornerRadius
     preferences.drawing.arrowPosition = side.toContentSide()
@@ -103,17 +88,17 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     if(presetAnimation == .fadeIn){
       switch preferences.drawing.arrowPosition{
         case .left:
-          preferences.animating.dismissTransform = CGAffineTransform(translationX: 15, y: 0)
-          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 15, y: 0)
+          preferences.animating.dismissTransform = CGAffineTransform(translationX: 10, y: 0)
+          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 10, y: 0)
         case .right:
-          preferences.animating.dismissTransform = CGAffineTransform(translationX: -15, y: 0)
-          preferences.animating.showInitialTransform = CGAffineTransform(translationX: -15, y: 0)
+          preferences.animating.dismissTransform = CGAffineTransform(translationX: -10, y: 0)
+          preferences.animating.showInitialTransform = CGAffineTransform(translationX: -10, y: 0)
         case .top, .any:
-          preferences.animating.dismissTransform = CGAffineTransform(translationX: 0, y: 15)
-          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 0, y: 15)
+          preferences.animating.dismissTransform = CGAffineTransform(translationX: 0, y: 10)
+          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 0, y: 10)
         case .bottom:
-          preferences.animating.dismissTransform = CGAffineTransform(translationX: 0, y: -15)
-          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 0, y: -15)
+          preferences.animating.dismissTransform = CGAffineTransform(translationX: 0, y: -10)
+          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 0, y: -10)
       }
     }
     preferences.animating.dismissOnTap = !disableTapToDismiss
