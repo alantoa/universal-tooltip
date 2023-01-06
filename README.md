@@ -24,8 +24,9 @@ This is a pure and simple tooltip component and support `fadeIn` and `zoomIn` pr
 
 - warp [`@radix-ui/react-tooltip`](https://www.radix-ui.com/docs/primitives/components/popover) on desktop.
 
-> **Why should I differentiate between mobile and desktop?**
-> this's because Radix tooltip is only work on desktop and it's by design, you can check [this thread](https://github.com/radix-ui/primitives/issues/955#issuecomment-960610209).
+_Why should I differentiate between mobile and desktop?_
+
+> because Radix tooltip is only work on desktop and it's by design, you can check [this thread](https://github.com/radix-ui/primitives/issues/955#issuecomment-960610209).
 
 ## Todo
 
@@ -131,3 +132,5 @@ just like this:
 ## Props
 
 ...
+
+and more docs will coming...
