@@ -127,3 +127,7 @@ just like this:
   }
 ]
 ```
+
+## Props
+
+...
