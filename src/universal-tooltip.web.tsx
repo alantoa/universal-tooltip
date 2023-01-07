@@ -1,11 +1,12 @@
 import * as Popover from "@radix-ui/react-popover";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import React, { useMemo, Fragment } from "react";
-import { Text, View } from "react-native";
+import { Text as RNText, View } from "react-native";
 
 import {
   ContentProps,
   RootProps,
+  TextProps,
   TriggerProps,
 } from "./universal-tooltip.types";
 import "./styles.css";
@@ -49,15 +50,10 @@ export const Content = ({ children, ...rest }: ContentProps) => {
     side,
     dismissDuration,
     containerStyle,
-    text,
-    fontStyle,
-    textColor,
-    textSize,
     presetAnimation,
     backgroundColor,
     borderRadius,
     className,
-    fontWeight,
     onTap,
     ...restProps
   } = rest;
@@ -78,28 +74,34 @@ export const Content = ({ children, ...rest }: ContentProps) => {
       <TooltipContent
         side={side}
         className={`${animationClass} ${className}`}
+        onClick={onTap}
         {...restProps}
       >
         <View
-          // @ts-ignore
-          onClick={onTap}
           style={[containerStyle, { backgroundColor, borderRadius }, style]}
         >
-          {text ? (
-            <Text
-              style={[
-                fontStyle,
-                { color: textColor, fontSize: textSize, fontWeight },
-              ]}
-            >
-              {text}
-            </Text>
-          ) : (
-            children
-          )}
+          {children}
         </View>
         <TooltipArrow fill={backgroundColor ?? "#000"} />
       </TooltipContent>
     </TooltipPortal>
+  );
+};
+export const Text = ({
+  children,
+  style,
+  textColor,
+  textSize,
+  fontWeight,
+  text,
+  ...rest
+}: TextProps) => {
+  return (
+    <RNText
+      style={[style, { color: textColor, fontSize: textSize, fontWeight }]}
+      {...rest}
+    >
+      {children ?? text}
+    </RNText>
   );
 };

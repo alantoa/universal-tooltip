@@ -7,18 +7,21 @@ import React from "react";
 import type { TextStyle, ViewProps } from "react-native";
 
 export type TriggerProps = ViewProps & TooltipTriggerProps;
+export type TextProps = {
+  style?: TextStyle;
+  textColor?: string;
+  textSize?: number;
+  fontWeight?: "bold" | "normal";
+  children?: string;
+  text?: string;
+};
 
 export type ContentProps = ViewProps &
   TooltipContentProps & {
-    text: string;
     sideOffset?: number;
     side?: "left" | "right" | "bottom" | "top";
-    fontStyle?: TextStyle;
     borderRadius?: number;
     backgroundColor?: string;
-    textColor?: string;
-    textSize?: number;
-    fontWeight?: "bold" | "normal";
     presetAnimation?: "none" | "fadeIn" | "zoomIn";
     dismissDuration?: number;
     showDuration?: number;

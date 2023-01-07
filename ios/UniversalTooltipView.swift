@@ -15,13 +15,13 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   var containerStyle : ContainerStyle?
   var fontStyle : TextStyle?
   var sideOffset : Double = 1
-  var isOpened : Bool = false
   var opened: Bool = false {
-    didSet {
-      if((contentView) != nil){
-        toggleTooltip()
+    willSet(newValue) {
+      if (newValue) {
+        openTooltip()
+      } else {
+        dismiss()
       }
-      isOpened = opened
     }
   }
   let onDismiss = EventDispatcher()
@@ -30,13 +30,14 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   var textColor: UIColor = .white
   var textSize: Double = 13
   var fontWeight: String = "normal"
+  var disableDismissWhenTouchOutside = false
   public required init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
   }
   
   public func easyTipViewDidTap(_ tipView: EasyTipView) {
     onTap()
-    isOpened = false
+    opened = false
   }
   
   public func easyTipViewDidDismiss(_ tipView: EasyTipView) {
@@ -52,21 +53,14 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   }
   override func layoutSubviews() {
     setCommonPreferences()
-    if(isOpened){
+    if(opened){
       openTooltip()
     }
   }
   
-  public func toggleTooltip(){
-    if(isOpened){
-      dismiss()
-    }else{
-      openTooltip()
-    }
-  }
+
   public func openTooltip (){
     text != nil ? openByText() : openByContentView()
-    isOpened = true
   }
   public func setCommonPreferences(){
     preferences.drawing.backgroundColor = bubbleBackgroundColor
@@ -107,6 +101,9 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   }
   
   public func openByContentView(){
+    if(contentView == nil){
+      return
+    }
     preferences.positioning.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     tipView = DismissibleEasyTipView(contentView: contentView!, preferences: preferences, delegate: self)
     tipView?.show(on: self)
@@ -124,12 +121,23 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     
     preferences.positioning.contentInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
     tipView = DismissibleEasyTipView(text: text!, preferences: preferences, delegate: self)
-    tipView?.show(on: self)
-    
+    if(disableDismissWhenTouchOutside){
+      tipView?.show(forView: self)
+    }else{
+      tipView?.show(on: self)
+    }
   }
   public func dismiss(){
+    if(disableDismissWhenTouchOutside){
+      tipView?.dismiss()
+    }else{
+      tipView?.hide()
+    }
     tipView?.dismiss()
-    isOpened = false
   }
+  override func willMove(toWindow newWindow: UIWindow?) {
+    dismiss()
+  }
+
 }
 

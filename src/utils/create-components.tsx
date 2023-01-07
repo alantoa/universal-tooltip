@@ -7,7 +7,8 @@ export type DisplayNames =
   | "Content"
   | "Trigger"
   | "Arrow"
-  | "Text";
+  | "Text"
+  | "CustomView";
 
 export const createComponent = <Props extends any>(
   Component: React.ComponentType<Props>,

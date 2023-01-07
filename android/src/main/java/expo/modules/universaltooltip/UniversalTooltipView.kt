@@ -97,7 +97,7 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
             .setArrowPosition(0.5f)
             .setArrowOrientation(arrowOrientation)
             .setPaddingBottom(pdBottom)
-            .setPaddingTop(pdTop)   
+            .setPaddingTop(pdTop)
             .setPaddingLeft(pdLeft)
             .setPaddingRight(pdRight)
             .setCornerRadius(borderRadius)

@@ -19,7 +19,9 @@ import {
   TabBarProfileIcon,
   TabBarSearchIcon,
 } from "./src/navigation/tab-bar-icon";
+import "./dist/output.css";
 StatusBar.setBarStyle("light-content");
+
 const Tab = createBottomTabNavigator();
 const TriggerView = Platform.OS === "web" ? View : Pressable;
 
@@ -104,49 +106,13 @@ function ProfileScreen() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          headerBackgroundContainerStyle: {
-            backgroundColor: "#000",
-          },
-          headerBackground: () => {
-            return null;
-          },
-          headerTintColor: "#fff",
-        }}
-        tabBar={(props) => <BottomTabbar {...props} />}
-      >
-        <Tab.Screen
-          name="Feed"
-          options={{
-            tabBarIcon: TabBarHomeIcon,
-          }}
-          component={HomeScreen}
-        />
-        <Tab.Screen
-          name="Search"
-          options={{
-            tabBarIcon: TabBarSearchIcon,
-          }}
-          component={SearchScreen}
-        />
-        <Tab.Screen
-          name="Like"
-          options={{
-            tabBarIcon: TabBarLikeIcon,
-          }}
-          component={LikeScreen}
-        />
-
-        <Tab.Screen
-          name="Profile"
-          options={{
-            tabBarIcon: TabBarProfileIcon,
-          }}
-          component={ProfileScreen}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <div className="flex flex-row w-full justify-end items-center">
+      <div className="flex-row">
+        <TabBarHomeIcon />
+        <TabBarSearchIcon />
+        <TabBarLikeIcon />
+        <TabBarProfileIcon />
+      </div>
+    </div>
   );
 }

@@ -47,6 +47,9 @@ public class UniversalTooltipModule: Module {
       Prop("disableTapToDismiss") { (view, disableTapToDismiss: Bool?) in
         view.disableTapToDismiss = disableTapToDismiss ?? false
       }
+      Prop("disableDismissWhenTouchOutside") { (view, disableDismissWhenTouchOutside: Bool?) in
+        view.disableDismissWhenTouchOutside = disableDismissWhenTouchOutside ?? false
+      }
       Prop("borderRadius") { (view, borderRadius: Double?) in
         view.cornerRadius = borderRadius ?? CGFloat(0)
       }
