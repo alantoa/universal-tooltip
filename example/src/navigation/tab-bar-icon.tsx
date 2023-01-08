@@ -74,7 +74,7 @@ export function TabBarLikeIcon({ color, focused, onPress }: TabBarIconProps) {
         side="top"
         presetAnimation="fadeIn"
         backgroundColor="#fff"
-        borderRadius={999}
+        borderRadius={12}
       >
         <Tooltip.Text textSize={12} textColor="#000" text="You got 12 likes" />
       </Tooltip.Content>

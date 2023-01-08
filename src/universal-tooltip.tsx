@@ -69,11 +69,3 @@ export const Content = createComponent<ContentProps>(
 export const Text = createComponent<TextProps>(({ children }) => {
   return <>{children}</>;
 }, "Text");
-
-// Todo: support custom view
-export const CustomView = createComponent<ViewProps>(
-  ({ children, ...rest }) => {
-    return <View {...rest}>{children}</View>;
-  },
-  "CustomView"
-);

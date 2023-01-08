@@ -37,10 +37,10 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   
   public func easyTipViewDidTap(_ tipView: EasyTipView) {
     onTap()
-    opened = false
   }
   
   public func easyTipViewDidDismiss(_ tipView: EasyTipView) {
+    print("easyTipViewDidDismiss")
     onDismiss()
   }
   override func didUpdateReactSubviews() {
@@ -106,7 +106,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     }
     preferences.positioning.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     tipView = DismissibleEasyTipView(contentView: contentView!, preferences: preferences, delegate: self)
-    tipView?.show(on: self)
+    show()
   }
   
   public func openByText() {
@@ -121,6 +121,9 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     
     preferences.positioning.contentInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
     tipView = DismissibleEasyTipView(text: text!, preferences: preferences, delegate: self)
+    show()
+  }
+  public func show(){
     if(disableDismissWhenTouchOutside){
       tipView?.show(forView: self)
     }else{
@@ -133,11 +136,10 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     }else{
       tipView?.hide()
     }
-    tipView?.dismiss()
   }
   override func willMove(toWindow newWindow: UIWindow?) {
     dismiss()
   }
-
+  
 }
 
