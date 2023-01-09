@@ -47,7 +47,8 @@
     "@radix-ui/react-tooltip": "*",
     "expo": "*",
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "expo-modules-core": "*"
   },
   "release-it": {
     "github": {
