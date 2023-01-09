@@ -11,6 +11,7 @@ import {
 import { HomeScreen } from "./src/home";
 
 StatusBar.setBarStyle("light-content");
+StatusBar.setHidden(true);
 const Tab = createBottomTabNavigator();
 
 function SearchScreen() {

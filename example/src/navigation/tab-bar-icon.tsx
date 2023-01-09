@@ -1,6 +1,6 @@
 import { Platform, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Tooltip from "universal-tooltip";
 
 type TabBarIconProps = {
@@ -40,7 +40,11 @@ export function TabBarSearchIcon({ color, focused, onPress }: TabBarIconProps) {
 
 export function TabBarLikeIcon({ color, focused, onPress }: TabBarIconProps) {
   const [open, setOpen] = useState(false);
-
+  useEffect(() => {
+    setTimeout(() => {
+      setOpen(true);
+    }, 2000);
+  }, []);
   return (
     <IconButton>
       <Tooltip.Root
@@ -53,9 +57,6 @@ export function TabBarLikeIcon({ color, focused, onPress }: TabBarIconProps) {
             open,
           },
         })}
-        onLayout={() => {
-          setOpen(true);
-        }}
       >
         <Tooltip.Trigger>
           <Ionicons
@@ -76,7 +77,7 @@ export function TabBarLikeIcon({ color, focused, onPress }: TabBarIconProps) {
           side="top"
           presetAnimation="fadeIn"
           backgroundColor="#fff"
-          borderRadius={999}
+          borderRadius={12}
         >
           <Tooltip.Text
             textSize={12}
