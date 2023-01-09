@@ -1,28 +1,30 @@
 package expo.modules.universaltooltip
 
 import android.content.Context
-import android.view.MotionEvent
-import com.skydoves.balloon.Balloon
-import expo.modules.kotlin.AppContext
-import expo.modules.kotlin.views.ExpoView
-import android.annotation.SuppressLint
-import android.graphics.Color
-import android.graphics.Typeface
-
+import android.graphics.*
+import android.view.View
+import androidx.core.view.drawToBitmap
 import com.skydoves.balloon.ArrowOrientation
+import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
-
+import expo.modules.kotlin.AppContext
 import expo.modules.kotlin.viewevent.EventDispatcher
-
-import expo.modules.universaltooltip.records.ContainerStyle
+import expo.modules.kotlin.views.ExpoView
 import expo.modules.universaltooltip.enums.ContentSide
 import expo.modules.universaltooltip.enums.PresetAnimation
+import expo.modules.universaltooltip.records.ContainerStyle
 import expo.modules.universaltooltip.records.TextStyle
 import kotlin.properties.Delegates
-import kotlin.Boolean
+
 
 class UniversalTooltipView(context: Context, appContext: AppContext) :
     ExpoView(context, appContext) {
+
+    var bitmapContentView: Bitmap? = null
+    private var bitmapContentViewInvalidated = false
+    private var mPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private var mPorterDuffXferMode: PorterDuffXfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN);
+
     val onTap by EventDispatcher()
     val onDismiss by EventDispatcher()
     var opened: Boolean by Delegates.observable(
@@ -54,12 +56,35 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
     var textSize: Float = 13f
     var fontWeight: String = "normal"
 
+    init {
+        setLayerType(LAYER_TYPE_HARDWARE, null)
+    }
+
+
+    private fun updateBitmapView() {
+//        var contentView = getChildAt(0)
+//        println(contentView)
+//        if (contentView != null) {
+//            contentView.visibility = INVISIBLE
+//        }
+    }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+        if (changed) {
+            bitmapContentViewInvalidated = true;
+        }
         if (opened) {
             openTooltip()
         }
-        super.onLayout(changed, l, t, r, b)
+    }
+
+    override fun dispatchDraw(canvas: Canvas) {
+        super.dispatchDraw(canvas)
+        if (bitmapContentViewInvalidated) {
+//            updateBitmapView();
+            bitmapContentViewInvalidated = false;
+        }
     }
 
 
@@ -110,8 +135,8 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
             .setOnBalloonDismissListener {
                 onDismiss(mapOf())
             }
-            .setDismissWhenTouchOutside(!disableDismissWhenTouchOutside)
             .setBalloonAnimation(balloonAnimation)
+            .setDismissWhenTouchOutside(!disableDismissWhenTouchOutside)
             // Todo: use XML set style just like web & iOS
             //.setBalloonAnimationStyle()
             .build()
@@ -130,10 +155,12 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
         balloon?.dismiss()
         isOpen = false
     }
-
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        bitmapContentViewInvalidated = true
+    }
     override fun onDetachedFromWindow() {
         dismiss()
         super.onDetachedFromWindow()
     }
-
 }

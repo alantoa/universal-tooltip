@@ -40,12 +40,12 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   }
   
   public func easyTipViewDidDismiss(_ tipView: EasyTipView) {
-    print("easyTipViewDidDismiss")
     onDismiss()
   }
   override func didUpdateReactSubviews() {
     let firstView = self.reactSubviews()[0] as! RCTView
     contentView = firstView
+    
     for index in 1..<self.reactSubviews().count {
       let subView = self.reactSubviews()[index]
       self.addSubview(subView)

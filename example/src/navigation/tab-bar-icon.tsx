@@ -39,46 +39,53 @@ export function TabBarSearchIcon({ color, focused, onPress }: TabBarIconProps) {
 }
 
 export function TabBarLikeIcon({ color, focused, onPress }: TabBarIconProps) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   return (
-    <Tooltip.Root
-      disableDismissWhenTouchOutside
-      {...Platform.select({
-        default: {
-          onDismiss: () => {
-            setOpen(false);
+    <IconButton>
+      <Tooltip.Root
+        disableDismissWhenTouchOutside
+        {...Platform.select({
+          default: {
+            onDismiss: () => {
+              setOpen(false);
+            },
+            open,
           },
-          open,
-        },
-      })}
-    >
-      <Tooltip.Trigger>
-        <IconButton>
+        })}
+        onLayout={() => {
+          setOpen(true);
+        }}
+      >
+        <Tooltip.Trigger>
           <Ionicons
             name={focused ? "heart-sharp" : "heart-outline"}
             size={24}
             color={color}
           />
-        </IconButton>
-      </Tooltip.Trigger>
-      <Tooltip.Content
-        sideOffset={5}
-        containerStyle={{
-          paddingLeft: 8,
-          paddingRight: 8,
-          paddingTop: 4,
-          paddingBottom: 4,
-        }}
-        dismissDuration={500}
-        side="top"
-        presetAnimation="fadeIn"
-        backgroundColor="#fff"
-        borderRadius={12}
-      >
-        <Tooltip.Text textSize={12} textColor="#000" text="You got 12 likes" />
-      </Tooltip.Content>
-    </Tooltip.Root>
+        </Tooltip.Trigger>
+        <Tooltip.Content
+          sideOffset={5}
+          containerStyle={{
+            paddingLeft: 8,
+            paddingRight: 8,
+            paddingTop: 4,
+            paddingBottom: 4,
+          }}
+          dismissDuration={500}
+          side="top"
+          presetAnimation="fadeIn"
+          backgroundColor="#fff"
+          borderRadius={999}
+        >
+          <Tooltip.Text
+            textSize={12}
+            textColor="#000"
+            text="You got 12 likes"
+          />
+        </Tooltip.Content>
+      </Tooltip.Root>
+    </IconButton>
   );
 }
 

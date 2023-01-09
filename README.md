@@ -80,6 +80,7 @@ const [open, setOpen] = useState(false);
       paddingBottom: 8,
     }}
     onTap={() => {
+      setOpen(false);
       console.log("onTap");
     }}
     dismissDuration={500}

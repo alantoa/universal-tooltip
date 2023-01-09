@@ -89,5 +89,5 @@ repositories {
 dependencies {
   implementation project(':expo-modules-core')
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinVersion()}"
-  implementation "com.github.skydoves:balloon:1.5.0"
+  implementation "com.github.skydoves:balloon:1.5.2"
 }

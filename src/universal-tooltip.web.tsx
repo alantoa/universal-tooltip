@@ -10,6 +10,7 @@ import {
   TriggerProps,
 } from "./universal-tooltip.types";
 import "./styles.css";
+import { pickChild } from "./utils/pick-child";
 import { isDesktopWeb } from "./utils/platform";
 
 const TooltipTrigger = isDesktopWeb() ? Tooltip.Trigger : Popover.Trigger;
@@ -46,17 +47,18 @@ export const Root = ({ children, onDismiss, open, ...rest }: RootProps) => {
 
 export const Content = ({ children, ...rest }: ContentProps) => {
   const {
-    style,
     side,
     dismissDuration,
     containerStyle,
     presetAnimation,
     backgroundColor,
     borderRadius,
-    className,
     onTap,
+    className,
+    disableTapToDismiss,
     ...restProps
   } = rest;
+  const [, triggerChildren] = pickChild(children, Text);
 
   const animationClass = useMemo(() => {
     switch (presetAnimation) {
@@ -78,7 +80,11 @@ export const Content = ({ children, ...rest }: ContentProps) => {
         {...restProps}
       >
         <View
-          style={[containerStyle, { backgroundColor, borderRadius }, style]}
+          style={[
+            (triggerChildren as any)?.length > 0
+              ? { backgroundColor, borderRadius, ...containerStyle }
+              : {},
+          ]}
         >
           {children}
         </View>
@@ -88,7 +94,6 @@ export const Content = ({ children, ...rest }: ContentProps) => {
   );
 };
 export const Text = ({
-  children,
   style,
   textColor,
   textSize,
@@ -101,7 +106,7 @@ export const Text = ({
       style={[style, { color: textColor, fontSize: textSize, fontWeight }]}
       {...rest}
     >
-      {children ?? text}
+      {text}
     </RNText>
   );
 };

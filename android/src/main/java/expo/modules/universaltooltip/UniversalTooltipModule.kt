@@ -17,7 +17,6 @@ class UniversalTooltipModule : Module() {
         // The module will be accessible from `requireNativeModule('UniversalTooltip')` in JavaScript.
         Name("UniversalTooltip")
 
-
         // Enables the module to be used as a native view. Definition components that are accepted as part of
         // the view definition: Prop, Events.
         View(UniversalTooltipView::class) {
@@ -70,6 +69,7 @@ class UniversalTooltipModule : Module() {
             Prop("fontWeight") { view: UniversalTooltipView, fontWeight: String ->
                 view.fontWeight = fontWeight
             }
+
         }
     }
 }

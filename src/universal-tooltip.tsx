@@ -34,21 +34,21 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
   const {
     children: contentChild,
     backgroundColor,
-    textColor,
     ...contentRestProps
   } = content?.props;
-  const [withoutTextChildren, textChildren] = pickChild(contentChild, Text);
+  const [, textChildren] = pickChild(contentChild, Text);
   const text = textChildren?.[0];
-
+  const { textColor, ...textProps } = text?.props ?? {};
   return (
     <NativeView
       backgroundColor={processColor(backgroundColor)}
       textColor={processColor(textColor)}
       {...contentRestProps}
       {...rest}
-      {...text?.props}
+      {...textProps}
     >
       {/* Todo: support custom view on Android */}
+      {/* {withoutTriggerChildren} */}
       {Platform.OS === "ios" ? withoutTriggerChildren : null}
       {triggerChildren}
     </NativeView>
@@ -66,6 +66,6 @@ export const Content = createComponent<ContentProps>(
   "Content"
 );
 
-export const Text = createComponent<TextProps>(({ children }) => {
-  return <>{children}</>;
+export const Text = createComponent<TextProps>(() => {
+  return <></>;
 }, "Text");

@@ -12,7 +12,6 @@ export type TextProps = {
   textColor?: string;
   textSize?: number;
   fontWeight?: "bold" | "normal";
-  children?: string;
   text?: string;
 };
 
