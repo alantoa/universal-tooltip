@@ -1,0 +1,81 @@
+.tooltip-zoom-in {
+  animation-name: zoomIn;
+  animation-timing-function: ease-in;
+  animation-duration: 300ms;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.tooltip-fade-in-top {
+  animation-name: slideUpAndFade;
+  animation-timing-function: ease-in;
+  animation-duration: 300ms;
+}
+
+.tooltip-fade-in-right {
+  animation-name: slideRightAndFade;
+  animation-timing-function: ease-in;
+  animation-duration: 300ms;
+}
+.tooltip-fade-in-bottom {
+  animation-name: slideDownAndFade;
+  animation-timing-function: ease-in;
+  animation-duration: 300ms;
+}
+.tooltip-fade-in-left {
+  animation: slideLeftAndFade;
+  animation-timing-function: ease-in;
+  animation-duration: 300ms;
+}
+@keyframes slideUpAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRightAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDownAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeftAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
