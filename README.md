@@ -38,6 +38,7 @@ const TriggerView = Platform.OS === "web" ? View : Pressable;
 
 // this is because each platform has different behavior, ofc you can replace components yourself.
 const [open, setOpen] = useState(false);
+
 <Tooltip.Root
   // on web: I want to be triggered automatically with the mouse.
   {...Platform.select({
@@ -82,13 +83,16 @@ const [open, setOpen] = useState(false);
     disableTapToDismiss
     side="right"
     presetAnimation="fadeIn"
-    textSize={16}
     backgroundColor="black"
-    fontWeight="bold"
     borderRadius={12}
-    textColor="#fff"
-    text="Some copy..."
-  />
+  >
+    <Tooltip.Text
+      text="Some copy..."
+      textColor="#fff"
+      fontWeight="bold"
+      textSize={16}
+    />
+  </Tooltip.Content>
 </Tooltip.Root>;
 ```
 
