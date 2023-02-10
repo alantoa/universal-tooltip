@@ -3,30 +3,30 @@
 
 [![npm](https://img.shields.io/npm/l/universal-tooltip?style=flat-square)](https://www.npmjs.com/package/universal-tooltip) [![expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/)
 
-  <h6 align="center">Cross-platform Tooltip compoent for React Native, power by expo-modules.</h6>
+  <h6 align="center">Cross-platform Tooltip component for React Native, powered by expo-modules.</h6>
 </div>
 
 <a href="https://twitter.com/alan_toa/status/1612406259160092673"><image src="./assets/preview.png" /></a>
 
 ## What
 
-This is a pure and simple native tooltip component and support `fadeIn` and `zoomIn` preset animations
+This is a pure and simple native tooltip component that supports fadeIn and zoomIn preset animations.
 
 🍎 On iOS:
 
-- using Swift and forked from [`EasyTipView`](https://github.com/teodorpatras/EasyTipView).
+- This component is written in Swift and wraps [`EasyTipView`](https://github.com/teodorpatras/EasyTipView).
 
 🤖️ On Android:
 
-- using Kotlin and warp a great lib - [`Balloon`](https://github.com/skydoves/Balloon).
+- This component is written in Kotlin and wraps the excellent library - [`Balloon`](https://github.com/skydoves/Balloon).
 
 🌐 On Web:
 
-- warp [`@radix-ui/react-popover`](https://www.radix-ui.com/docs/primitives/components/popover) on mobile.
+- This component wraps [`@radix-ui/react-popover`](https://www.radix-ui.com/docs/primitives/components/popover) for mobile use.
 
-- warp [`@radix-ui/react-tooltip`](https://www.radix-ui.com/docs/primitives/components/popover) on desktop.
+- This component wraps [`@radix-ui/react-tooltip`](https://www.radix-ui.com/docs/primitives/components/popover) for desktop use.
 
-> because Radix tooltip is only work on desktop, you can check [this thread](https://github.com/radix-ui/primitives/issues/955#issuecomment-960610209).
+> Please note that the @radix-ui/react-tooltip component from Radix only works on desktop, as per [this thread](https://github.com/radix-ui/primitives/issues/955#issuecomment-960610209).
 
 ## Usage
 
@@ -36,11 +36,11 @@ import * as Tooltip from "universal-tooltip";
 import { Text, View, Pressable, Platform } from "react-native";
 const TriggerView = Platform.OS === "web" ? View : Pressable;
 
-// this is because each platform has different behavior, ofc you can replace components yourself.
+// This is because each platform has different behaviors, but you can replace the components yourself, of course.
 const [open, setOpen] = useState(false);
 
 <Tooltip.Root
-  // on web: I want to be triggered automatically with the mouse.
+  // On web, I would like to be triggered automatically with the mouse.
   {...Platform.select({
     web: {},
     default: {
@@ -108,8 +108,7 @@ yarn add universal-tooltip
 expo install universal-tooltip expo-build-properties
 ```
 
-Add the `expo-build-properties` plugin to your `app.json`/`app.config.js`, and make sure your `compileSdkVersion >= 32` because [Ballon lib](https://github.com/skydoves/Balloon) require this.
-just like this:
+To use this component, you need to add the expo-build-properties plugin to your app.json or app.config.js and ensure that your compileSdkVersion >= 32 as required by the [Ballon lib](https://github.com/skydoves/Balloon). An example configuration might look like this:
 
 ```json
 [
