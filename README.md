@@ -1,12 +1,12 @@
 <div align="center">
-  <h1 align="center">Universal Tooltip</h1>
-
+  <h1 align="center">Universal Tooltip</h1> 
+  
 [![npm](https://img.shields.io/npm/l/universal-tooltip?style=flat-square)](https://www.npmjs.com/package/universal-tooltip) [![expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/)
 
   <h6 align="center">Cross-platform Tooltip component for React Native, powered by expo-modules.</h6>
 </div>
 
-<a href="https://twitter.com/alan_toa/status/1612406259160092673"><image src="./assets/preview.png" /></a>
+https://user-images.githubusercontent.com/37520667/224117002-9b316a29-b373-4ff9-8cfc-56aae493d900.mp4
 
 ## What
 
