@@ -1,6 +1,11 @@
-import { Text, View, StatusBar } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Text, View, StatusBar } from "react-native";
+
+import { HomeScreen } from "./src/home";
+import { LikeScreen } from "./src/like";
+import { ModalScreen } from "./src/modal";
 import { BottomTabbar } from "./src/navigation/bottom-tab-bar";
 import {
   TabBarHomeIcon,
@@ -8,10 +13,6 @@ import {
   TabBarProfileIcon,
   TabBarSearchIcon,
 } from "./src/navigation/tab-bar-icon";
-import { HomeScreen } from "./src/home";
-import { LikeScreen } from "./src/like";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ModalScreen } from "./src/modal";
 
 StatusBar.setBarStyle("light-content");
 StatusBar.setHidden(true);
