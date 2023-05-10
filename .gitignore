@@ -64,3 +64,5 @@ android/keystores/debug.keystore
 .yarn/*
 
 example/expo/.yarn/*
+example/expo/android/*
+example/expo/ios/*
