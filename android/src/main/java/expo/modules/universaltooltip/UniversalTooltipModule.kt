@@ -24,8 +24,8 @@ class UniversalTooltipModule : Module() {
                 "onTap",
                 "onDismiss",
             )
-            Prop("open") { view: UniversalTooltipView, prop: Boolean? ->
-                view.opened = prop == true
+            Prop("open") { view: UniversalTooltipView, open: Boolean ->
+                view.opened = open
             }
             Prop("side") { view: UniversalTooltipView, side: ContentSide ->
                 view.side = side

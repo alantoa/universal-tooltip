@@ -11,27 +11,29 @@ import expo.modules.universaltooltip.enums.ContentSide
 import expo.modules.universaltooltip.enums.PresetAnimation
 import expo.modules.universaltooltip.records.ContainerStyle
 import expo.modules.universaltooltip.records.TextStyle
-import kotlin.math.log
 import kotlin.properties.Delegates
 
 class UniversalTooltipView(context: Context) :
     ViewGroup(context) {
     private var isViewInvalidated = false
+    private var isInitialized = false
     val onTap by EventDispatcher()
     val onDismiss by EventDispatcher()
     var opened: Boolean by Delegates.observable(
         false
     ) { _, _, newValue ->
         run {
-            if (newValue) {
-                openTooltip()
-            } else {
-                dismiss()
+            if(isInitialized) {
+                if (newValue) {
+                    openTooltip()
+                } else {
+                    dismiss()
+                }
             }
         }
     }
     private var balloon: Balloon? = null
-    private var isOpen = false
+    var isOpen = false
     var side: ContentSide? = null
     var text: String? = null
     var maxWidth: Int =
@@ -71,8 +73,9 @@ class UniversalTooltipView(context: Context) :
             isViewInvalidated = true;
         }
         if (opened) {
-            openTooltip()
+           openTooltip()
         }
+        isInitialized = true
     }
 
 
