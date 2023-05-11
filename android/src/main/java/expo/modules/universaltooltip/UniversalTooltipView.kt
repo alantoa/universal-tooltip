@@ -4,9 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.view.View
 import android.view.ViewGroup
-import com.skydoves.balloon.ArrowOrientation
-import com.skydoves.balloon.Balloon
-import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.*
 import expo.modules.kotlin.viewevent.EventDispatcher
 import expo.modules.universaltooltip.enums.ContentSide
 import expo.modules.universaltooltip.enums.PresetAnimation
@@ -35,6 +33,7 @@ class UniversalTooltipView(context: Context) :
     private var isOpen = false
     var side: ContentSide? = null
     var text: String? = null
+    var maxWidth: Int = BalloonSizeSpec.WRAP
     var presetAnimation: PresetAnimation? = null
     var showDuration: Double = 300.0
     var containerStyle: ContainerStyle? = null
@@ -135,7 +134,9 @@ class UniversalTooltipView(context: Context) :
             .setTextSize(textSize)
             .setTextTypeface(textTypeface)
             .setArrowSize(5)
+            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
             .setArrowPosition(0.5f)
+            .setMaxWidth(maxWidth)
             .setArrowOrientation(getArrowOrientation())
             .setPaddingBottom(pdBottom)
             .setPaddingTop(pdTop)

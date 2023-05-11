@@ -21,6 +21,9 @@ public class UniversalTooltipModule: Module {
       Prop("side") { (view, side: ContentSide?) in
         view.side = side ?? .any
       }
+      Prop("maxWidth") { (view, maxWidth: Double?) in
+        view.maxWidth = maxWidth ?? 200
+      }
       Prop("text") { (view, text: String?) in
         view.text = text
       }
