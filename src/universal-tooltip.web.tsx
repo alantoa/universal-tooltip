@@ -56,6 +56,7 @@ export const Content = ({ children, ...rest }: ContentProps) => {
     onTap,
     className,
     disableTapToDismiss,
+    maxWidth,
     ...restProps
   } = rest;
   const [, triggerChildren] = pickChild(children, Text);
@@ -70,6 +71,7 @@ export const Content = ({ children, ...rest }: ContentProps) => {
         return "";
     }
   }, [presetAnimation]);
+  console.log(maxWidth);
 
   return (
     <TooltipPortal>
@@ -82,7 +84,7 @@ export const Content = ({ children, ...rest }: ContentProps) => {
         <View
           style={[
             (triggerChildren as any)?.length > 0
-              ? { backgroundColor, borderRadius, ...containerStyle }
+              ? { backgroundColor, borderRadius, maxWidth, ...containerStyle }
               : {},
           ]}
         >

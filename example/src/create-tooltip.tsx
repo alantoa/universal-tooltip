@@ -18,6 +18,7 @@ export const CreateTooltip = ({
   customView,
   disableDismissWhenTouchOutside,
   children,
+  title,
   ...rest
 }: ViewProps &
   ContentProps & {
@@ -56,7 +57,7 @@ export const CreateTooltip = ({
             children
           ) : (
             <View className="h-8 bg-black border border-gray-100 justify-center items-center rounded-md px-2 cursor-pointer">
-              <Text className="text-sm text-white">{text}</Text>
+              <Text className="text-sm text-white">{title ?? text}</Text>
             </View>
           )}
         </TriggerView>
@@ -84,7 +85,7 @@ export const CreateTooltip = ({
         {customView ? (
           customView
         ) : (
-          <Tooltip.Text text="Tooltip" textColor="#000" />
+          <Tooltip.Text text={text} textColor="#000" />
         )}
       </Tooltip.Content>
     </Tooltip.Root>

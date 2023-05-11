@@ -7,6 +7,15 @@ export function HomeScreen() {
     <View className="flex-1 bg-black items-center justify-center">
       <View className="flex-1 px-4 max-w-md w-full">
         <View className="flex-row flex-wrap mt-28">
+          <View className="absolute left-20 -top-2">
+            <CreateTooltip
+              title="Long text tooltip"
+              text="A very long long long long long text tooltip"
+              disableDismissWhenTouchOutside
+              side="top"
+              maxWidth={200}
+            />
+          </View>
           <View className="absolute left-0 top-12">
             <CreateTooltip
               text="Show in right"

@@ -1,13 +1,13 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useEffect, useState } from "react";
-import { Platform, View } from "react-native";
+import { Platform, View, PixelRatio } from "react-native";
 import * as Tooltip from "universal-tooltip";
-
 type TabBarIconProps = {
   color?: string;
   focused?: boolean;
   onPress?: () => void;
 };
+
 const IconButton: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <View className="h-12 w-12 items-center justify-center">{children}</View>
@@ -45,6 +45,7 @@ export function TabBarLikeIcon({ color, focused, onPress }: TabBarIconProps) {
       setOpen(true);
     }, 2000);
   }, []);
+
   return (
     <IconButton>
       <Tooltip.Root
@@ -80,6 +81,7 @@ export function TabBarLikeIcon({ color, focused, onPress }: TabBarIconProps) {
           presetAnimation="fadeIn"
           backgroundColor="#fff"
           borderRadius={12}
+          maxWidth={200}
         >
           <Tooltip.Text
             textSize={12}

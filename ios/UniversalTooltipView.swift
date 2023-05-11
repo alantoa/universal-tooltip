@@ -12,6 +12,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   var dismissDuration: CGFloat = CGFloat(0.5)
   var cornerRadius : CGFloat = CGFloat(5)
   var text :String? = nil
+  var maxWidth : Double = 200
   var containerStyle : ContainerStyle?
   var fontStyle : TextStyle?
   var sideOffset : Double = 1
@@ -117,7 +118,7 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
     preferences.drawing.foregroundColor = textColor
     
     let top = containerStyle?.paddingTop ?? Double(10), right = containerStyle?.paddingRight ?? Double(10), bottom = containerStyle?.paddingBottom ?? Double(10), left = containerStyle?.paddingLeft ?? Double(10);
-    
+    preferences.positioning.maxWidth = maxWidth
     preferences.positioning.contentInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
     tipView = DismissibleEasyTipView(text: text!, preferences: preferences, delegate: self)
     show()

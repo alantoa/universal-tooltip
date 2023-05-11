@@ -20,6 +20,8 @@ export type ContentProps = ViewProps &
     sideOffset?: number;
     side?: "left" | "right" | "bottom" | "top";
     borderRadius?: number;
+    // tooltip content max width
+    maxWidth?: number;
     backgroundColor?: string;
     presetAnimation?: "none" | "fadeIn" | "zoomIn";
     dismissDuration?: number;
