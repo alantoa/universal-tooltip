@@ -1,6 +1,6 @@
 import * as Popover from "@radix-ui/react-popover";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import React, { useMemo, Fragment } from "react";
+import React, { useMemo, Fragment, createContext, useContext } from "react";
 import { Text as RNText, View } from "react-native";
 
 import {
@@ -11,37 +11,48 @@ import {
 } from "./universal-tooltip.types";
 import "./styles.css";
 import { pickChild } from "./utils/pick-child";
-import { isDesktopWeb } from "./utils/platform";
 
-const TooltipTrigger = isDesktopWeb() ? Tooltip.Trigger : Popover.Trigger;
-const TooltipProvider = isDesktopWeb() ? Tooltip.Provider : Fragment;
-const TooltipRoot = isDesktopWeb() ? Tooltip.Root : Popover.Root;
-const TooltipArrow = isDesktopWeb() ? Tooltip.Arrow : Popover.Arrow;
-const TooltipContent = isDesktopWeb() ? Tooltip.Content : Popover.Content;
-const TooltipPortal = isDesktopWeb() ? Tooltip.Portal : Popover.Portal;
+export const TooltipContext = createContext<{ usePopover: boolean }>({
+  usePopover: false,
+});
 
 export const Trigger = ({ children, ...rest }: TriggerProps) => {
+  const { usePopover } = useContext(TooltipContext);
+
+  const TooltipTrigger = usePopover ? Popover.Trigger : Tooltip.Trigger;
+
   return (
     <TooltipTrigger asChild {...rest}>
       <div>{children}</div>
     </TooltipTrigger>
   );
 };
-export const Root = ({ children, onDismiss, open, ...rest }: RootProps) => {
+export const Root = ({
+  children,
+  onDismiss,
+  open,
+  usePopover = false,
+  ...rest
+}: RootProps) => {
+  const TooltipProvider = usePopover ? Fragment : Tooltip.Provider;
+  const TooltipRoot = usePopover ? Popover.Root : Tooltip.Root;
+
   return (
-    <TooltipProvider>
-      <TooltipRoot
-        onOpenChange={(state) => {
-          if (open === undefined && state === false) {
-            onDismiss?.();
-          }
-        }}
-        open={open}
-        {...rest}
-      >
-        {children}
-      </TooltipRoot>
-    </TooltipProvider>
+    <TooltipContext.Provider value={{ usePopover }}>
+      <TooltipProvider>
+        <TooltipRoot
+          onOpenChange={(state) => {
+            if (open === undefined && state === false) {
+              onDismiss?.();
+            }
+          }}
+          open={open}
+          {...rest}
+        >
+          {children}
+        </TooltipRoot>
+      </TooltipProvider>
+    </TooltipContext.Provider>
   );
 };
 
@@ -59,7 +70,11 @@ export const Content = ({ children, ...rest }: ContentProps) => {
     maxWidth,
     ...restProps
   } = rest;
+  const { usePopover } = useContext(TooltipContext);
   const [, triggerChildren] = pickChild(children, Text);
+  const TooltipContent = usePopover ? Popover.Content : Tooltip.Content;
+  const TooltipPortal = usePopover ? Popover.Portal : Tooltip.Portal;
+  const TooltipArrow = usePopover ? Popover.Arrow : Tooltip.Arrow;
 
   const animationClass = useMemo(() => {
     switch (presetAnimation) {
@@ -71,7 +86,6 @@ export const Content = ({ children, ...rest }: ContentProps) => {
         return "";
     }
   }, [presetAnimation]);
-  console.log(maxWidth);
 
   return (
     <TooltipPortal>
@@ -90,6 +104,7 @@ export const Content = ({ children, ...rest }: ContentProps) => {
         >
           {children}
         </View>
+
         <TooltipArrow fill={backgroundColor ?? "#000"} />
       </TooltipContent>
     </TooltipPortal>

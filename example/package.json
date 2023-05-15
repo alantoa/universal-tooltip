@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
-    "@radix-ui/react-popover": "^1.0.2",
-    "@radix-ui/react-tooltip": "^1.0.2",
+    "@radix-ui/react-popover": "^1.0.5",
+    "@radix-ui/react-tooltip": "^1.0.5",
     "@react-navigation/bottom-tabs": "^6.5.2",
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/native-stack": "^6.9.7",

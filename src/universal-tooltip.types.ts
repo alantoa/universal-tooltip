@@ -46,4 +46,9 @@ export type RootProps = ViewProps &
      * Android only
      */
     disableDismissWhenTouchOutside?: boolean;
+    /**
+     * Web only - if true, will use popover instead of tooltip
+     * @default false
+     */
+    usePopover?: boolean;
   };
