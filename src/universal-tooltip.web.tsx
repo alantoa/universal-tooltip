@@ -29,38 +29,39 @@ export const Trigger = ({ children, ...rest }: TriggerProps) => {
   );
 };
 
-export const Portal = ({
+export const Portal = ({ children, ...rest }: PortalProps) => {
+  const { usePopover } = useContext(TooltipContext);
+
+  const TooltipPortal = usePopover ? Popover.Portal : Tooltip.Portal;
+
+  return <TooltipPortal {...rest}>{children}</TooltipPortal>;
+};
+export const Root = ({
   children,
+  onDismiss,
+  open,
   usePopover = false,
   ...rest
-}: PortalProps) => {
-  const TooltipPortal = usePopover ? Popover.Portal : Tooltip.Portal;
+}: RootProps) => {
+  const TooltipProvider = usePopover ? Fragment : Tooltip.Provider;
+  const TooltipRoot = usePopover ? Popover.Root : Tooltip.Root;
 
   return (
     <TooltipContext.Provider value={{ usePopover }}>
-      <TooltipPortal {...rest}>{children}</TooltipPortal>
+      <TooltipProvider>
+        <TooltipRoot
+          onOpenChange={(state) => {
+            if (open === undefined && state === false) {
+              onDismiss?.();
+            }
+          }}
+          open={open}
+          {...rest}
+        >
+          {children}
+        </TooltipRoot>
+      </TooltipProvider>
     </TooltipContext.Provider>
-  );
-};
-export const Root = ({ children, onDismiss, open, ...rest }: RootProps) => {
-  const { usePopover } = useContext(TooltipContext);
-
-  const TooltipProvider = usePopover ? Fragment : Tooltip.Provider;
-  const TooltipRoot = usePopover ? Popover.Root : Tooltip.Root;
-  return (
-    <TooltipProvider>
-      <TooltipRoot
-        onOpenChange={(state) => {
-          if (open === undefined && state === false) {
-            onDismiss?.();
-          }
-        }}
-        open={open}
-        {...rest}
-      >
-        {children}
-      </TooltipRoot>
-    </TooltipProvider>
   );
 };
 

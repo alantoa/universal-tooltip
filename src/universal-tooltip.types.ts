@@ -7,14 +7,7 @@ import type {
 import React from "react";
 import type { TextStyle, ViewProps } from "react-native";
 
-export type PortalProps = ViewProps &
-  TooltipPortalProps & {
-    /**
-     * Web only - if true, will use popover instead of tooltip
-     * @default false
-     */
-    usePopover?: boolean;
-  };
+export type PortalProps = ViewProps & TooltipPortalProps;
 export type TriggerProps = ViewProps & TooltipTriggerProps;
 export type TextProps = {
   style?: TextStyle;
@@ -55,4 +48,9 @@ export type RootProps = ViewProps &
      * Android only
      */
     disableDismissWhenTouchOutside?: boolean;
+    /**
+     * Web only - if true, will use popover instead of tooltip
+     * @default false
+     */
+    usePopover?: boolean;
   };

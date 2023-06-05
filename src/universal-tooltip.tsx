@@ -7,7 +7,6 @@ import {
   RootProps,
   TextProps,
   TriggerProps,
-  PortalProps,
   UniversalTooltipViewProps,
 } from "./universal-tooltip.types";
 import { createComponent } from "./utils/create-components";
