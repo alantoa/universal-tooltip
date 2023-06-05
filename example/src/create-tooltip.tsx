@@ -62,32 +62,34 @@ export const CreateTooltip = ({
           )}
         </TriggerView>
       </Tooltip.Trigger>
-      <Tooltip.Content
-        sideOffset={3}
-        containerStyle={{
-          paddingLeft: 16,
-          paddingRight: 16,
-          paddingTop: 8,
-          paddingBottom: 8,
-        }}
-        onTap={() => {
-          setOpen(false);
-          console.log("onTap");
-        }}
-        dismissDuration={500}
-        disableTapToDismiss
-        side={side}
-        presetAnimation="fadeIn"
-        backgroundColor={backgroundColor}
-        borderRadius={999}
-        {...rest}
-      >
-        {customView ? (
-          customView
-        ) : (
-          <Tooltip.Text text={text} textColor="#000" />
-        )}
-      </Tooltip.Content>
+      <Tooltip.Portal>
+        <Tooltip.Content
+          sideOffset={3}
+          containerStyle={{
+            paddingLeft: 16,
+            paddingRight: 16,
+            paddingTop: 8,
+            paddingBottom: 8,
+          }}
+          onTap={() => {
+            setOpen(false);
+            console.log("onTap");
+          }}
+          dismissDuration={500}
+          disableTapToDismiss
+          side={side}
+          presetAnimation="fadeIn"
+          backgroundColor={backgroundColor}
+          borderRadius={999}
+          {...rest}
+        >
+          {customView ? (
+            customView
+          ) : (
+            <Tooltip.Text text={text} textColor="#000" />
+          )}
+        </Tooltip.Content>
+      </Tooltip.Portal>
     </Tooltip.Root>
   );
 };

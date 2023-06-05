@@ -8,6 +8,7 @@ import {
   RootProps,
   TextProps,
   TriggerProps,
+  PortalProps,
 } from "./universal-tooltip.types";
 import "./styles.css";
 import { pickChild } from "./utils/pick-child";
@@ -27,32 +28,39 @@ export const Trigger = ({ children, ...rest }: TriggerProps) => {
     </TooltipTrigger>
   );
 };
-export const Root = ({
+
+export const Portal = ({
   children,
-  onDismiss,
-  open,
   usePopover = false,
   ...rest
-}: RootProps) => {
-  const TooltipProvider = usePopover ? Fragment : Tooltip.Provider;
-  const TooltipRoot = usePopover ? Popover.Root : Tooltip.Root;
+}: PortalProps) => {
+  const TooltipPortal = usePopover ? Popover.Portal : Tooltip.Portal;
 
   return (
     <TooltipContext.Provider value={{ usePopover }}>
-      <TooltipProvider>
-        <TooltipRoot
-          onOpenChange={(state) => {
-            if (open === undefined && state === false) {
-              onDismiss?.();
-            }
-          }}
-          open={open}
-          {...rest}
-        >
-          {children}
-        </TooltipRoot>
-      </TooltipProvider>
+      <TooltipPortal {...rest}>{children}</TooltipPortal>
     </TooltipContext.Provider>
+  );
+};
+export const Root = ({ children, onDismiss, open, ...rest }: RootProps) => {
+  const { usePopover } = useContext(TooltipContext);
+
+  const TooltipProvider = usePopover ? Fragment : Tooltip.Provider;
+  const TooltipRoot = usePopover ? Popover.Root : Tooltip.Root;
+  return (
+    <TooltipProvider>
+      <TooltipRoot
+        onOpenChange={(state) => {
+          if (open === undefined && state === false) {
+            onDismiss?.();
+          }
+        }}
+        open={open}
+        {...rest}
+      >
+        {children}
+      </TooltipRoot>
+    </TooltipProvider>
   );
 };
 
@@ -73,7 +81,6 @@ export const Content = ({ children, ...rest }: ContentProps) => {
   const { usePopover } = useContext(TooltipContext);
   const [, triggerChildren] = pickChild(children, Text);
   const TooltipContent = usePopover ? Popover.Content : Tooltip.Content;
-  const TooltipPortal = usePopover ? Popover.Portal : Tooltip.Portal;
   const TooltipArrow = usePopover ? Popover.Arrow : Tooltip.Arrow;
 
   const animationClass = useMemo(() => {
@@ -88,26 +95,24 @@ export const Content = ({ children, ...rest }: ContentProps) => {
   }, [presetAnimation]);
 
   return (
-    <TooltipPortal>
-      <TooltipContent
-        side={side}
-        className={`${animationClass} ${className}`}
-        onClick={onTap}
-        {...restProps}
+    <TooltipContent
+      side={side}
+      className={`${animationClass} ${className}`}
+      onClick={onTap}
+      {...restProps}
+    >
+      <View
+        style={[
+          (triggerChildren as any)?.length > 0
+            ? { backgroundColor, borderRadius, maxWidth, ...containerStyle }
+            : {},
+        ]}
       >
-        <View
-          style={[
-            (triggerChildren as any)?.length > 0
-              ? { backgroundColor, borderRadius, maxWidth, ...containerStyle }
-              : {},
-          ]}
-        >
-          {children}
-        </View>
+        {children}
+      </View>
 
-        <TooltipArrow fill={backgroundColor ?? "#000"} />
-      </TooltipContent>
-    </TooltipPortal>
+      <TooltipArrow fill={backgroundColor ?? "#000"} />
+    </TooltipContent>
   );
 };
 export const Text = ({

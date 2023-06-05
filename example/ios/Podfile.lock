@@ -378,7 +378,7 @@ PODS:
   - RNScreens (3.20.0):
     - React-Core
     - React-RCTImage
-  - UniversalTooltip (0.2.0):
+  - UniversalTooltip (0.5.0):
     - ExpoModulesCore
   - Yoga (1.14.0)
 
@@ -574,7 +574,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: c5c89f8f543842dd864b63ded1b0bbb9c9445328
   ReactCommon: dbfbe2f7f3c5ce4ce44f43f2fd0d5950d1eb67c5
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
-  UniversalTooltip: 3bee3237be7d600892799dc3a2b9d9bb70e7cfda
+  UniversalTooltip: be04ebb8390cbff43164314297f477105ed53f3c
   Yoga: d56980c8914db0b51692f55533409e844b66133c
 
 PODFILE CHECKSUM: af770c66d838f99b209698643dc50a09a8e72d7f

@@ -1,12 +1,13 @@
 import { requireNativeViewManager } from "expo-modules-core";
-import React, { Children } from "react";
-import { StyleSheet, View, processColor, Platform } from "react-native";
+import React, { Children, Fragment } from "react";
+import { StyleSheet, View, processColor } from "react-native";
 
 import {
   ContentProps,
   RootProps,
   TextProps,
   TriggerProps,
+  PortalProps,
   UniversalTooltipViewProps,
 } from "./universal-tooltip.types";
 import { createComponent } from "./utils/create-components";
@@ -14,6 +15,8 @@ import { pickChild } from "./utils/pick-child";
 
 const NativeView: React.ComponentType<UniversalTooltipViewProps> =
   requireNativeViewManager("UniversalTooltip");
+
+export const Portal = Fragment;
 
 export const Trigger = createComponent(({ children }: TriggerProps) => {
   return <>{Children.only(children)}</>;
@@ -25,11 +28,13 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
     Trigger
   );
   const content = withoutTriggerChildren?.[0];
+  const contentProps =
+    content.type === Content ? content?.props : content?.props?.children?.props;
   const {
     children: contentChild,
     backgroundColor,
     ...contentRestProps
-  } = content?.props;
+  } = contentProps;
   const [, textChildren] = pickChild(contentChild, Text);
   const text = textChildren?.[0];
   const { textColor, ...textProps } = text?.props ?? {};
