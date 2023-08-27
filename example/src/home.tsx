@@ -1,11 +1,12 @@
-import { Text, View, Image } from "react-native";
+import { Text, View, Image,ScrollView } from "react-native";
 
 import { CreateTooltip } from "./create-tooltip";
 
 export function HomeScreen() {
   return (
-    <View className="flex-1 bg-black items-center justify-center">
-      <View className="flex-1 px-4 max-w-md w-full">
+    <ScrollView>
+    <View className="h-[140vh] bg-black items-center justify-center">
+        <View className="flex-1 px-4 max-w-md w-full">
         <View className="flex-row flex-wrap mt-28">
           <View className="absolute left-20 -top-2">
             <CreateTooltip
@@ -110,5 +111,6 @@ export function HomeScreen() {
         </View>
       </View>
     </View>
+    </ScrollView>
   );
 }
