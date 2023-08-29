@@ -24,6 +24,12 @@ public class UniversalTooltipModule: Module {
       Prop("maxWidth") { (view, maxWidth: Double?) in
         view.maxWidth = maxWidth ?? 200
       }
+      Prop("arrowWidth") { (view, arrowWidth: Double) in
+        view.arrowWidth = arrowWidth
+      }
+      Prop("arrowHeight") { (view, arrowWidth: Double) in
+        view.arrowHeight = arrowWidth
+      }
       Prop("text") { (view, text: String?) in
         view.text = text
       }

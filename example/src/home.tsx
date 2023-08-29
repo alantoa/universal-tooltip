@@ -5,7 +5,7 @@ import { CreateTooltip } from "./create-tooltip";
 export function HomeScreen() {
   return (
     <ScrollView>
-    <View className="h-[140vh] bg-black items-center justify-center">
+    <View className="bg-black items-center justify-center" style={{height:1000}}>
         <View className="flex-1 px-4 max-w-md w-full">
         <View className="flex-row flex-wrap mt-28">
           <View className="absolute left-20 -top-2">

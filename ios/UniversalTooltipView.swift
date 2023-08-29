@@ -25,10 +25,12 @@ class UniversalTooltipView: ExpoView {
   var dismissDuration: CGFloat = CGFloat(0.5)
   var cornerRadius : CGFloat = CGFloat(5)
   var text :String? = nil
-  var maxWidth : Double = 200
+  var maxWidth : Double? = 200
+  var arrowWidth: Double = 20
+  var arrowHeight: Double = 10
   var containerStyle : ContainerStyle?
   var fontStyle : TextStyle?
-  var sideOffset : Double = 1
+  var sideOffset : CGFloat = 1
   var opened: Bool = false {
     willSet(newValue) {
       if (newValue) {
@@ -51,9 +53,9 @@ class UniversalTooltipView: ExpoView {
     super.init(appContext: appContext)
   }
   
-
   
-
+  
+  
   override func didUpdateReactSubviews() {
     let firstView = self.reactSubviews()[0] as! RCTView
     contentView = firstView
@@ -62,35 +64,74 @@ class UniversalTooltipView: ExpoView {
       self.addSubview(subView)
     }
   }
-  struct PopoverView: View {
-    var contentView: UIView?
-    
-    var body: some View {
-      Group {
-        if let validContentView = contentView {
-          if let firstSubview = (validContentView as? RCTView)?.reactSubviews()?.first {
-            RepresentedUIView(contentView: validContentView)
-              .frame(width: firstSubview.frame.width, height: firstSubview.frame.height)
-          } else {
-            fallbackTooltip()
+  
+  func fallbackTooltip() -> some View {
+    let top = containerStyle?.paddingTop ?? 10.0
+    let right = containerStyle?.paddingRight ?? 10.0
+    let bottom = containerStyle?.paddingBottom ?? 10.0
+    let left = containerStyle?.paddingLeft ?? 10.0
+    return PopoverReader { context in
+      Text(self.text ?? "")
+        .bold()
+        .padding(EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right))
+        .foregroundColor(Color(self.textColor))
+        .background(
+          GeometryReader { geometry in
+            ZStack {
+              // Draw the background color
+              RoundedRectangle(cornerRadius: self.cornerRadius)
+                .fill(Color(self.bubbleBackgroundColor))
+              
+              // Draw the arrow
+              ArrowShape(arrowDirection: self.side, arrowSize: CGSize(width: self.arrowWidth, height: self.arrowHeight),curveRadius: 4)
+                .fill(Color(self.bubbleBackgroundColor))
+                .frame(width: geometry.size.width, height: geometry.size.height)
+            }
           }
+        )
+      
+    }
+  }
+  var body: some View {
+    Group {
+      if let validContentView = contentView {
+        if let firstSubview = (validContentView as? RCTView)?.reactSubviews()?.first {
+          RepresentedUIView(contentView: validContentView)
+            .frame(width: firstSubview.frame.width, height: firstSubview.frame.height).background(
+              GeometryReader { geometry in
+                ZStack {
+                  // Draw the background color
+                  RoundedRectangle(cornerRadius: self.cornerRadius)
+                    .fill(Color(self.bubbleBackgroundColor))
+                  // Draw the arrow
+                  ArrowShape(arrowDirection: self.side, arrowSize: CGSize(width: self.arrowWidth, height: self.arrowHeight),curveRadius: 4)
+                    .fill(Color(self.bubbleBackgroundColor))
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                }
+              }
+            )
         } else {
           fallbackTooltip()
         }
+      } else {
+        fallbackTooltip()
       }
     }
-    
-    func fallbackTooltip() -> Text {
-      Text("Tooltip")
-        .bold()
-        .foregroundColor(.white)
-    }
   }
+  
+  
+  
+  
   override func layoutSubviews() {
-    popover = Popover { PopoverView(contentView: self.contentView) }
+    popover = Popover { self.body }
     popover?.attributes.sourceFrame = { [weak self] in
       self.windowFrame()
     }
+    popover?.attributes.sourceFrameInset = self.side.toSideOffset(offset: self.sideOffset + arrowHeight)
+    popover?.attributes.screenEdgePadding = .zero
+    
+    popover?.attributes.position = .absolute(originAnchor: self.side.toOriginAnchorSide(), popoverAnchor: self.side.toPopoverAnchorSide())
+    
     popover?.attributes.onDismiss = {
       self.onDismiss()
     }
@@ -108,9 +149,9 @@ class UniversalTooltipView: ExpoView {
     if let unwrappedPopover = popover {
       self.reactViewController().present(unwrappedPopover)
     }
- 
-//        text != nil ? openByText() : openByContentView()
-//        popover.dismiss()
+    
+    //        text != nil ? openByText() : openByContentView()
+    //        popover.dismiss()
   }
   public func dismiss(){
     popover?.dismiss()

@@ -1,6 +1,12 @@
 import * as Popover from "@radix-ui/react-popover";
 import * as Tooltip from "@radix-ui/react-tooltip";
-import React, { useMemo, Fragment, createContext, useContext } from "react";
+import React, {
+  useMemo,
+  Fragment,
+  createContext,
+  useContext,
+  forwardRef,
+} from "react";
 import { Text as RNText, View } from "react-native";
 
 import {
@@ -9,6 +15,7 @@ import {
   TextProps,
   TriggerProps,
   PortalProps,
+  ArrowProps,
 } from "./universal-tooltip.types";
 import "./styles.css";
 import { pickChild } from "./utils/pick-child";
@@ -64,58 +71,62 @@ export const Root = ({
     </TooltipContext.Provider>
   );
 };
-
-export const Content = ({ children, ...rest }: ContentProps) => {
-  const {
-    side,
-    dismissDuration,
-    containerStyle,
-    presetAnimation,
-    backgroundColor,
-    borderRadius,
-    onTap,
-    className,
-    disableTapToDismiss,
-    maxWidth,
-    ...restProps
-  } = rest;
+export const Arrow = ({ backgroundColor, ...rest }: ArrowProps) => {
   const { usePopover } = useContext(TooltipContext);
-  const [, triggerChildren] = pickChild(children, Text);
-  const TooltipContent = usePopover ? Popover.Content : Tooltip.Content;
   const TooltipArrow = usePopover ? Popover.Arrow : Tooltip.Arrow;
-
-  const animationClass = useMemo(() => {
-    switch (presetAnimation) {
-      case "fadeIn":
-        return `tooltip-fade-in-${side ?? "top"}`;
-      case "zoomIn":
-        return "tooltip-zoom-in";
-      default:
-        return "";
-    }
-  }, [presetAnimation]);
-
-  return (
-    <TooltipContent
-      side={side}
-      className={`${animationClass} ${className}`}
-      onClick={onTap}
-      {...restProps}
-    >
-      <View
-        style={[
-          (triggerChildren as any)?.length > 0
-            ? { backgroundColor, borderRadius, maxWidth, ...containerStyle }
-            : {},
-        ]}
-      >
-        {children}
-      </View>
-
-      <TooltipArrow fill={backgroundColor ?? "#000"} />
-    </TooltipContent>
-  );
+  return <TooltipArrow fill={backgroundColor ?? "#000"} {...rest} />;
 };
+export const Content = forwardRef<any, ContentProps>(
+  function UniversalTooltipContent({ children, ...rest }, ref) {
+    const {
+      side,
+      dismissDuration,
+      containerStyle,
+      presetAnimation,
+      backgroundColor,
+      borderRadius,
+      onTap,
+      className,
+      disableTapToDismiss,
+      maxWidth,
+      ...restProps
+    } = rest;
+    const { usePopover } = useContext(TooltipContext);
+    const [, triggerChildren] = pickChild(children, Text);
+    const TooltipContent = usePopover ? Popover.Content : Tooltip.Content;
+
+    const animationClass = useMemo(() => {
+      switch (presetAnimation) {
+        case "fadeIn":
+          return `tooltip-fade-in-${side ?? "top"}`;
+        case "zoomIn":
+          return "tooltip-zoom-in";
+        default:
+          return "";
+      }
+    }, [presetAnimation]);
+
+    return (
+      <TooltipContent
+        side={side}
+        ref={ref}
+        className={`${animationClass} ${className}`}
+        onClick={onTap}
+        {...restProps}
+      >
+        <View
+          style={[
+            (triggerChildren as any)?.length > 0
+              ? { backgroundColor, borderRadius, maxWidth, ...containerStyle }
+              : {},
+          ]}
+        >
+          {children}
+        </View>
+      </TooltipContent>
+    );
+  }
+);
 export const Text = ({
   style,
   textColor,

@@ -8,6 +8,7 @@ import {
   TextProps,
   TriggerProps,
   UniversalTooltipViewProps,
+  ArrowProps
 } from "./universal-tooltip.types";
 import { createComponent } from "./utils/create-components";
 import { pickChild } from "./utils/pick-child";
@@ -37,11 +38,19 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
   const [, textChildren] = pickChild(contentChild, Text);
   const text = textChildren?.[0];
   const { textColor, ...textProps } = text?.props ?? {};
+  const [, arrowChildren] = pickChild(contentChild, Arrow);
+  const arrow = arrowChildren?.[0];
+  const {  width:arrowWidth, height:arrowHeight, } = arrow?.props ?? {};
+  
 
+  
+  
   return (
     <NativeView
       backgroundColor={processColor(backgroundColor)}
       textColor={processColor(textColor)}
+      arrowWidth={arrowWidth}
+      arrowHeight={arrowHeight}
       {...contentRestProps}
       {...rest}
       {...textProps}
@@ -54,6 +63,13 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
 
 export const Content = createComponent<ContentProps>(
   ({ children, style, backgroundColor, ...rest }) => {
+    if(children && (children as JSX.Element[])?.length > 1) {
+      return (
+        <View style={[style, StyleSheet.absoluteFillObject]} {...rest}>
+          {children[0]}
+        </View>
+      );
+    }
     return (
       <View style={[style, StyleSheet.absoluteFillObject]} {...rest}>
         {children}
@@ -62,6 +78,9 @@ export const Content = createComponent<ContentProps>(
   },
   "Content"
 );
+export const Arrow = createComponent(({ children }: ArrowProps) => {
+  return <>{Children.only(children)}</>;
+}, "Arrow");
 
 export const Text = createComponent<TextProps>(() => {
   return <></>;

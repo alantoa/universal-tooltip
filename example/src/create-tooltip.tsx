@@ -66,10 +66,10 @@ export const CreateTooltip = ({
         <Tooltip.Content
           sideOffset={3}
           containerStyle={{
-            paddingLeft: 16,
-            paddingRight: 16,
-            paddingTop: 8,
-            paddingBottom: 8,
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: 10,
+            paddingBottom: 10,
           }}
           onTap={() => {
             setOpen(false);
@@ -80,7 +80,7 @@ export const CreateTooltip = ({
           side={side}
           presetAnimation="fadeIn"
           backgroundColor={backgroundColor}
-          borderRadius={999}
+          borderRadius={12}
           {...rest}
         >
           {customView ? (
@@ -88,6 +88,7 @@ export const CreateTooltip = ({
           ) : (
             <Tooltip.Text text={text} textColor="#000" />
           )}
+          <Tooltip.Arrow width={10} height={5} backgroundColor={backgroundColor} />
         </Tooltip.Content>
       </Tooltip.Portal>
     </Tooltip.Root>

@@ -9,14 +9,14 @@ import ExpoModulesCore
 
 struct ContainerStyle: Record {
   @Field
-  var paddingTop: Double = 10
+  var paddingTop: CGFloat = 10
   
   @Field
-  var paddingRight: Double = 10
+  var paddingRight: CGFloat = 10
   
   @Field
-  var paddingBottom: Double = 10
+  var paddingBottom: CGFloat = 10
   
   @Field
-  var paddingLeft: Double = 10
+  var paddingLeft: CGFloat = 10
 }
