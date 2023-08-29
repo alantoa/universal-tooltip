@@ -82,7 +82,6 @@ export const CreateTooltip = ({
           backgroundColor={backgroundColor}
           borderRadius={12}
           {...rest}
-          presetAnimation="zoomIn"
         >
           {customView ? (
             customView

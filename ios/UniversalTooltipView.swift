@@ -47,7 +47,7 @@ class UniversalTooltipView: ExpoView {
   var dismissDuration: CGFloat = CGFloat(0.3)
   var cornerRadius : CGFloat = CGFloat(5)
   var text :String? = nil
-  var maxWidth : Double? = 200
+  var maxWidth : Double?
   var arrowWidth: Double = 20
   var arrowHeight: Double = 10
   var containerStyle : ContainerStyle?
@@ -92,9 +92,11 @@ class UniversalTooltipView: ExpoView {
     let right = containerStyle?.paddingRight ?? 10.0
     let bottom = containerStyle?.paddingBottom ?? 10.0
     let left = containerStyle?.paddingLeft ?? 10.0
+
     return PopoverReader { context in
       Text(self.text ?? "")
         .bold()
+        .frame(maxWidth: (self.maxWidth != nil) ? CGFloat(self.maxWidth ?? 200) : nil)
         .padding(EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right))
         .foregroundColor(Color(self.textColor))
         .background(
@@ -111,7 +113,6 @@ class UniversalTooltipView: ExpoView {
             }
           }
         )
-      
     }
   }
   var body: some View {
@@ -131,12 +132,18 @@ class UniversalTooltipView: ExpoView {
                     .frame(width: geometry.size.width, height: geometry.size.height)
                 }
               }
-            )
+            ).onTapGesture {
+              self.onTap()
+            }
         } else {
-          fallbackTooltip()
+          fallbackTooltip().onTapGesture {
+            self.onTap()
+          }
         }
       } else {
-        fallbackTooltip()
+        fallbackTooltip().onTapGesture {
+          self.onTap()
+        }
       }
     }
   }
@@ -151,7 +158,7 @@ class UniversalTooltipView: ExpoView {
     popover?.attributes.sourceFrameInset = self.side.toSideOffset(offset: self.sideOffset + arrowHeight)
     popover?.attributes.screenEdgePadding = .zero
     popover?.attributes.presentation.animation = .easeIn(duration: showDuration)
-    
+
     let customTransition: AnyTransition
     switch presetAnimation {
       case .none:
@@ -171,6 +178,7 @@ class UniversalTooltipView: ExpoView {
     popover?.attributes.onDismiss = {
       self.onDismiss()
     }
+    
   }
   
   

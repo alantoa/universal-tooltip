@@ -22,7 +22,7 @@ public class UniversalTooltipModule: Module {
         view.side = side ?? .any
       }
       Prop("maxWidth") { (view, maxWidth: Double?) in
-        view.maxWidth = maxWidth ?? 200
+        view.maxWidth = maxWidth
       }
       Prop("arrowWidth") { (view, arrowWidth: Double) in
         view.arrowWidth = arrowWidth
