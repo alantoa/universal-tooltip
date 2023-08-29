@@ -50,6 +50,41 @@ enum ContentSide:String, Enumerable {
         return .init(top: 0, left: 0, bottom: 0, right: -offset)
     }
   }
+  
+  func toSideOffsetY(offset:CGFloat,isActive: Bool) -> CGFloat {
+    if(isActive){
+      return 0
+    }
+    switch self {
+      case .any:
+        return -10
+      case .top:
+        return -10
+      case .bottom:
+        return 10
+      case .left:
+        return 0
+      case .right:
+        return 0
+    }
+  }
+  func toSideOffsetX(offset:CGFloat,isActive :Bool) -> CGFloat {
+    if(isActive){
+      return 0
+    }
+    switch self {
+      case .any:
+        return -10
+      case .top:
+        return 0
+      case .bottom:
+        return 0
+      case .left:
+        return -10
+      case .right:
+        return 10
+    }
+  }
 }
 
 

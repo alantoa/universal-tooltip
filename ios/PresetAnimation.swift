@@ -9,6 +9,7 @@ import Foundation
 import ExpoModulesCore
 
 enum PresetAnimation:String, Enumerable {
+  case fade
   case fadeIn
   case zoomIn
   case none

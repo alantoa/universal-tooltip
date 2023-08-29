@@ -14,6 +14,28 @@ struct RepresentedUIView: UIViewRepresentable {
   }
 }
 
+struct PopoverModifier: ViewModifier {
+  let isActive: Bool
+  let side: ContentSide
+  let offset: CGFloat = 10
+  let presetAnimation:PresetAnimation
+  func body(content: Content) -> some View {
+    switch presetAnimation {
+      case .zoomIn:
+         content
+          .scaleEffect(self.isActive ? 1 : 0)
+          .animation(.spring())
+      default:
+         content
+          .opacity(self.isActive ? 1: 0)
+          .offset(x: self.side.toSideOffsetX(offset: offset, isActive: isActive), y: self.side.toSideOffsetY(offset: offset, isActive:isActive))
+    }
+    
+  }
+}
+
+
+
 class UniversalTooltipView: ExpoView {
   private var tipView: DismissibleEasyTipView?
   var preferences: EasyTipView.Preferences = EasyTipView.Preferences()
@@ -21,8 +43,8 @@ class UniversalTooltipView: ExpoView {
   var bubbleBackgroundColor: UIColor = .clear
   var side: ContentSide = .any
   var presetAnimation : PresetAnimation = .fadeIn
-  var showDuration: CGFloat = CGFloat(0.5)
-  var dismissDuration: CGFloat = CGFloat(0.5)
+  var showDuration: CGFloat = CGFloat(0.3)
+  var dismissDuration: CGFloat = CGFloat(0.3)
   var cornerRadius : CGFloat = CGFloat(5)
   var text :String? = nil
   var maxWidth : Double? = 200
@@ -119,17 +141,31 @@ class UniversalTooltipView: ExpoView {
     }
   }
   
-  
-  
-  
   override func layoutSubviews() {
-    popover = Popover { self.body }
+    popover = Popover { self.body
+      .modifier(PopoverModifier(isActive: true, side: self.side, presetAnimation:self.presetAnimation))}
     popover?.attributes.sourceFrame = { [weak self] in
       self.windowFrame()
     }
+    
     popover?.attributes.sourceFrameInset = self.side.toSideOffset(offset: self.sideOffset + arrowHeight)
     popover?.attributes.screenEdgePadding = .zero
+    popover?.attributes.presentation.animation = .easeIn(duration: showDuration)
     
+    let customTransition: AnyTransition
+    switch presetAnimation {
+      case .none:
+        customTransition = .identity
+      case .fade:
+        customTransition = .opacity
+      default:
+        customTransition = .modifier(
+          active: PopoverModifier(isActive: false, side: self.side, presetAnimation:self.presetAnimation),
+          identity: PopoverModifier(isActive: true, side: self.side, presetAnimation:self.presetAnimation)
+        )
+    }
+    
+    popover?.attributes.presentation.transition = customTransition
     popover?.attributes.position = .absolute(originAnchor: self.side.toOriginAnchorSide(), popoverAnchor: self.side.toPopoverAnchorSide())
     
     popover?.attributes.onDismiss = {

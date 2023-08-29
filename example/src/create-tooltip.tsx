@@ -82,13 +82,18 @@ export const CreateTooltip = ({
           backgroundColor={backgroundColor}
           borderRadius={12}
           {...rest}
+          presetAnimation="zoomIn"
         >
           {customView ? (
             customView
           ) : (
             <Tooltip.Text text={text} textColor="#000" />
           )}
-          <Tooltip.Arrow width={10} height={5} backgroundColor={backgroundColor} />
+          <Tooltip.Arrow
+            width={10}
+            height={5}
+            backgroundColor={backgroundColor}
+          />
         </Tooltip.Content>
       </Tooltip.Portal>
     </Tooltip.Root>

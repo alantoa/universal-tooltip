@@ -125,7 +125,7 @@ export const Content = forwardRef<any, ContentProps>(
         </View>
       </TooltipContent>
     );
-  }
+  },
 );
 export const Text = ({
   style,
