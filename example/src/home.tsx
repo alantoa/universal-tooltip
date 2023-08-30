@@ -1,4 +1,4 @@
-import { Text, View, Image, ScrollView } from "react-native";
+import { Text, View, Image, ScrollView, Platform } from "react-native";
 
 import { CreateTooltip } from "./create-tooltip";
 
@@ -73,7 +73,7 @@ export function HomeScreen() {
                     source={{
                       uri: "https://pbs.twimg.com/profile_images/1507747390790377479/F9abCIUR_400x400.jpg",
                     }}
-                    className="w-16 h-16 rounded-full"
+                    className="w-12 h-12 rounded-full"
                   />
                   <View className="absolute -right-0 bg-gray-100 px-1 py-1 -top-1 rounded-full" />
                 </View>
@@ -92,14 +92,16 @@ export function HomeScreen() {
             <View className="absolute left-56 top-56">
               <CreateTooltip text="None" side="bottom" presetAnimation="none" />
             </View>
-            <View className="absolute left-46 top-80">
-              <CreateTooltip
-                text="disableDismissWhenTouchOutside: ture"
-                disableDismissWhenTouchOutside
-                side="bottom"
-                presetAnimation="none"
-              />
-            </View>
+            {Platform.OS != "web" && (
+              <View className="absolute top-96">
+                <CreateTooltip
+                  text="disableDismissWhenTouchOutside: ture"
+                  disableDismissWhenTouchOutside
+                  side="bottom"
+                  presetAnimation="none"
+                />
+              </View>
+            )}
           </View>
         </View>
       </View>

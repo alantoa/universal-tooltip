@@ -92,7 +92,6 @@ export const CreateTooltip = ({
                 fontSize: 14,
                 fontWeight: "bold",
                 color: "#020202",
-                fontFamily: "Roboto",
               }}
             />
           )}
