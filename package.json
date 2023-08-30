@@ -1,6 +1,6 @@
 {
   "name": "universal-tooltip",
-  "version": "0.7.0",
+  "version": "1.0.0-0",
   "description": "react native universal tooltip component.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
