@@ -13,7 +13,7 @@ export function LikeScreen() {
         <Text className="">Open modal</Text>
       </Pressable>
 
-      <CreateTooltip text="Show" disableDismissWhenTouchOutside />
+      <CreateTooltip text="Show" />
     </View>
   );
 }

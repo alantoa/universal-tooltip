@@ -13,9 +13,6 @@ export type TriggerProps = ViewProps & TooltipTriggerProps;
 
 export type TextProps = {
   style?: TextStyle;
-  textColor?: string;
-  textSize?: number;
-  fontWeight?: "bold" | "normal";
   text?: string;
 };
 

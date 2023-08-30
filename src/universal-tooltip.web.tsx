@@ -127,20 +127,6 @@ export const Content = forwardRef<any, ContentProps>(
     );
   },
 );
-export const Text = ({
-  style,
-  textColor,
-  textSize,
-  fontWeight,
-  text,
-  ...rest
-}: TextProps) => {
-  return (
-    <RNText
-      style={[style, { color: textColor, fontSize: textSize, fontWeight }]}
-      {...rest}
-    >
-      {text}
-    </RNText>
-  );
+export const Text = ({ text, ...rest }: TextProps) => {
+  return <RNText {...rest}>{text}</RNText>;
 };

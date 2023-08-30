@@ -37,7 +37,7 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
   } = contentProps;
   const [, textChildren] = pickChild(contentChild, Text);
   const text = textChildren?.[0];
-  const { textColor, ...textProps } = text?.props ?? {};
+  const { style: fontStyle, ...textProps } = text?.props ?? {};
   const [, arrowChildren] = pickChild(contentChild, Arrow);
   const arrow = arrowChildren?.[0];
   const { width: arrowWidth, height: arrowHeight } = arrow?.props ?? {};
@@ -45,9 +45,9 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
   return (
     <NativeView
       backgroundColor={processColor(backgroundColor)}
-      textColor={processColor(textColor)}
       arrowWidth={arrowWidth}
       arrowHeight={arrowHeight}
+      fontStyle={{ ...fontStyle, color: processColor(fontStyle?.color) }}
       {...contentRestProps}
       {...rest}
       {...textProps}
@@ -68,7 +68,14 @@ export const Content = createComponent<ContentProps>(
       );
     }
     return (
-      <View style={[style, StyleSheet.absoluteFillObject]} {...rest}>
+      <View
+        style={[
+          style,
+          StyleSheet.absoluteFillObject,
+          { backgroundColor: "red" },
+        ]}
+        {...rest}
+      >
         {children}
       </View>
     );

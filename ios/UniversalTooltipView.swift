@@ -22,11 +22,11 @@ struct PopoverModifier: ViewModifier {
   func body(content: Content) -> some View {
     switch presetAnimation {
       case .zoomIn:
-         content
+        content
           .scaleEffect(self.isActive ? 1 : 0)
           .animation(.spring())
       default:
-         content
+        content
           .opacity(self.isActive ? 1: 0)
           .offset(x: self.side.toSideOffsetX(offset: offset, isActive: isActive), y: self.side.toSideOffsetY(offset: offset, isActive:isActive))
     }
@@ -37,8 +37,6 @@ struct PopoverModifier: ViewModifier {
 
 
 class UniversalTooltipView: ExpoView {
-  private var tipView: DismissibleEasyTipView?
-  var preferences: EasyTipView.Preferences = EasyTipView.Preferences()
   var contentView: UIView?
   var bubbleBackgroundColor: UIColor = .clear
   var side: ContentSide = .any
@@ -51,7 +49,7 @@ class UniversalTooltipView: ExpoView {
   var arrowWidth: Double = 20
   var arrowHeight: Double = 10
   var containerStyle : ContainerStyle?
-  var fontStyle : TextStyle?
+  var fontStyle : TextStyle =  TextStyle(fontSize: 14, color: .black, fontWeight: "normal")
   var sideOffset : CGFloat = 1
   var opened: Bool = false {
     willSet(newValue) {
@@ -65,18 +63,16 @@ class UniversalTooltipView: ExpoView {
   let onDismiss = EventDispatcher()
   let onTap = EventDispatcher()
   var disableTapToDismiss = false
-  var textColor: UIColor = .white
-  var textSize: Double = 13
-  var fontWeight: String = "normal"
   var disableDismissWhenTouchOutside = false
   var popover: Popover?
   
   public required init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
   }
-  
-  
-  
+
+  override func willMove(toWindow newWindow: UIWindow?) {
+    opened = false
+  }
   
   override func didUpdateReactSubviews() {
     let firstView = self.reactSubviews()[0] as! RCTView
@@ -92,13 +88,13 @@ class UniversalTooltipView: ExpoView {
     let right = containerStyle?.paddingRight ?? 10.0
     let bottom = containerStyle?.paddingBottom ?? 10.0
     let left = containerStyle?.paddingLeft ?? 10.0
-
+    
     return PopoverReader { context in
       Text(self.text ?? "")
-        .bold()
+        .font(.system(size: CGFloat(self.fontStyle.fontSize), weight: fontWeightToSwiftUI(self.fontStyle.fontWeight), design: .default))
         .frame(maxWidth: (self.maxWidth != nil) ? CGFloat(self.maxWidth ?? 200) : nil)
         .padding(EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right))
-        .foregroundColor(Color(self.textColor))
+        .foregroundColor(Color(self.fontStyle.color))
         .background(
           GeometryReader { geometry in
             ZStack {
@@ -120,7 +116,8 @@ class UniversalTooltipView: ExpoView {
       if let validContentView = contentView {
         if let firstSubview = (validContentView as? RCTView)?.reactSubviews()?.first {
           RepresentedUIView(contentView: validContentView)
-            .frame(width: firstSubview.frame.width, height: firstSubview.frame.height).background(
+            .frame(width: firstSubview.frame.width, height: firstSubview.frame.height)
+            .background(
               GeometryReader { geometry in
                 ZStack {
                   // Draw the background color
@@ -154,11 +151,11 @@ class UniversalTooltipView: ExpoView {
     popover?.attributes.sourceFrame = { [weak self] in
       self.windowFrame()
     }
-    
+
     popover?.attributes.sourceFrameInset = self.side.toSideOffset(offset: self.sideOffset + arrowHeight)
     popover?.attributes.screenEdgePadding = .zero
     popover?.attributes.presentation.animation = .easeIn(duration: showDuration)
-
+    popover?.attributes.dismissal.mode = self.disableDismissWhenTouchOutside ? .none: .tapOutside
     let customTransition: AnyTransition
     switch presetAnimation {
       case .none:
@@ -171,34 +168,19 @@ class UniversalTooltipView: ExpoView {
           identity: PopoverModifier(isActive: true, side: self.side, presetAnimation:self.presetAnimation)
         )
     }
-    
     popover?.attributes.presentation.transition = customTransition
     popover?.attributes.position = .absolute(originAnchor: self.side.toOriginAnchorSide(), popoverAnchor: self.side.toPopoverAnchorSide())
-    
     popover?.attributes.onDismiss = {
       self.onDismiss()
     }
-    
   }
-  
-  
-  //    var currentViewController = UIApplication.shared.keyWindow?.rootViewController
-  //    while currentViewController?.presentedViewController != nil {
-  //      currentViewController = currentViewController?.presentedViewController
-  //    }
-  //    currentViewController?.present(popover)
-  
-  
+ 
   func openTooltip (){
     if let unwrappedPopover = popover {
       self.reactViewController().present(unwrappedPopover)
     }
-    
-    //        text != nil ? openByText() : openByContentView()
-    //        popover.dismiss()
   }
   public func dismiss(){
     popover?.dismiss()
   }
-  
 }

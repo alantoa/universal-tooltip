@@ -86,7 +86,10 @@ export const CreateTooltip = ({
           {customView ? (
             customView
           ) : (
-            <Tooltip.Text text={text} textColor="#000" />
+            <Tooltip.Text
+              text={text}
+              style={{ fontSize: 14, fontWeight: "bold", color: "#999" }}
+            />
           )}
           <Tooltip.Arrow
             width={10}

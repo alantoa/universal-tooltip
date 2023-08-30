@@ -15,31 +15,18 @@ export function HomeScreen() {
               <CreateTooltip
                 title="Long text tooltip"
                 text="A very long long long long long text tooltip"
-                disableDismissWhenTouchOutside
                 side="top"
                 maxWidth={200}
               />
             </View>
             <View className="absolute left-0 top-12">
-              <CreateTooltip
-                text="Show in right"
-                disableDismissWhenTouchOutside
-                side="right"
-              />
+              <CreateTooltip text="Show in right" side="right" />
             </View>
             <View className="absolute right-8">
-              <CreateTooltip
-                text="Show in left"
-                disableDismissWhenTouchOutside
-                side="left"
-              />
+              <CreateTooltip text="Show in left" side="left" />
             </View>
             <View className="absolute left-4 top-32">
-              <CreateTooltip
-                text="Show in top"
-                disableDismissWhenTouchOutside
-                side="top"
-              />
+              <CreateTooltip text="Show in top" side="top" />
             </View>
             <View className="absolute left-36 top-28">
               <CreateTooltip
@@ -89,23 +76,21 @@ export function HomeScreen() {
               </CreateTooltip>
             </View>
             <View className="absolute right-0 top-28">
-              <CreateTooltip
-                text="Show in bottom"
-                disableDismissWhenTouchOutside
-                side="bottom"
-              />
+              <CreateTooltip text="Show in bottom" side="bottom" />
             </View>
             <View className="absolute left-20 top-48">
               <CreateTooltip
                 text="Zoom in"
-                disableDismissWhenTouchOutside
                 side="bottom"
                 presetAnimation="zoomIn"
               />
             </View>
             <View className="absolute left-56 top-56">
+              <CreateTooltip text="None" side="bottom" presetAnimation="none" />
+            </View>
+            <View className="absolute left-46 top-80">
               <CreateTooltip
-                text="None"
+                text="disableDismissWhenTouchOutside: ture"
                 disableDismissWhenTouchOutside
                 side="bottom"
                 presetAnimation="none"

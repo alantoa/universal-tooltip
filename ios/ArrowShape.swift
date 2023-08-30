@@ -16,6 +16,7 @@ struct ArrowShape: Shape {
     var path = Path()
     
     switch arrowDirection {
+        //  Todo: Make this arrow shape more rounded and support custom radius.
         //      case .bottom:
         //        path.move(to: CGPoint(x: rect.midX - arrowSize.width / 2, y: rect.minY))
         //        path.addLine(to: CGPoint(x: rect.midX - curveRadius, y: rect.minY - curveRadius))

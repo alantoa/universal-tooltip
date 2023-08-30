@@ -63,16 +63,6 @@ public class UniversalTooltipModule: Module {
       Prop("backgroundColor") { (view, backgroundColor: UIColor?) in
         view.bubbleBackgroundColor = backgroundColor ?? .clear
       }
-      Prop("textColor") { (view, textColor: UIColor?) in
-        view.textColor = textColor ?? .white
-      }
-      Prop("textSize") { (view, textSize: Double?) in
-        view.textSize = textSize ?? CGFloat(13)
-      }
-      Prop("fontWeight") { (view, fontWeight: String) in
-        view.fontWeight = fontWeight
-      }
-      
     }
   }
 }

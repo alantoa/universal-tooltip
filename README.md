@@ -86,12 +86,7 @@ const [open, setOpen] = useState(false);
     backgroundColor="black"
     borderRadius={12}
   >
-    <Tooltip.Text
-      text="Some copy..."
-      textColor="#fff"
-      fontWeight="bold"
-      textSize={16}
-    />
+    <Tooltip.Text text="Some copy..." style={{ color: "#000", fontSize: 16 }} />
   </Tooltip.Content>
 </Tooltip.Root>;
 ```
