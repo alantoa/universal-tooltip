@@ -70,10 +70,10 @@ class UniversalTooltipView: ExpoView {
     super.init(appContext: appContext)
   }
 
-  override func willMove(toWindow newWindow: UIWindow?) {
-    opened = false
+
+  override func didMoveToWindow() {
+    popover?.dismiss()
   }
-  
   override func didUpdateReactSubviews() {
     let firstView = self.reactSubviews()[0] as! RCTView
     contentView = firstView
