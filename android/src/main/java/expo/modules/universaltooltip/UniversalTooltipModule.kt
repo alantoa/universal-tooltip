@@ -36,6 +36,12 @@ class UniversalTooltipModule : Module() {
             Prop("maxWidth") { view: UniversalTooltipView, maxWidth: Int ->
                 view.maxWidth = maxWidth
             }
+            Prop("arrowWidth") { view: UniversalTooltipView, arrowWidth: Int ->
+                view.arrowWidth = arrowWidth
+            }
+            Prop("arrowHeight") { view: UniversalTooltipView, arrowHeight: Int ->
+                view.arrowHeight = arrowHeight
+            }
             Prop("presetAnimation") { view: UniversalTooltipView, presetAnimation: PresetAnimation ->
                 view.presetAnimation = presetAnimation
             }

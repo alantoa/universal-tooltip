@@ -38,6 +38,9 @@ class UniversalTooltipView(context: Context) :
     var text: String? = null
     var maxWidth: Int =
         (Resources.getSystem().displayMetrics.widthPixels / Resources.getSystem().displayMetrics.density).toInt()
+    var arrowWidth = 10
+    var arrowHeight = 5
+    private var arrowSize = (arrowHeight + arrowWidth)/2
     var presetAnimation: PresetAnimation? = null
     var showDuration: Double = 300.0
     var containerStyle: ContainerStyle? = null
@@ -141,10 +144,10 @@ class UniversalTooltipView(context: Context) :
                 .setTextColor(textStyle?.color ?: -16777216)
             .setTextSize(fontSize)
             .setTextTypeface(convertFontWeightToTypeface(textStyle?.fontWeight ?: "normal"))
-            .setArrowSize(5)
             .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
             .setArrowPosition(0.5f)
             .setMaxWidth(maxWidth)
+            .setArrowSize(arrowSize)
             .setArrowOrientation(getArrowOrientation())
             .setPaddingBottom(pdBottom)
             .setPaddingTop(pdTop)
@@ -172,11 +175,10 @@ class UniversalTooltipView(context: Context) :
         balloon = Balloon.Builder(context)
             .setLayout(layoutView!!)
             .setArrowColor(bgColor)
-            .setArrowSize(5)
+            .setArrowSize(arrowSize)
             .setArrowPosition(0.5f)
             .setArrowOrientation(getArrowOrientation())
             .setOnBalloonClickListener {
-                println(123)
                 onTap(mapOf())
                 if (!disableTapToDismiss) {
                     dismiss()
