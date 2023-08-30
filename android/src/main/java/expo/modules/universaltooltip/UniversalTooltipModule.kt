@@ -45,8 +45,8 @@ class UniversalTooltipModule : Module() {
             Prop("containerStyle") { view: UniversalTooltipView, containerStyle: ContainerStyle ->
                 view.containerStyle = containerStyle
             }
-            Prop("fontStyle") { view: UniversalTooltipView, fontStyle: TextStyle? ->
-                view.fontStyle = fontStyle
+            Prop("textStyle") { view: UniversalTooltipView, textStyle: TextStyle? ->
+                view.textStyle = textStyle
             }
             Prop("sideOffset") { view: UniversalTooltipView, sideOffset: Int ->
                 view.sideOffset = sideOffset
@@ -60,17 +60,8 @@ class UniversalTooltipModule : Module() {
             Prop("backgroundColor") { view: UniversalTooltipView, backgroundColor: Int ->
                 view.bgColor = backgroundColor
             }
-            Prop("textColor") { view: UniversalTooltipView, textColor: Int ->
-                view.textColor = textColor
-            }
-            Prop("textSize") { view: UniversalTooltipView, textSize: Float ->
-                view.textSize = textSize
-            }
             Prop("disableDismissWhenTouchOutside") { view: UniversalTooltipView, disableDismissWhenTouchOutside: Boolean ->
                 view.disableDismissWhenTouchOutside = disableDismissWhenTouchOutside
-            }
-            Prop("fontWeight") { view: UniversalTooltipView, fontWeight: String ->
-                view.fontWeight = fontWeight
             }
 
         }

@@ -45,8 +45,8 @@ public class UniversalTooltipModule: Module {
       Prop("containerStyle") { (view, containerStyle: ContainerStyle?) in
         view.containerStyle = containerStyle
       }
-      Prop("fontStyle") { (view, fontStyle: TextStyle?) in
-        view.fontStyle = fontStyle ?? TextStyle(fontSize: 13)
+      Prop("textStyle") { (view, textStyle: TextStyle?) in
+        view.textStyle = textStyle ?? TextStyle(fontSize: 13)
       }
       Prop("sideOffset") { (view, sideOffset: Double?) in
         view.sideOffset = sideOffset ?? Double(1)

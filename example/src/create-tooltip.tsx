@@ -88,7 +88,12 @@ export const CreateTooltip = ({
           ) : (
             <Tooltip.Text
               text={text}
-              style={{ fontSize: 14, fontWeight: "bold", color: "#999" }}
+              style={{
+                fontSize: 14,
+                fontWeight: "bold",
+                color: "#020202",
+                fontFamily: "Roboto",
+              }}
             />
           )}
           <Tooltip.Arrow

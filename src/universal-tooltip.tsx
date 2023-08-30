@@ -37,7 +37,7 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
   } = contentProps;
   const [, textChildren] = pickChild(contentChild, Text);
   const text = textChildren?.[0];
-  const { style: fontStyle, ...textProps } = text?.props ?? {};
+  const { style: textStyle, ...textProps } = text?.props ?? {};
   const [, arrowChildren] = pickChild(contentChild, Arrow);
   const arrow = arrowChildren?.[0];
   const { width: arrowWidth, height: arrowHeight } = arrow?.props ?? {};
@@ -47,7 +47,10 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
       backgroundColor={processColor(backgroundColor)}
       arrowWidth={arrowWidth}
       arrowHeight={arrowHeight}
-      fontStyle={{ ...fontStyle, color: processColor(fontStyle?.color) }}
+      textStyle={{
+        ...textStyle,
+        ...(textStyle?.color ? { color: processColor(textStyle?.color) } : {}),
+      }}
       {...contentRestProps}
       {...rest}
       {...textProps}
@@ -68,14 +71,7 @@ export const Content = createComponent<ContentProps>(
       );
     }
     return (
-      <View
-        style={[
-          style,
-          StyleSheet.absoluteFillObject,
-          { backgroundColor: "red" },
-        ]}
-        {...rest}
-      >
+      <View style={[style, StyleSheet.absoluteFillObject]} {...rest}>
         {children}
       </View>
     );

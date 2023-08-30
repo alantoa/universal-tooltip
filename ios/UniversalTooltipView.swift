@@ -49,7 +49,7 @@ class UniversalTooltipView: ExpoView {
   var arrowWidth: Double = 20
   var arrowHeight: Double = 10
   var containerStyle : ContainerStyle?
-  var fontStyle : TextStyle =  TextStyle(fontSize: 14, color: .black, fontWeight: "normal")
+  var textStyle : TextStyle =  TextStyle(fontSize: 14, color: .black, fontWeight: "normal")
   var sideOffset : CGFloat = 1
   var opened: Bool = false {
     willSet(newValue) {
@@ -91,10 +91,10 @@ class UniversalTooltipView: ExpoView {
     
     return PopoverReader { context in
       Text(self.text ?? "")
-        .font(.system(size: CGFloat(self.fontStyle.fontSize), weight: fontWeightToSwiftUI(self.fontStyle.fontWeight), design: .default))
+        .font(.system(size: CGFloat(self.textStyle.fontSize), weight: fontWeightToSwiftUI(self.textStyle.fontWeight), design: .default))
         .frame(maxWidth: (self.maxWidth != nil) ? CGFloat(self.maxWidth ?? 200) : nil)
         .padding(EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right))
-        .foregroundColor(Color(self.fontStyle.color))
+        .foregroundColor(Color(self.textStyle.color))
         .background(
           GeometryReader { geometry in
             ZStack {

@@ -11,6 +11,7 @@ import expo.modules.universaltooltip.enums.ContentSide
 import expo.modules.universaltooltip.enums.PresetAnimation
 import expo.modules.universaltooltip.records.ContainerStyle
 import expo.modules.universaltooltip.records.TextStyle
+import expo.modules.universaltooltip.records.convertFontWeightToTypeface
 import kotlin.properties.Delegates
 
 class UniversalTooltipView(context: Context) :
@@ -33,7 +34,6 @@ class UniversalTooltipView(context: Context) :
         }
     }
     private var balloon: Balloon? = null
-    var isOpen = false
     var side: ContentSide? = null
     var text: String? = null
     var maxWidth: Int =
@@ -41,19 +41,18 @@ class UniversalTooltipView(context: Context) :
     var presetAnimation: PresetAnimation? = null
     var showDuration: Double = 300.0
     var containerStyle: ContainerStyle? = null
-    var fontStyle: TextStyle? = null
+    var textStyle: TextStyle? = null
+
     var sideOffset: Int = 5
     var disableTapToDismiss: Boolean = false
     var borderRadius: Float = 5f
     var disableDismissWhenTouchOutside = false
     var bgColor: Int = Color.BLACK
-    var textColor: Int = Color.WHITE
-    var textSize: Float = 13f
-    var fontWeight: String = "normal"
     var layoutView: View? = null
 
     init {
-        setLayerType(LAYER_TYPE_HARDWARE, null)
+        clipChildren = false
+        clipToPadding = false
     }
 
     private fun updateContentView() {
@@ -65,7 +64,6 @@ class UniversalTooltipView(context: Context) :
             removeView(contentView)
             layoutView = contentView
         }
-
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -76,8 +74,12 @@ class UniversalTooltipView(context: Context) :
            openTooltip()
         }
         isInitialized = true
+        return
     }
-
+    @Suppress("MissingSuperCall")
+    override fun requestLayout() {
+        return
+    }
 
     override fun dispatchDraw(canvas: Canvas) {
         super.dispatchDraw(canvas)
@@ -101,7 +103,6 @@ class UniversalTooltipView(context: Context) :
             ContentSide.Left -> balloon?.showAlignLeft(this, -sideOffset, 0)
             null -> balloon?.showAlignTop(this)
         }
-        isOpen = true
     }
 
     private fun getBalloonAnimation(): BalloonAnimation {
@@ -132,15 +133,14 @@ class UniversalTooltipView(context: Context) :
             if (containerStyle?.paddingLeft == null) 10 else containerStyle?.paddingRight!!
         val pdRight =
             if (containerStyle?.paddingRight == null) 10 else containerStyle?.paddingRight!!
-
-        val textTypeface = if (fontWeight == "normal") Typeface.NORMAL else Typeface.BOLD
+        val fontSize = textStyle?.fontSize?.let { if (it == 0.0f) null else it } ?: 13f
 
         balloon = Balloon.Builder(context)
             .setText(text!!)
             .setBackgroundColor(bgColor)
-            .setTextColor(textColor)
-            .setTextSize(textSize)
-            .setTextTypeface(textTypeface)
+                .setTextColor(textStyle?.color ?: -16777216)
+            .setTextSize(fontSize)
+            .setTextTypeface(convertFontWeightToTypeface(textStyle?.fontWeight ?: "normal"))
             .setArrowSize(5)
             .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
             .setArrowPosition(0.5f)
@@ -176,6 +176,7 @@ class UniversalTooltipView(context: Context) :
             .setArrowPosition(0.5f)
             .setArrowOrientation(getArrowOrientation())
             .setOnBalloonClickListener {
+                println(123)
                 onTap(mapOf())
                 if (!disableTapToDismiss) {
                     dismiss()
@@ -186,14 +187,11 @@ class UniversalTooltipView(context: Context) :
             }
             .setBalloonAnimation(getBalloonAnimation())
             .setDismissWhenTouchOutside(!disableDismissWhenTouchOutside)
-            // Todo: use XML set style just like web & iOS
-            //.setBalloonAnimationStyle()
             .build()
     }
 
     private fun dismiss() {
         balloon?.dismiss()
-        isOpen = false
     }
 
     override fun onDetachedFromWindow() {
