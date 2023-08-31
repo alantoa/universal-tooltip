@@ -40,13 +40,14 @@ This is a pure and simple native tooltip component that supports fadeIn and zoom
 import { useState } from "react";
 import * as Tooltip from "universal-tooltip";
 import { Text, View, Pressable, Platform } from "react-native";
+
+// because each platform has different behaviors, but you can replace the components yourself, of course.
 const TriggerView = Platform.OS === "web" ? View : Pressable;
 
-// This is because each platform has different behaviors, but you can replace the components yourself, of course.
 const [open, setOpen] = useState(false);
 
 <Tooltip.Root
-  // On web, I would like to be triggered automatically with the mouse.
+  // For web, I would like to be triggered automatically with the mouse.
   {...Platform.select({
     web: {},
     default: {
