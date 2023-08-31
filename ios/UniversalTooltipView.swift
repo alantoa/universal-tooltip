@@ -1,21 +1,56 @@
 import ExpoModulesCore
+
+import Popovers
 import SwiftUI
 
-class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
-  private var tipView: DismissibleEasyTipView?
-  var preferences: EasyTipView.Preferences = EasyTipView.Preferences()
+struct RepresentedUIView: UIViewRepresentable {
+  var contentView: UIView
+  
+  func makeUIView(context: Context) -> UIView {
+    contentView
+  }
+  
+  func updateUIView(_ uiView: UIView, context: Context) {
+  }
+}
+
+struct PopoverModifier: ViewModifier {
+  let isActive: Bool
+  let side: ContentSide
+  let offset: CGFloat = 10
+  let presetAnimation:PresetAnimation
+  func body(content: Content) -> some View {
+    switch presetAnimation {
+      case .zoomIn:
+        content
+          .scaleEffect(self.isActive ? 1 : 0)
+          .animation(.spring())
+      default:
+        content
+          .opacity(self.isActive ? 1: 0)
+          .offset(x: self.side.toSideOffsetX(offset: offset, isActive: isActive), y: self.side.toSideOffsetY(offset: offset, isActive:isActive))
+    }
+    
+  }
+}
+
+
+
+class UniversalTooltipView: ExpoView {
   var contentView: UIView?
   var bubbleBackgroundColor: UIColor = .clear
   var side: ContentSide = .any
   var presetAnimation : PresetAnimation = .fadeIn
-  var showDuration: CGFloat = CGFloat(0.5)
-  var dismissDuration: CGFloat = CGFloat(0.5)
+  var showDuration: CGFloat = CGFloat(0.3)
+  var dismissDuration: CGFloat = CGFloat(0.3)
   var cornerRadius : CGFloat = CGFloat(5)
   var text :String? = nil
-  var maxWidth : Double = 200
+  var maxWidth : Double?
+  var arrowWidth: Double = 20
+  var arrowHeight: Double = 10
   var containerStyle : ContainerStyle?
-  var fontStyle : TextStyle?
-  var sideOffset : Double = 1
+  var textStyle : TextStyle =  TextStyle(fontSize: 14, color: .black, fontWeight: "normal")
+  var sideOffset : CGFloat = 1
   var opened: Bool = false {
     willSet(newValue) {
       if (newValue) {
@@ -28,20 +63,16 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
   let onDismiss = EventDispatcher()
   let onTap = EventDispatcher()
   var disableTapToDismiss = false
-  var textColor: UIColor = .white
-  var textSize: Double = 13
-  var fontWeight: String = "normal"
   var disableDismissWhenTouchOutside = false
+  var popover: Popover?
+  
   public required init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
   }
-  
-  public func easyTipViewDidTap(_ tipView: EasyTipView) {
-    onTap()
-  }
-  
-  public func easyTipViewDidDismiss(_ tipView: EasyTipView) {
-    onDismiss()
+
+
+  override func didMoveToWindow() {
+    popover?.dismiss()
   }
   override func didUpdateReactSubviews() {
     let firstView = self.reactSubviews()[0] as! RCTView
@@ -51,95 +82,105 @@ class UniversalTooltipView: ExpoView, EasyTipViewDelegate {
       self.addSubview(subView)
     }
   }
-  override func layoutSubviews() {
-    setCommonPreferences()
-    if(opened){
-      openTooltip()
-    }
-  }
   
-
-  public func openTooltip (){
-    text != nil ? openByText() : openByContentView()
-  }
-  public func setCommonPreferences(){
-    preferences.drawing.backgroundColor = bubbleBackgroundColor
-    preferences.drawing.cornerRadius = cornerRadius
-    preferences.drawing.arrowPosition = side.toContentSide()
-    switch side.toContentSide(){
-      case .top:
-        preferences.positioning.bubbleInsets = UIEdgeInsets(top: sideOffset, left: 1.0, bottom: 1.0, right: 1.0)
-      case .any:
-        preferences.positioning.bubbleInsets = UIEdgeInsets(top: sideOffset, left: 1.0, bottom: 1.0, right: 1.0)
-      case .bottom:
-        preferences.positioning.bubbleInsets = UIEdgeInsets(top: 1.0, left: 1.0, bottom: sideOffset, right: 1.0)
-      case .right:
-        preferences.positioning.bubbleInsets = UIEdgeInsets(top: 1.0, left: 1.0, bottom: 1.0, right: sideOffset)
-      case .left:
-        preferences.positioning.bubbleInsets = UIEdgeInsets(top: 1.0, left: sideOffset, bottom: 1.0, right: sideOffset)
-    }
+  func fallbackTooltip() -> some View {
+    let top = containerStyle?.paddingTop ?? 10.0
+    let right = containerStyle?.paddingRight ?? 10.0
+    let bottom = containerStyle?.paddingBottom ?? 10.0
+    let left = containerStyle?.paddingLeft ?? 10.0
     
-    if(presetAnimation == .fadeIn){
-      switch preferences.drawing.arrowPosition{
-        case .left:
-          preferences.animating.dismissTransform = CGAffineTransform(translationX: 10, y: 0)
-          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 10, y: 0)
-        case .right:
-          preferences.animating.dismissTransform = CGAffineTransform(translationX: -10, y: 0)
-          preferences.animating.showInitialTransform = CGAffineTransform(translationX: -10, y: 0)
-        case .top, .any:
-          preferences.animating.dismissTransform = CGAffineTransform(translationX: 0, y: 10)
-          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 0, y: 10)
-        case .bottom:
-          preferences.animating.dismissTransform = CGAffineTransform(translationX: 0, y: -10)
-          preferences.animating.showInitialTransform = CGAffineTransform(translationX: 0, y: -10)
+    return PopoverReader { context in
+      Text(self.text ?? "")
+        .font(.system(size: CGFloat(self.textStyle.fontSize), weight: fontWeightToSwiftUI(self.textStyle.fontWeight), design: .default))
+        .frame(maxWidth: (self.maxWidth != nil) ? CGFloat(self.maxWidth ?? 200) : nil)
+        .padding(EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right))
+        .foregroundColor(Color(self.textStyle.color))
+        .background(
+          GeometryReader { geometry in
+            ZStack {
+              // Draw the background color
+              RoundedRectangle(cornerRadius: self.cornerRadius)
+                .fill(Color(self.bubbleBackgroundColor))
+              
+              // Draw the arrow
+              ArrowShape(arrowDirection: self.side, arrowSize: CGSize(width: self.arrowWidth, height: self.arrowHeight),curveRadius: 4)
+                .fill(Color(self.bubbleBackgroundColor))
+                .frame(width: geometry.size.width, height: geometry.size.height)
+            }
+          }
+        )
+    }
+  }
+  var body: some View {
+    Group {
+      if let validContentView = contentView {
+        if let firstSubview = (validContentView as? RCTView)?.reactSubviews()?.first {
+          RepresentedUIView(contentView: validContentView)
+            .frame(width: firstSubview.frame.width, height: firstSubview.frame.height)
+            .background(
+              GeometryReader { geometry in
+                ZStack {
+                  // Draw the background color
+                  RoundedRectangle(cornerRadius: self.cornerRadius)
+                    .fill(Color(self.bubbleBackgroundColor))
+                  // Draw the arrow
+                  ArrowShape(arrowDirection: self.side, arrowSize: CGSize(width: self.arrowWidth, height: self.arrowHeight),curveRadius: 4)
+                    .fill(Color(self.bubbleBackgroundColor))
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                }
+              }
+            ).onTapGesture {
+              self.onTap()
+            }
+        } else {
+          fallbackTooltip().onTapGesture {
+            self.onTap()
+          }
+        }
+      } else {
+        fallbackTooltip().onTapGesture {
+          self.onTap()
+        }
       }
     }
-    preferences.animating.dismissOnTap = !disableTapToDismiss
-    preferences.animating.showDuration = presetAnimation == .none ? 0 : showDuration
-    preferences.animating.dismissDuration = presetAnimation == .none ? 0 : dismissDuration
   }
   
-  public func openByContentView(){
-    if(contentView == nil){
-      return
+  override func layoutSubviews() {
+    popover = Popover { self.body
+      .modifier(PopoverModifier(isActive: true, side: self.side, presetAnimation:self.presetAnimation))}
+    popover?.attributes.sourceFrame = { [weak self] in
+      self.windowFrame()
     }
-    preferences.positioning.contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    tipView = DismissibleEasyTipView(contentView: contentView!, preferences: preferences, delegate: self)
-    show()
-  }
-  
-  public func openByText() {
-    if(fontStyle?.fontFamily != nil){
-      preferences.drawing.font = UIFont(name: (fontStyle?.fontFamily)!, size: textSize)!
-    }else{
-      preferences.drawing.font = fontWeight == "normal" ?  UIFont.systemFont(ofSize: textSize) : UIFont.boldSystemFont(ofSize: textSize)
+
+    popover?.attributes.sourceFrameInset = self.side.toSideOffset(offset: self.sideOffset + arrowHeight)
+    popover?.attributes.screenEdgePadding = .zero
+    popover?.attributes.presentation.animation = .easeIn(duration: showDuration)
+    popover?.attributes.dismissal.mode = self.disableDismissWhenTouchOutside ? .none: .tapOutside
+    let customTransition: AnyTransition
+    switch presetAnimation {
+      case .none:
+        customTransition = .identity
+      case .fade:
+        customTransition = .opacity
+      default:
+        customTransition = .modifier(
+          active: PopoverModifier(isActive: false, side: self.side, presetAnimation:self.presetAnimation),
+          identity: PopoverModifier(isActive: true, side: self.side, presetAnimation:self.presetAnimation)
+        )
     }
-    preferences.drawing.foregroundColor = textColor
-    
-    let top = containerStyle?.paddingTop ?? Double(10), right = containerStyle?.paddingRight ?? Double(10), bottom = containerStyle?.paddingBottom ?? Double(10), left = containerStyle?.paddingLeft ?? Double(10);
-    preferences.positioning.maxWidth = maxWidth
-    preferences.positioning.contentInsets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
-    tipView = DismissibleEasyTipView(text: text!, preferences: preferences, delegate: self)
-    show()
+    popover?.attributes.presentation.transition = customTransition
+    popover?.attributes.position = .absolute(originAnchor: self.side.toOriginAnchorSide(), popoverAnchor: self.side.toPopoverAnchorSide())
+    popover?.attributes.onDismiss = {
+      self.onDismiss()
+    }
   }
-  public func show(){
-    if(disableDismissWhenTouchOutside){
-      tipView?.show(forView: self)
-    }else{
-      tipView?.show(on: self)
+ 
+  func openTooltip (){
+    if let unwrappedPopover = popover {
+      self.reactViewController().present(unwrappedPopover)
     }
   }
   public func dismiss(){
-    if(disableDismissWhenTouchOutside){
-      tipView?.dismiss()
-    }else{
-      tipView?.hide()
-    }
+    popover?.dismiss()
   }
-  override func willMove(toWindow newWindow: UIWindow?) {
-    dismiss()
-  }
-  
 }
-

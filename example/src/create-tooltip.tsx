@@ -38,6 +38,7 @@ export const CreateTooltip = ({
           },
         },
       })}
+      usePopover={isMobileWeb()}
       delayDuration={300}
       disableDismissWhenTouchOutside={disableDismissWhenTouchOutside}
     >
@@ -66,10 +67,10 @@ export const CreateTooltip = ({
         <Tooltip.Content
           sideOffset={3}
           containerStyle={{
-            paddingLeft: 16,
-            paddingRight: 16,
-            paddingTop: 8,
-            paddingBottom: 8,
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: 10,
+            paddingBottom: 10,
           }}
           onTap={() => {
             setOpen(false);
@@ -80,16 +81,62 @@ export const CreateTooltip = ({
           side={side}
           presetAnimation="fadeIn"
           backgroundColor={backgroundColor}
-          borderRadius={999}
+          borderRadius={12}
           {...rest}
         >
           {customView ? (
             customView
           ) : (
-            <Tooltip.Text text={text} textColor="#000" />
+            <Tooltip.Text
+              text={text}
+              style={{
+                fontSize: 14,
+                fontWeight: "bold",
+                color: "#020202",
+              }}
+            />
           )}
+          <Tooltip.Arrow
+            width={10}
+            height={5}
+            backgroundColor={backgroundColor}
+          />
         </Tooltip.Content>
       </Tooltip.Portal>
     </Tooltip.Root>
   );
 };
+
+export function isAndroid(): boolean {
+  return (
+    typeof navigator !== "undefined" && /android/i.test(navigator.userAgent)
+  );
+}
+
+export function isSmallIOS(): boolean {
+  return (
+    typeof navigator !== "undefined" && /iPhone|iPod/.test(navigator.userAgent)
+  );
+}
+
+export function isLargeIOS(): boolean {
+  return typeof navigator !== "undefined" && /iPad/.test(navigator.userAgent);
+}
+
+export function isIOS(): boolean {
+  return isSmallIOS() || isLargeIOS();
+}
+export function isSafari(): boolean {
+  return (
+    typeof navigator !== "undefined" &&
+    /Safari/.test(navigator.userAgent) &&
+    !/Chrome/.test(navigator.userAgent)
+  );
+}
+
+export function isMobileWeb(): boolean {
+  return Platform.OS === "web" && (isAndroid() || isIOS());
+}
+export function isDesktopWeb(): boolean {
+  return Platform.OS === "web" && !isAndroid() && !isIOS();
+}

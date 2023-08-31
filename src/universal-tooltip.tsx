@@ -8,6 +8,7 @@ import {
   TextProps,
   TriggerProps,
   UniversalTooltipViewProps,
+  ArrowProps,
 } from "./universal-tooltip.types";
 import { createComponent } from "./utils/create-components";
 import { pickChild } from "./utils/pick-child";
@@ -24,7 +25,7 @@ export const Trigger = createComponent(({ children }: TriggerProps) => {
 export const Root = createComponent(({ children, ...rest }: RootProps) => {
   const [withoutTriggerChildren, triggerChildren] = pickChild(
     children,
-    Trigger
+    Trigger,
   );
   const content = withoutTriggerChildren?.[0];
   const contentProps =
@@ -36,12 +37,20 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
   } = contentProps;
   const [, textChildren] = pickChild(contentChild, Text);
   const text = textChildren?.[0];
-  const { textColor, ...textProps } = text?.props ?? {};
+  const { style: textStyle, ...textProps } = text?.props ?? {};
+  const [, arrowChildren] = pickChild(contentChild, Arrow);
+  const arrow = arrowChildren?.[0];
+  const { width: arrowWidth, height: arrowHeight } = arrow?.props ?? {};
 
   return (
     <NativeView
       backgroundColor={processColor(backgroundColor)}
-      textColor={processColor(textColor)}
+      arrowWidth={arrowWidth}
+      arrowHeight={arrowHeight}
+      textStyle={{
+        ...textStyle,
+        ...(textStyle?.color ? { color: processColor(textStyle?.color) } : {}),
+      }}
       {...contentRestProps}
       {...rest}
       {...textProps}
@@ -54,14 +63,24 @@ export const Root = createComponent(({ children, ...rest }: RootProps) => {
 
 export const Content = createComponent<ContentProps>(
   ({ children, style, backgroundColor, ...rest }) => {
+    if (children && (children as JSX.Element[])?.length > 1) {
+      return (
+        <View style={[style, StyleSheet.absoluteFillObject]} {...rest}>
+          {children[0]}
+        </View>
+      );
+    }
     return (
       <View style={[style, StyleSheet.absoluteFillObject]} {...rest}>
         {children}
       </View>
     );
   },
-  "Content"
+  "Content",
 );
+export const Arrow = createComponent(({ children }: ArrowProps) => {
+  return <>{Children.only(children)}</>;
+}, "Arrow");
 
 export const Text = createComponent<TextProps>(() => {
   return <></>;

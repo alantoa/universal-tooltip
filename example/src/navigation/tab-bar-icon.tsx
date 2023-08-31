@@ -1,6 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useEffect, useState } from "react";
-import { Platform, View, PixelRatio } from "react-native";
+import { Platform, View, PixelRatio, Alert } from "react-native";
 import * as Tooltip from "universal-tooltip";
 type TabBarIconProps = {
   color?: string;
@@ -43,6 +43,9 @@ export function TabBarLikeIcon({ color, focused, onPress }: TabBarIconProps) {
   useEffect(() => {
     setTimeout(() => {
       setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 5000);
     }, 2000);
   }, []);
 
@@ -70,22 +73,24 @@ export function TabBarLikeIcon({ color, focused, onPress }: TabBarIconProps) {
         </Tooltip.Trigger>
         <Tooltip.Content
           sideOffset={5}
+          onTap={() => {
+            setOpen(false);
+            Alert.alert("Tapped!");
+          }}
           containerStyle={{
-            paddingLeft: 8,
-            paddingRight: 8,
-            paddingTop: 4,
-            paddingBottom: 4,
+            paddingLeft: 10,
+            paddingRight: 10,
+            paddingTop: 6,
+            paddingBottom: 6,
           }}
           dismissDuration={500}
           side="top"
           presetAnimation="fadeIn"
-          backgroundColor="#fff"
+          backgroundColor="#4f46e5"
           borderRadius={12}
-          maxWidth={200}
         >
           <Tooltip.Text
-            textSize={12}
-            textColor="#000"
+            style={{ color: "#fff", fontWeight: "700" }}
             text="You got 12 likes"
           />
         </Tooltip.Content>

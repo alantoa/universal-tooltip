@@ -22,7 +22,13 @@ public class UniversalTooltipModule: Module {
         view.side = side ?? .any
       }
       Prop("maxWidth") { (view, maxWidth: Double?) in
-        view.maxWidth = maxWidth ?? 200
+        view.maxWidth = maxWidth
+      }
+      Prop("arrowWidth") { (view, arrowWidth: Double) in
+        view.arrowWidth = arrowWidth
+      }
+      Prop("arrowHeight") { (view, arrowWidth: Double) in
+        view.arrowHeight = arrowWidth
       }
       Prop("text") { (view, text: String?) in
         view.text = text
@@ -39,8 +45,8 @@ public class UniversalTooltipModule: Module {
       Prop("containerStyle") { (view, containerStyle: ContainerStyle?) in
         view.containerStyle = containerStyle
       }
-      Prop("fontStyle") { (view, fontStyle: TextStyle?) in
-        view.fontStyle = fontStyle ?? TextStyle(fontSize: 13)
+      Prop("textStyle") { (view, textStyle: TextStyle?) in
+        view.textStyle = textStyle ?? TextStyle(fontSize: 13)
       }
       Prop("sideOffset") { (view, sideOffset: Double?) in
         view.sideOffset = sideOffset ?? Double(1)
@@ -57,16 +63,6 @@ public class UniversalTooltipModule: Module {
       Prop("backgroundColor") { (view, backgroundColor: UIColor?) in
         view.bubbleBackgroundColor = backgroundColor ?? .clear
       }
-      Prop("textColor") { (view, textColor: UIColor?) in
-        view.textColor = textColor ?? .white
-      }
-      Prop("textSize") { (view, textSize: Double?) in
-        view.textSize = textSize ?? CGFloat(13)
-      }
-      Prop("fontWeight") { (view, fontWeight: String) in
-        view.fontWeight = fontWeight
-      }
-      
     }
   }
 }

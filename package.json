@@ -1,6 +1,6 @@
 {
   "name": "universal-tooltip",
-  "version": "0.7.0",
+  "version": "1.0.0-2",
   "description": "react native universal tooltip component.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -31,16 +31,16 @@
   "license": "MIT",
   "homepage": "https://github.com/alantoa/universal-tooltip#readme",
   "devDependencies": {
-    "@radix-ui/react-popover": "^1.0.5",
-    "@radix-ui/react-tooltip": "^1.0.5",
-    "@types/react": "^18.0.25",
-    "@types/react-native": "^0.70.6",
+    "@radix-ui/react-popover": "^1.0.6",
+    "@radix-ui/react-tooltip": "^1.0.6",
+    "@types/react": "^18.2.21",
+    "@types/react-native": "^0.72.2",
     "eslint": "^8.31.0",
-    "expo-module-scripts": "^3.0.4",
-    "expo-modules-core": "^1.1.0",
-    "prettier": "^2.8.1",
-    "release-it": "^15.6.0",
-    "rimraf": "^3.0.2"
+    "expo-module-scripts": "^3.0.11",
+    "expo-modules-core": "^1.5.10",
+    "prettier": "^3.0.2",
+    "release-it": "^16.1.5",
+    "rimraf": "^5.0.1"
   },
   "peerDependencies": {
     "@radix-ui/react-popover": "*",
