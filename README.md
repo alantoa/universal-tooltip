@@ -8,15 +8,11 @@
 
 ###### Works on all platforms, Example project [here](https://github.com/alantoa/universal-tooltip/tree/main/example).
 
-- iOS
-  https://user-images.githubusercontent.com/37520667/264635061-2e9deb58-5141-46f7-99b4-34547972ab6f.mp4
+| iOS | Android | Web |
+| - | - | - |
+| <video src="https://user-images.githubusercontent.com/37520667/264635061-2e9deb58-5141-46f7-99b4-34547972ab6f.mp4" /> | <video src="https://user-images.githubusercontent.com/37520667/264636954-c2471a5c-3f28-4a53-8dac-eb9d97a51ebd.mp4" /> | <video src="https://user-images.githubusercontent.com/37520667/264636470-f2198e04-a6a2-48b7-bd64-45763f48f947.mp4" /> |
+ 
 
-- Android
-
-  https://user-images.githubusercontent.com/37520667/264636954-c2471a5c-3f28-4a53-8dac-eb9d97a51ebd.mp4
-
-- Web
-  https://user-images.githubusercontent.com/37520667/264636470-f2198e04-a6a2-48b7-bd64-45763f48f947.mp4
 
 ## What
 
