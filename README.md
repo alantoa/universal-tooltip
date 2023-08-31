@@ -1,12 +1,22 @@
 <div align="center">
-  <h1 align="center">Universal Tooltip</h1> 
+
+<img src="./assets/cover.png" /> 
   
 [![npm](https://img.shields.io/npm/l/universal-tooltip?style=flat-square)](https://www.npmjs.com/package/universal-tooltip) [![expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/)
 
-  <h6 align="center">Cross-platform Tooltip component for React Native, powered by expo-modules.</h6>
 </div>
 
-https://user-images.githubusercontent.com/37520667/224117002-9b316a29-b373-4ff9-8cfc-56aae493d900.mp4
+###### Works on all platforms, Example project [here](https://github.com/alantoa/universal-tooltip/tree/main/example).
+
+- iOS
+  https://user-images.githubusercontent.com/37520667/264635061-2e9deb58-5141-46f7-99b4-34547972ab6f.mp4
+
+- Android
+
+  https://user-images.githubusercontent.com/37520667/264636954-c2471a5c-3f28-4a53-8dac-eb9d97a51ebd.mp4
+
+- Web
+  https://user-images.githubusercontent.com/37520667/264636470-f2198e04-a6a2-48b7-bd64-45763f48f947.mp4
 
 ## What
 
@@ -14,7 +24,7 @@ This is a pure and simple native tooltip component that supports fadeIn and zoom
 
 🍎 On iOS:
 
-- This component is written in Swift and wraps [`EasyTipView`](https://github.com/teodorpatras/EasyTipView).
+- This component is written in Swift and wraps [`Popovers`](https://github.com/aheze/Popovers).
 
 🤖️ On Android:
 
@@ -90,6 +100,10 @@ const [open, setOpen] = useState(false);
   </Tooltip.Content>
 </Tooltip.Root>;
 ```
+
+## API
+
+This component's API basically same as the [`@radix-ui/react-tooltip`](https://www.radix-ui.com/docs/primitives/components/popover) component, but there are some differences on native.
 
 ## Installation
 

@@ -37,7 +37,7 @@ export function HomeScreen() {
                   console.log("onTapProfile!");
                 }}
                 customView={
-                  <View className="rounded-md px-2 py-2 w-56 h-40">
+                  <View className="bg-gray-800 rounded-md px-2 py-2 w-56 h-40">
                     <Image
                       source={{
                         uri: "https://pbs.twimg.com/profile_images/1507747390790377479/F9abCIUR_400x400.jpg",
