@@ -1,4 +1,11 @@
-import { Text, View, Image, ScrollView, Platform } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  ScrollView,
+  Platform,
+  Pressable,
+} from "react-native";
 
 import { CreateTooltip } from "./create-tooltip";
 

@@ -12,6 +12,7 @@ import { HomeScreen } from "./src/home";
 import { LikeScreen } from "./src/like";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ModalScreen } from "./src/modal";
+import { NormalScreen } from "./src/screen";
 
 StatusBar.setBarStyle("light-content");
 StatusBar.setHidden(true);
@@ -98,6 +99,13 @@ export default function App() {
           }}
         >
           <Stack.Screen name="modal" component={ModalScreen} />
+        </Stack.Group>
+        <Stack.Group
+          screenOptions={{
+            fullScreenGestureEnabled: true,
+          }}
+        >
+          <Stack.Screen name="normalScreen" component={NormalScreen} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
