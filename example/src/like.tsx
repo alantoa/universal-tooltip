@@ -12,7 +12,12 @@ export function LikeScreen() {
       >
         <Text className="">Open modal</Text>
       </Pressable>
-
+      <Pressable
+        onPress={() => navigation.navigate("normalScreen")}
+        className="items-center justify-center bg-gray-100 py-2 mb-10 px-4 rounded-lg"
+      >
+        <Text className="">Open a screen</Text>
+      </Pressable>
       <CreateTooltip text="Show" />
     </View>
   );
