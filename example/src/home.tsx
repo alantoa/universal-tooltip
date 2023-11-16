@@ -23,6 +23,7 @@ export function HomeScreen() {
                 title="Long text tooltip"
                 text="A very long long long long long text tooltip"
                 side="top"
+                disableDismissWhenTouchOutside
                 maxWidth={200}
               />
             </View>
