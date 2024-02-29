@@ -59,3 +59,7 @@ android/keystores/debug.keystore
 
 # Expo
 .expo/*
+dev-types.txt 
+.env 
+ios
+android
