@@ -6,5 +6,6 @@
       "universal-tooltip": ["../src/index"],
       "universal-tooltip/*": ["../src/*"]
     }
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
 }

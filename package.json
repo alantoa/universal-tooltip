@@ -4,6 +4,10 @@
   "description": "react native universal tooltip component.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
+  "workspaces": [
+    "example"
+  ],
+  "packageManager": "yarn@4.0.0",
   "scripts": {
     "build": "expo-module build && yarn copy-files",
     "clean": "expo-module clean",
@@ -30,22 +34,30 @@
   "author": "alantoa <toacncom@gmail.com> (https://github.com/alantoa)",
   "license": "MIT",
   "homepage": "https://github.com/alantoa/universal-tooltip#readme",
+  "engines": {
+    "node": ">= 18.0.0"
+  },
   "devDependencies": {
     "@radix-ui/react-popover": "^1.0.6",
     "@radix-ui/react-tooltip": "^1.0.6",
     "@types/react": "^18.2.21",
     "@types/react-native": "^0.72.2",
     "eslint": "^8.31.0",
-    "expo-module-scripts": "^3.0.11",
-    "expo-modules-core": "^1.5.10",
+    "expo-module-scripts": "^3.4.1",
+    "expo-modules-core": "^1.11.9",
     "prettier": "^3.0.2",
+    "react": "18.2.0",
+    "react-native": "0.73.4",
     "release-it": "^16.1.5",
     "rimraf": "^5.0.1"
+  },
+  "resolutions": {
+    "@types/react": "~18.2.45",
+    "typescript": "^5.3.3"
   },
   "peerDependencies": {
     "@radix-ui/react-popover": "*",
     "@radix-ui/react-tooltip": "*",
-    "expo": "*",
     "react": "*",
     "react-native": "*"
   },
