@@ -59,6 +59,14 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
         }
     }
     var side: ContentSide? = null
+
+    /**
+     * The side the bubble actually opened on. `side` is what JS asked for;
+     * this is what survived the room check, and it is what the arrow and the
+     * scroll-follow have to use — an arrow drawn on the requested side after a
+     * flip points away from the trigger.
+     */
+    private var shownSide: ContentSide = ContentSide.Top
     var text: String? = null
     var maxWidth: Int =
         (Resources.getSystem().displayMetrics.widthPixels /
@@ -244,16 +252,71 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
         chromeSignature = chromeSignature()
 
         val offset = dpToPx(sideOffset)
-        when (side) {
+        shownSide = resolveSide(host, anchor)
+        // The host was padded for the requested side while it was measured;
+        // re-point it now that the real one is known.
+        setArrowSide(host, shownSide)
+        when (shownSide) {
             ContentSide.Bottom -> balloon.showAlignBottom(anchor, 0, offset)
             ContentSide.Right -> balloon.showAlignEnd(anchor, offset, 0)
             ContentSide.Left -> balloon.showAlignStart(anchor, -offset, 0)
-            ContentSide.Top, null -> balloon.showAlignTop(anchor, 0, -offset)
+            ContentSide.Top -> balloon.showAlignTop(anchor, 0, -offset)
         }
         // Balloon centres the popup on the trigger but slides it inward at a
         // screen edge; only now is it on screen and its real offset knowable.
         host.post { pinArrowToAnchor(host, anchor) }
         startFollowingAnchor(host, anchor)
+    }
+
+    /**
+     * Which side the bubble actually opens on.
+     *
+     * iOS has always flipped away from a side with no room; this did not, so a
+     * `right` bubble against the right edge of the display was simply clipped.
+     *
+     * The host is measured here rather than asked of the Balloon:
+     * `Balloon.getMeasuredWidth()` reports 0 until the popup has been shown,
+     * which silently made this whole check pass and the flip dead code.
+     *
+     * A horizontal side falls back to the opposite one and then to the other
+     * axis, matching iOS: a bubble too wide for the space on either side
+     * belongs above or below its trigger rather than off the display.
+     */
+    private fun resolveSide(host: TooltipRootViewGroup, anchor: View): ContentSide {
+        val preferred = side ?: ContentSide.Top
+        val position = IntArray(2)
+        anchor.getLocationOnScreen(position)
+        val metrics = resources.displayMetrics
+        host.measure(
+            View.MeasureSpec.makeMeasureSpec(metrics.widthPixels, View.MeasureSpec.AT_MOST),
+            View.MeasureSpec.makeMeasureSpec(metrics.heightPixels, View.MeasureSpec.AT_MOST),
+        )
+        val width = host.measuredWidth
+        val height = host.measuredHeight
+        val pad = dpToPx(EDGE_MARGIN_DP)
+        // The arrow is padding on the host, so `getMeasuredWidth/Height`
+        // already includes it — counting it again here would flip early.
+        val gap = dpToPx(sideOffset)
+
+        fun fits(candidate: ContentSide): Boolean = when (candidate) {
+            ContentSide.Top -> position[1] - gap - height >= pad
+            ContentSide.Bottom ->
+                position[1] + anchor.height + gap + height <= metrics.heightPixels - pad
+            ContentSide.Left -> position[0] - gap - width >= pad
+            ContentSide.Right ->
+                position[0] + anchor.width + gap + width <= metrics.widthPixels - pad
+        }
+
+        if (fits(preferred)) return preferred
+        val fallbacks = when (preferred) {
+            ContentSide.Left -> listOf(ContentSide.Right, ContentSide.Bottom, ContentSide.Top)
+            ContentSide.Right -> listOf(ContentSide.Left, ContentSide.Bottom, ContentSide.Top)
+            ContentSide.Top -> listOf(ContentSide.Bottom)
+            ContentSide.Bottom -> listOf(ContentSide.Top)
+        }
+        // Nothing fits: keep what was asked for and let Balloon's own margin
+        // slide it inward, which at least leaves it readable.
+        return fallbacks.firstOrNull { fits(it) } ?: preferred
     }
 
     /**
@@ -304,11 +367,11 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
         lastAnchorPosition[1] = position[1]
 
         val offset = dpToPx(sideOffset)
-        when (side) {
+        when (shownSide) {
             ContentSide.Bottom -> balloon.updateAlignBottom(anchor, 0, offset)
             ContentSide.Right -> balloon.updateAlignEnd(anchor, offset, 0)
             ContentSide.Left -> balloon.updateAlignStart(anchor, -offset, 0)
-            ContentSide.Top, null -> balloon.updateAlignTop(anchor, 0, -offset)
+            ContentSide.Top -> balloon.updateAlignTop(anchor, 0, -offset)
         }
         pinArrowToAnchor(host, anchor)
     }
@@ -324,16 +387,13 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
         val hostPos = IntArray(2)
         anchor.getLocationOnScreen(anchorPos)
         host.getLocationOnScreen(hostPos)
-        val center = if (side == ContentSide.Left || side == ContentSide.Right) {
+        val center = if (shownSide == ContentSide.Left || shownSide == ContentSide.Right) {
             anchorPos[1] + anchor.height / 2 - hostPos[1]
         } else {
             anchorPos[0] + anchor.width / 2 - hostPos[0]
         }
         host.setArrowCenter(center)
     }
-
-    private val isHorizontal: Boolean
-        get() = side == ContentSide.Left || side == ContentSide.Right
 
     private fun getBalloonAnimation(): BalloonAnimation = when (presetAnimation) {
         PresetAnimation.FadeIn -> BalloonAnimation.FADE
@@ -357,7 +417,10 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
             .setHeight(BalloonSizeSpec.WRAP)
             .setIsVisibleArrow(false)
             .setPadding(0)
-            .setMarginHorizontal(if (isHorizontal) 0 else EDGE_MARGIN_DP)
+            // Horizontal sides used to opt out of this, which is what let a
+            // `right` bubble hang off the display: the margin is what makes
+            // Balloon slide inward at an edge.
+            .setMarginHorizontal(EDGE_MARGIN_DP)
             .setBackgroundColor(Color.TRANSPARENT)
             .setCornerRadius(0f)
             .setElevation(0)
@@ -388,14 +451,18 @@ class UniversalTooltipView(context: Context, appContext: AppContext) :
         }
     }
 
-    private fun applyArrowChrome(host: TooltipRootViewGroup) {
+    private fun setArrowSide(host: TooltipRootViewGroup, side: ContentSide) {
         host.setArrow(
-            side = side ?: ContentSide.Top,
+            side = side,
             widthPx = dpToPx(arrowWidth),
             heightPx = dpToPx(arrowHeight),
             color = bgColor,
             cornerRadiusPx = borderRadius * density,
         )
+    }
+
+    private fun applyArrowChrome(host: TooltipRootViewGroup) {
+        setArrowSide(host, side ?: ContentSide.Top)
         // A Balloon keeps its content view attached until it is garbage
         // collected; detach before handing the same host to the next one.
         (host.parent as? ViewGroup)?.removeView(host)

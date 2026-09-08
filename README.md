@@ -527,9 +527,10 @@ Put a button inside a `Popover`, never a `Tooltip`.
   Android).
 - The popup follows its trigger while the page scrolls, and closes once the
   trigger has scrolled out of sight.
-- It flips to the opposite side when the chosen one does not fit, and is kept
-  8pt clear of the display edge. The arrow stays pointed at the trigger either
-  way.
+- It flips to the opposite side when the chosen one does not fit, and a `left`
+  or `right` bubble with room on neither side falls back to `bottom` or `top`
+  rather than hanging off the display. It is kept 8pt clear of the display
+  edge, and the arrow stays pointed at the trigger whichever side it lands on.
 
 **Web**
 

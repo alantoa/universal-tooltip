@@ -162,6 +162,43 @@ final class PopupInteractionUITests: XCTestCase {
     waitForExpectations(timeout: uiTimeout)
   }
 
+  /// A bubble with no room on the side it asked for used to be placed there
+  /// anyway and clipped by the display — the main axis was never clamped, and
+  /// the fallback stopped at the opposite side. Wherever it lands now, all of
+  /// it has to be on screen.
+  func testWideSideTooltipStaysOnScreen() {
+    let button = trigger("demo-tooltip-wide-right")
+    scrollTo(button)
+    button.tap()
+
+    let bubble = app.staticTexts[
+      "A bubble too wide for the space on either side of its trigger"
+    ].firstMatch
+    XCTAssertTrue(
+      bubble.waitForExistence(timeout: uiTimeout),
+      "The wide tooltip never opened."
+    )
+
+    let screen = app.frame
+    let frame = bubble.frame
+    XCTAssertGreaterThanOrEqual(
+      frame.minX, screen.minX,
+      "The bubble runs off the left of the display: \(frame) in \(screen)"
+    )
+    XCTAssertLessThanOrEqual(
+      frame.maxX, screen.maxX,
+      "The bubble runs off the right of the display: \(frame) in \(screen)"
+    )
+    XCTAssertGreaterThanOrEqual(
+      frame.minY, screen.minY,
+      "The bubble runs off the top of the display: \(frame) in \(screen)"
+    )
+    XCTAssertLessThanOrEqual(
+      frame.maxY, screen.maxY,
+      "The bubble runs off the bottom of the display: \(frame) in \(screen)"
+    )
+  }
+
   /// Every side opens on a real press. The bubble repeats the chip's own
   /// label, so a second copy of that string means the popup is up.
   func testEachPlacementOpens() {

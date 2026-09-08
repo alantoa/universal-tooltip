@@ -361,9 +361,19 @@ class UniversalTooltipView: ExpoView {
       }
     }
 
+    // Flip to the opposite side when the chosen one has no room, and — for a
+    // horizontal side — fall back to the other axis after that. A bubble as
+    // wide as the space on neither side belongs above or below its trigger,
+    // not hanging off the display where it cannot be read.
     var resolved = side.resolved
-    if !fits(resolved), fits(resolved.opposite) {
-      resolved = resolved.opposite
+    if !fits(resolved) {
+      let fallbacks: [ContentSide] =
+        resolved.isHorizontal
+          ? [resolved.opposite, .bottom, .top]
+          : [resolved.opposite]
+      if let room = fallbacks.first(where: fits) {
+        resolved = room
+      }
     }
 
     var origin = CGPoint.zero
@@ -378,13 +388,14 @@ class UniversalTooltipView: ExpoView {
       origin = CGPoint(x: source.maxX + gap, y: source.midY - size.height / 2)
     }
 
-    // Clamp along the cross axis only — moving along the main axis would
-    // detach the bubble from the trigger it belongs to.
-    if resolved.isHorizontal {
-      origin.y = clamp(origin.y, limits.minY, max(limits.maxY - size.height, limits.minY))
-    } else {
-      origin.x = clamp(origin.x, limits.minX, max(limits.maxX - size.width, limits.minX))
-    }
+    // The cross axis is clamped freely: sliding along it keeps the bubble
+    // beside the trigger, and the arrow follows. The main axis is clamped too,
+    // but it only ever bites when no side had room at all — and a bubble
+    // overlapping its own trigger still beats one off the edge of the display.
+    // Both happen before the arrow is placed, so it keeps pointing at the
+    // trigger either way.
+    origin.x = clamp(origin.x, limits.minX, max(limits.maxX - size.width, limits.minX))
+    origin.y = clamp(origin.y, limits.minY, max(limits.maxY - size.height, limits.minY))
 
     let frame = CGRect(origin: origin, size: size)
     let arrowCenter = TooltipShape.clampArrowCenter(

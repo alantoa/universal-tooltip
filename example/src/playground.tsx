@@ -463,6 +463,19 @@ const Gallery = ({
             ))}
           </View>
         </Row>
+        {/* Centred on purpose: a 260-wide bubble has room on neither side of
+            a trigger in the middle of the display, which is the case that
+            used to be placed off the edge and clipped. */}
+        <Row label="Wide, side=right" subtitle="No room either side" stack>
+          <View style={{ alignSelf: "center" }}>
+            <HintTooltip
+              testID="demo-tooltip-wide-right"
+              label="Show"
+              side="right"
+              text="A bubble too wide for the space on either side of its trigger"
+            />
+          </View>
+        </Row>
         <Row label="Rich content" subtitle="Icon + custom layout">
           <RichTooltip />
         </Row>

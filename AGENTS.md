@@ -110,6 +110,33 @@ and reaches the overlay too. Anything the overlay does in `touchesEnded` must
 first check the touch against the bubble's frame, or pressing the popup's own
 content dismisses it.
 
+**Where a popup ends up is decided differently on each platform, and both had
+holes.** iOS computes the frame itself in `placement(for:source:in:)`; Android
+hands the job to Balloon's `showAlign*`. The rules now match: the chosen side,
+then the opposite one, then — for `left`/`right` only — `bottom` and `top`, so a
+bubble with room on neither side lands above or below its trigger instead of off
+the display. iOS also clamps both axes as a last resort; the cross axis was
+always clamped, and the main axis only ever bites when no side had room at all.
+
+Two things about the Android half are easy to get wrong again:
+
+- `Balloon.getMeasuredWidth()` **returns 0 until the popup has been shown.**
+  Using it for the room check made the check pass every time and the fallback
+  dead code — the symptom was a fix that looked right and changed nothing. The
+  host is measured directly instead.
+- The arrow is padding on the host (`TooltipRootViewGroup.setArrow` calls
+  `setPadding`), so it is already inside the measured size: the room check adds
+  only `sideOffset`, not `sideOffset + arrowHeight`. And because that padding
+  decides which edge the arrow grows from, the arrow has to be re-pointed at
+  `shownSide` after the side is resolved — `side` is what JS asked for,
+  `shownSide` is what it opened on, and everything that draws or follows must
+  use the latter.
+
+`setMarginHorizontal` used to be switched off for horizontal sides, which is
+exactly what let a `right` bubble sit flush against the edge with no room to
+breathe. It is unconditional now: that margin is how Balloon slides a popup
+inward at a display edge.
+
 **Balloon's arrow is a square `ImageView`** driven by one `setArrowSize`, so it
 cannot express a 14×8 triangle. Android disables it and draws bubble, corners
 and arrow in `TooltipRootViewGroup`, positioning the arrow after the window is
