@@ -69,11 +69,14 @@ const HintTooltip = ({
   side = "top",
   label,
   testID,
+  maxWidth,
 }: {
   text: string;
   side?: Side;
   label: string;
   testID: string;
+  /** Wide enough and there is no room on either side of the trigger. */
+  maxWidth?: number;
 }) => {
   const theme = useTheme();
   return (
@@ -83,7 +86,10 @@ const HintTooltip = ({
       </Hint.Trigger>
       <Hint.Portal>
         <Hint.Positioner side={side} sideOffset={8}>
-          <Hint.Popup presetAnimation="fadeIn" style={bubbleStyle(theme)}>
+          <Hint.Popup
+            presetAnimation="fadeIn"
+            style={[bubbleStyle(theme), maxWidth ? { maxWidth } : null]}
+          >
             {text}
             <Hint.Arrow width={14} height={8} />
           </Hint.Popup>
@@ -463,18 +469,18 @@ const Gallery = ({
             ))}
           </View>
         </Row>
-        {/* Centred on purpose: a 260-wide bubble has room on neither side of
-            a trigger in the middle of the display, which is the case that
-            used to be placed off the edge and clipped. */}
-        <Row label="Wide, side=right" subtitle="No room either side" stack>
-          <View style={{ alignSelf: "center" }}>
-            <HintTooltip
-              testID="demo-tooltip-wide-right"
-              label="Show"
-              side="right"
-              text="A bubble too wide for the space on either side of its trigger"
-            />
-          </View>
+        {/* Wide enough that neither side of the trigger can hold it, so it
+            has to drop to the other axis — the case that used to be placed
+            off the display and clipped. The small `Right` chip above is the
+            other resolution: room on the far side, so it flips there. */}
+        <Row label="Wide, side=right" subtitle="No room either side">
+          <HintTooltip
+            testID="demo-tooltip-wide-right"
+            label="Show"
+            side="right"
+            maxWidth={360}
+            text="A bubble too wide for the space on either side of its trigger"
+          />
         </Row>
         <Row label="Rich content" subtitle="Icon + custom layout">
           <RichTooltip />
